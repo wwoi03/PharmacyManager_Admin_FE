@@ -14,10 +14,19 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
+      path: 'product',
+      loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
+    },
+    {
+      path: 'staff',
+      loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
     },
+    
     {
       path: '**',
       component: NotFoundComponent,

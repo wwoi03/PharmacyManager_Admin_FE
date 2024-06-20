@@ -1,6 +1,7 @@
 import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
+  // Dashboard
   {
     title: 'Bảng quản trị',
     icon: 'home-outline',
@@ -8,7 +9,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Chức năng hệ thống',
+    title: 'Chức năng',
     group: true,
   },
   // Sản phẩm
@@ -18,7 +19,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Danh sách sản phẩm',
-        link: '',
+        link: '/admin/product/product-list',
       },
       {
         title: 'Thêm sản phẩm',
@@ -26,17 +27,47 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  // Loại sản phẩm
+  // Kho
   {
-    title: 'Loại sản phẩm',
-    icon: 'pricetags-outline',
+    title: 'Kho',
+    icon: 'archive-outline',
     children: [
       {
-        title: 'Danh sách loại sản phẩm',
+        title: 'Danh sách nhập kho',
         link: '',
       },
       {
-        title: 'Thêm loại sản phẩm',
+        title: 'Nhập kho',
+        link: '',
+      },
+    ],
+  },
+  // Nhân viên
+  {
+    title: 'Nhân viên',
+    icon: 'people-outline',
+    children: [
+      {
+        title: 'Danh sách nhân viên',
+        link: '/admin/staff/staff-list',
+      },
+      {
+        title: 'Thêm nhân viên',
+        link: '',
+      },
+    ],
+  },
+  // Quyền hạn
+  {
+    title: 'Quyền hạn',
+    icon: 'eye-off-2-outline',
+    children: [
+      {
+        title: 'Danh sách quyền hạn',
+        link: '',
+      },
+      {
+        title: 'Thêm nhân viên',
         link: '',
       },
     ],
