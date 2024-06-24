@@ -5,6 +5,7 @@ import { ListStaffResponse } from '../../models/responses/staff/list-staff-respo
 import { ResponseApi } from '../../models/response-apis/response-api';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment.prod';
+import { CreateStaffRequest } from '../../models/requests/staff/create-staff-request';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,10 @@ export class StaffService {
       .pipe(
         map((response: ResponseApi<ListStaffResponse[]>) => response.obj)
       );
+  }
+
+  // Thêm staff
+  create(request: CreateStaffRequest): Observable<ResponseApi<string>> {
+    return this.http.post<ResponseApi<string>>(this.apiUrl + "Create", request);
   }
 }

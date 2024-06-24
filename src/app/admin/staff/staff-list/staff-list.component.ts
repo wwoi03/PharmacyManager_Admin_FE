@@ -4,7 +4,6 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ListStaffResponse } from '../../../models/responses/staff/list-staff-response';
 import { StaffService } from '../../../services/staff/staff.service';
 import { Router } from '@angular/router';
-import { create } from 'domain';
 
 @Component({
   selector: 'ngx-staff-list',
@@ -111,7 +110,7 @@ export class StaffListComponent {
   }
 
   onCreate(event): void {
-    this.router.navigate(['/admin/dashboard']);
+    this.router.navigate(['/admin/staff/staff-create']);
   }
 
   onDeleteConfirm(event): void {

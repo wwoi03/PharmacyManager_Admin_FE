@@ -53,7 +53,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Thêm nhân viên',
-        link: '',
+        link: '/admin/staff/staff-create',
       },
     ],
   },

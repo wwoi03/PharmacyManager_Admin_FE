@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="d-flex">
+      <nb-card-header>Thêm nhân viên</nb-card-header>
+    </nb-card>
+  </div>
+</div>
+
+<form (ngSubmit)="createStaff()" class="row">
+  <div class="col-md-6">
+    <nb-card>
+      <nb-card-header>Thông tin nhân viên</nb-card-header>
+      <nb-card-body>
+        <div>
+          <!-- Tên và tên đăng nhập -->
+          <div class="form-group">
+            <label for="forFullName" class="label">Họ và tên</label>
+            <input required [(ngModel)]="createStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
+              id="for-fullname" placeholder="Họ và tên">
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forUsername" class="label">Tên đăng nhập</label>
+                <input required [(ngModel)]="createStaffRequest.userName" type="text" nbInput fullWidth id="forUsername"
+                  placeholder="Tên đăng nhập">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forEmail" class="label">Email</label>
+                <input required [(ngModel)]="createStaffRequest.email" type="email" nbInput fullWidth id="forEmail"
+                  placeholder="Email">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mật khẩu -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forPassword" class="label">Mật khẩu</label>
+                <input required [(ngModel)]="createStaffRequest.password" type="password" nbInput fullWidth
+                  id="forPassword" placeholder="Mật khẩu">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
+                <input required [(ngModel)]="createStaffRequest.confirmPassword" type="password" nbInput fullWidth
+                  id="forConfirmPassword" placeholder="Mật khẩu xác nhận">
+              </div>
+            </div>
+          </div>
+
+          <!-- Giới tính -->
+          <div class="form-group form-inline">
+            <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Giới tính</label>
+            <div class="demo-items" style="margin: 0">
+              <nb-radio-group [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline" id="forGender">
+                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
+                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
+                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Khác'">Khác</nb-radio>
+              </nb-radio-group>
+            </div>
+          </div>
+
+          <!-- Số điện thoại và ngày sinh -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forPhone" class="label">Số điện thoại</label>
+                <input required [(ngModel)]="createStaffRequest.phoneNumber" type="number" nbInput fullWidth
+                  id="forPhone" placeholder="Số điện thoại">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="forBirthday" class="label">Ngày sinh</label>
+                <br>
+                <input required [(ngModel)]="createStaffRequest.birthday" id="forBirthday" nbInput fullWidth
+                  placeholder="Ngày sinh" [nbDatepicker]="formpicker">
+                <nb-datepicker #formpicker></nb-datepicker>
+              </div>
+            </div>
+          </div>
+
+          <!-- Địa chỉ -->
+          <div class="form-group">
+            <label for="forAddress" class="label">Địa chỉ</label>
+            <textarea required [(ngModel)]="createStaffRequest.address" rows="3" nbInput fullWidth id="forAddress"
+              shape="rectangle" placeholder="Địa chỉ"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" nbButton status="primary">Thêm mới</button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-md-6">
+    <!-- Image -->
+    <nb-card size="">
+      <nb-card-header>Ảnh nhân viên</nb-card-header>
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="picture"
+              style="background-position: center; background-size: cover; background-image: url('assets/images/kitten-{{currentTheme}}.png'); height: 260px;">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group" style="overflow: hidden">
+              <label for="forImage" class="label">Chọn hình ảnh</label>
+              <input type="file" fullWidth id="forImage" (change)="onFileChange($event)">
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+
+    <!-- Quyền nhân viên -->
+    <nb-card>
+      <nb-card-header>Quyền nhân viên</nb-card-header>
+
+      <nb-card-body class="checkbox-radio">
+        <div class="row demo-items">
+          <div class="col-6">
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (ngModelChange)="onRoleChange('Admin', $event)">Quản trị
+              viên</nb-checkbox>
+          </div>
+          <div class="col-6">
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (ngModelChange)="onRoleChange('Sales', $event)">Nhân
+              viên bán hàng</nb-checkbox>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</form>

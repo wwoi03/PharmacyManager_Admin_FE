@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { StaffComponent } from './staff.component';
 import { StaffListComponent } from './staff-list/staff-list.component';
+import { StaffCreateComponent } from './staff-create/staff-create.component';
 
 const routes: Routes = [{
   path: '',
@@ -11,6 +12,10 @@ const routes: Routes = [{
     {
       path: 'staff-list',
       component: StaffListComponent,
+    },
+    {
+      path: 'staff-create',
+      component: StaffCreateComponent,
     },
   ],
 }];
@@ -26,4 +31,5 @@ export class StaffRoutingModule {
 export const routedComponents = [
     StaffComponent,
     StaffListComponent,
+    StaffCreateComponent,
 ];
