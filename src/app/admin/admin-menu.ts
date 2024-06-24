@@ -72,4 +72,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  // Tài khoản
+  {
+    title: 'Tài khoản',
+    icon: 'lock-outline',
+    children: [
+      {
+        title: 'Thông tin tài khoản',
+        link: '',
+      },
+      {
+        title: 'Đổi mật khẩu',
+        link: '/auth/reset-password',
+      },
+      {
+        title: 'Quên mật khẩu',
+        link: '/auth/request-password',
+      },
+    ],
+  },
 ];
