@@ -3,6 +3,8 @@ import { NbThemeService } from "@nebular/theme";
 import { CreateStaffRequest } from "../../../models/requests/staff/create-staff-request";
 import { StaffService } from "../../../services/staff/staff.service";
 import { Toast } from "../../../helpers/toast";
+import { RoleService } from "../../../services/role/role.service";
+import { ListRoleResponse } from "../../../models/responses/role/list-role-response";
 
 @Component({
   selector: "ngx-staff-create",
@@ -11,11 +13,14 @@ import { Toast } from "../../../helpers/toast";
 })
 export class StaffCreateComponent implements OnInit, OnDestroy {
   currentTheme: string;
+  imageUrl: string | ArrayBuffer | null = "assets/images/kitten-default.png"; // Ảnh mặc định khi ban đầu
   themeSubscription: any;
   createStaffRequest: CreateStaffRequest;
+  roles: ListRoleResponse[];
 
   constructor(
     private staffService: StaffService,
+    private roleService: RoleService,
     private themeService: NbThemeService,
     private toast: Toast
   ) {
@@ -27,6 +32,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadRoles();
     this.createStaffRequest = new CreateStaffRequest();
   }
 
@@ -43,37 +49,50 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
         this.createStaffRequest.roles.splice(index, 1);
       }
     }
-
-    console.log("Role:", this.createStaffRequest.roles);
   }
 
-  onFileChange(event: any) {
-    const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        this.createStaffRequest.image = reader.result as string;
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageUrl = e.target.result;
       };
+      reader.readAsDataURL(file);
     }
   }
 
-  createStaff() {
-    console.log("Dữ liệu gửi lên:", this.createStaffRequest);
-    console.log("BD:", this.createStaffRequest.birthday);
+  // Load roles
+  loadRoles() {
+    this.roleService.getRoles().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.roles = res.obj;
+        } else {
+          this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
+        }
+      },
+      (error) => {
+        this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
+      }
+    );
+  }
 
+  createStaff() {
     this.staffService.create(this.createStaffRequest).subscribe(
       (res) => {
-        if (res.isSuccessed) {
-          this.toast.successToast("Thêm thành công", res.message)
+        if (res.code === 200) {
+          this.toast.successToast("Thêm thành công", res.message);
         } else {
-          this.toast.warningToast("Thêm thất bại", res.message)
+          this.toast.warningToast("Thêm thất bại", res.message);
         }
       },
       (error) => {
         console.error("Lỗi khi thêm nhân", error);
-        this.toast.warningToast("Thêm thất bại", "Thêm nhân viên không thành công.")
+        this.toast.warningToast(
+          "Thêm thất bại",
+          "Thêm nhân viên không thành công."
+        );
       }
     );
   }

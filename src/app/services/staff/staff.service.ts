@@ -16,10 +16,6 @@ export class StaffService {
   constructor(private http: HttpClient) {}
 
   getStaffs(): Observable<ListStaffResponse[]> {
-    var result = this.http.get<ResponseApi<ListStaffResponse[]>>(
-      this.apiUrl + "GetStaffs"
-    );
-
     return this.http
       .get<ResponseApi<ListStaffResponse[]>>(this.apiUrl + "GetStaffs")
       .pipe(map((response: ResponseApi<ListStaffResponse[]>) => response.obj));
@@ -34,7 +30,7 @@ export class StaffService {
           if (response.isSuccessed) {
             return response;
           } else {
-            
+
           }
         })
       );

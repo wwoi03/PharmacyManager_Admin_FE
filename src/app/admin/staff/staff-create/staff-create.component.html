@@ -106,14 +106,14 @@
       <nb-card-body>
         <div class="row">
           <div class="col-sm-6">
-            <div class="picture"
-              style="background-position: center; background-size: cover; background-image: url('assets/images/kitten-{{currentTheme}}.png'); height: 260px;">
+            <div class="picture" [style.backgroundImage]="'url(' + imageUrl + ')'"
+              style="background-position: center; background-size: cover; height: 260px;">
             </div>
           </div>
           <div class="col-sm-6">
             <div class="form-group" style="overflow: hidden">
               <label for="forImage" class="label">Chọn hình ảnh</label>
-              <input type="file" fullWidth id="forImage" (change)="onFileChange($event)">
+              <input type="file" fullWidth id="forImage" (change)="onFileChange($event)" accept="image/*">
             </div>
           </div>
         </div>
@@ -126,13 +126,8 @@
 
       <nb-card-body class="checkbox-radio">
         <div class="row demo-items">
-          <div class="col-6">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange('PM_Admin', $event)">Quản trị
-              viên</nb-checkbox>
-          </div>
-          <div class="col-6">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange('Sales', $event)">Nhân
-              viên bán hàng</nb-checkbox>
+          <div class="col-6" *ngFor="let item of roles; let index = index">
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange(item.roleNormalizedName, $event)">{{item.roleName}}</nb-checkbox>
           </div>
         </div>
       </nb-card-body>
