@@ -23,15 +23,15 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forUsername" class="label">Tên đăng nhập</label>
-                <input required [(ngModel)]="createStaffRequest.userName" type="text" nbInput fullWidth id="forUsername"
-                  placeholder="Tên đăng nhập">
+                <input required [(ngModel)]="createStaffRequest.userName" name="userName" type="text" nbInput fullWidth
+                  id="forUsername" placeholder="Tên đăng nhập">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forEmail" class="label">Email</label>
-                <input required [(ngModel)]="createStaffRequest.email" type="email" nbInput fullWidth id="forEmail"
-                  placeholder="Email">
+                <input required [(ngModel)]="createStaffRequest.email" name="email" type="email" nbInput fullWidth
+                  id="forEmail" placeholder="Email">
               </div>
             </div>
           </div>
@@ -41,15 +41,15 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forPassword" class="label">Mật khẩu</label>
-                <input required [(ngModel)]="createStaffRequest.password" type="password" nbInput fullWidth
-                  id="forPassword" placeholder="Mật khẩu">
+                <input required [(ngModel)]="createStaffRequest.password" name="password" type="password" nbInput
+                  fullWidth id="forPassword" placeholder="Mật khẩu">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
-                <input required [(ngModel)]="createStaffRequest.confirmPassword" type="password" nbInput fullWidth
-                  id="forConfirmPassword" placeholder="Mật khẩu xác nhận">
+                <input required [(ngModel)]="createStaffRequest.confirmPassword" name="confirmPassword" type="password"
+                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận">
               </div>
             </div>
           </div>
@@ -71,17 +71,15 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forPhone" class="label">Số điện thoại</label>
-                <input required [(ngModel)]="createStaffRequest.phoneNumber" type="number" nbInput fullWidth
-                  id="forPhone" placeholder="Số điện thoại">
+                <input required [(ngModel)]="createStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
+                  fullWidth id="forPhone" placeholder="Số điện thoại">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forBirthday" class="label">Ngày sinh</label>
-                <br>
-                <input required [(ngModel)]="createStaffRequest.birthday" id="forBirthday" nbInput fullWidth
-                  placeholder="Ngày sinh" [nbDatepicker]="formpicker">
-                <nb-datepicker #formpicker></nb-datepicker>
+                <input required [(ngModel)]="createStaffRequest.birthday" name="birthday" type="date" nbInput fullWidth
+                  id="forBirthday">
               </div>
             </div>
           </div>
@@ -89,8 +87,8 @@
           <!-- Địa chỉ -->
           <div class="form-group">
             <label for="forAddress" class="label">Địa chỉ</label>
-            <textarea required [(ngModel)]="createStaffRequest.address" rows="3" nbInput fullWidth id="forAddress"
-              shape="rectangle" placeholder="Địa chỉ"></textarea>
+            <textarea required [(ngModel)]="createStaffRequest.address" name="address" rows="3" nbInput fullWidth
+              id="forAddress" shape="rectangle" placeholder="Địa chỉ"></textarea>
           </div>
 
           <!-- Submit -->
@@ -129,11 +127,11 @@
       <nb-card-body class="checkbox-radio">
         <div class="row demo-items">
           <div class="col-6">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (ngModelChange)="onRoleChange('Admin', $event)">Quản trị
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange('PM_Admin', $event)">Quản trị
               viên</nb-checkbox>
           </div>
           <div class="col-6">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (ngModelChange)="onRoleChange('Sales', $event)">Nhân
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange('Sales', $event)">Nhân
               viên bán hàng</nb-checkbox>
           </div>
         </div>

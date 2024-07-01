@@ -8,7 +8,7 @@ export class CreateStaffRequest {
     gender: string = '';
     birthday: Date = new Date();
     address: string = '';
-    image: string = '';
-    branchId: string = '';
+    image: string;
+    branchId: string = null;
     roles: string[] = [];
 }
