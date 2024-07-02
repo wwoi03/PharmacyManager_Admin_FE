@@ -8,13 +8,15 @@ import {
   NbButtonModule,
   NbCardModule,
   NbCheckboxModule,
-  NbDatepickerModule, NbIconModule,
+  NbDatepickerModule,
+  NbIconModule,
   NbInputModule,
   NbRadioModule,
   NbSelectModule,
   NbUserModule,
+  NbTooltipModule,
 } from '@nebular/theme';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -32,6 +34,8 @@ import { FormsModule } from '@angular/forms';
     NbUserModule,
     StaffRoutingModule,
     FormsModule,
+    ReactiveFormsModule, // Thêm ReactiveFormsModule
+    NbTooltipModule, // Thêm NbTooltipModule
   ],
   declarations: [
     ...routedComponents,

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NbThemeService } from "@nebular/theme";
 import { CreateStaffRequest } from "../../../models/requests/staff/create-staff-request";
 import { StaffService } from "../../../services/staff/staff.service";
 import { Toast } from "../../../helpers/toast";
 import { RoleService } from "../../../services/role/role.service";
 import { ListRoleResponse } from "../../../models/responses/role/list-role-response";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "ngx-staff-create",
@@ -17,6 +18,8 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   themeSubscription: any;
   createStaffRequest: CreateStaffRequest;
   roles: ListRoleResponse[];
+
+  @ViewChild('staffForm') staffForm: NgForm;
 
   constructor(
     private staffService: StaffService,
@@ -79,6 +82,12 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   }
 
   createStaff() {
+    if (this.staffForm.invalid) {
+      this.markFormControlsAsTouchedAndDirty(this.staffForm);
+      
+      return;
+    }
+
     this.staffService.create(this.createStaffRequest).subscribe(
       (res) => {
         if (res.code === 200) {
@@ -95,5 +104,12 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
         );
       }
     );
+  }
+
+  markFormControlsAsTouchedAndDirty(form: NgForm) {
+    Object.keys(form.controls).forEach(controlName => {
+      form.controls[controlName].markAsTouched();
+      form.controls[controlName].markAsDirty();
+    });
   }
 }

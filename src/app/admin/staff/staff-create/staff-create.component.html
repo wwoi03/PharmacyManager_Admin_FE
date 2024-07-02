@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<form (ngSubmit)="createStaff()" class="row">
+<form (ngSubmit)="createStaff()" #staffForm="ngForm" class="row">
   <div class="col-md-6">
     <nb-card>
       <nb-card-header>Thông tin nhân viên</nb-card-header>
@@ -14,24 +14,33 @@
         <div>
           <!-- Tên và tên đăng nhập -->
           <div class="form-group">
-            <label for="forFullName" class="label">Họ và tên</label>
+            <label for="forFullName" class="label">Họ và tên<small class="text-danger">*</small></label>
             <input required [(ngModel)]="createStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
-              id="for-fullname" placeholder="Họ và tên">
+              id="forFullname" placeholder="Họ và tên" #fullName="ngModel">
+            <div *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="text-danger">
+              Họ và tên là bắt buộc
+            </div>
           </div>
 
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forUsername" class="label">Tên đăng nhập</label>
+                <label for="forUsername" class="label">Tên đăng nhập<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.userName" name="userName" type="text" nbInput fullWidth
-                  id="forUsername" placeholder="Tên đăng nhập">
+                  id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel">
+                <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="text-danger">
+                  Tên đăng nhập là bắt buộc
+                </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forEmail" class="label">Email</label>
+                <label for="forEmail" class="label">Email<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.email" name="email" type="email" nbInput fullWidth
-                  id="forEmail" placeholder="Email">
+                  id="forEmail" placeholder="Email" #email="ngModel">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                  Email là bắt buộc
+                </div>
               </div>
             </div>
           </div>
@@ -40,29 +49,44 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forPassword" class="label">Mật khẩu</label>
+                <label for="forPassword" class="label">Mật khẩu<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.password" name="password" type="password" nbInput
-                  fullWidth id="forPassword" placeholder="Mật khẩu">
+                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                  Mật khẩu là bắt buộc
+                </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
+                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận<small
+                    class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.confirmPassword" name="confirmPassword" type="password"
-                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận">
+                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel">
+                <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
+                  class="text-danger">
+                  Mật khẩu xác nhận là bắt buộc
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Giới tính -->
-          <div class="form-group form-inline">
-            <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Giới tính</label>
-            <div class="demo-items" style="margin: 0">
-              <nb-radio-group [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline" id="forGender">
-                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
-                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
-                <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Khác'">Khác</nb-radio>
-              </nb-radio-group>
+          <div class="form-group">
+            <div class="form-inline">
+              <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Giới tính<small
+                  class="text-danger">*</small></label>
+              <div class="demo-items" style="margin: 0">
+                <nb-radio-group required [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline"
+                  id="forGender" #gender="ngModel">
+                  <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
+                  <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
+                  <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Khác'">Khác</nb-radio>
+                </nb-radio-group>
+              </div>
+            </div>
+            <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-danger">
+              Giới tính là bắt buộc
             </div>
           </div>
 
@@ -70,25 +94,34 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forPhone" class="label">Số điện thoại</label>
+                <label for="forPhone" class="label">Số điện thoại<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
-                  fullWidth id="forPhone" placeholder="Số điện thoại">
+                  fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel">
+                <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
+                  Số điện thoại là bắt buộc
+                </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forBirthday" class="label">Ngày sinh</label>
+                <label for="forBirthday" class="label">Ngày sinh<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.birthday" name="birthday" type="date" nbInput fullWidth
-                  id="forBirthday">
+                  id="forBirthday" #birthday="ngModel">
+                <div *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)" class="text-danger">
+                  Ngày sinh là bắt buộc
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Địa chỉ -->
           <div class="form-group">
-            <label for="forAddress" class="label">Địa chỉ</label>
+            <label for="forAddress" class="label">Địa chỉ<small class="text-danger">*</small></label>
             <textarea required [(ngModel)]="createStaffRequest.address" name="address" rows="3" nbInput fullWidth
-              id="forAddress" shape="rectangle" placeholder="Địa chỉ"></textarea>
+              id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel"></textarea>
+            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="text-danger">
+              Địa chỉ là bắt buộc
+            </div>
           </div>
 
           <!-- Submit -->
@@ -112,7 +145,7 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group" style="overflow: hidden">
-              <label for="forImage" class="label">Chọn hình ảnh</label>
+              <label for="forImage" class="label">Chọn hình ảnh<small class="text-danger">*</small></label>
               <input type="file" fullWidth id="forImage" (change)="onFileChange($event)" accept="image/*">
             </div>
           </div>
@@ -122,12 +155,13 @@
 
     <!-- Quyền nhân viên -->
     <nb-card>
-      <nb-card-header>Quyền nhân viên</nb-card-header>
+      <nb-card-header>Quyền nhân viên<small class="text-danger">*</small></nb-card-header>
 
       <nb-card-body class="checkbox-radio">
         <div class="row demo-items">
           <div class="col-6" *ngFor="let item of roles; let index = index">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles" (change)="onRoleChange(item.roleNormalizedName, $event)">{{item.roleName}}</nb-checkbox>
+            <nb-checkbox [(ngModel)]="createStaffRequest.roles"
+              (change)="onRoleChange(item.roleNormalizedName, $event)">{{item.roleName}}</nb-checkbox>
           </div>
         </div>
       </nb-card-body>
