@@ -56,6 +56,14 @@ export class Toast {
     this.showToast('warning', title, body);
   }
 
+  public customerToast(code: number, body: string) {
+    if (code === 200) {
+      this.successToast("Thành công", body);
+    } else {
+      this.dangerToast("Thất bại", body);
+    }
+  }
+
   private showToast(type: NbComponentStatus, title: string, body: string) {
     const config = {
       status: type,

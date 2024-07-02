@@ -6,6 +6,7 @@ import { Toast } from "../../../helpers/toast";
 import { RoleService } from "../../../services/role/role.service";
 import { ListRoleResponse } from "../../../models/responses/role/list-role-response";
 import { NgForm } from "@angular/forms";
+import { ValidationNotify } from "../../../helpers/validation-notify";
 
 @Component({
   selector: "ngx-staff-create",
@@ -16,16 +17,22 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   currentTheme: string;
   imageUrl: string | ArrayBuffer | null = "assets/images/kitten-default.png"; // Ảnh mặc định khi ban đầu
   themeSubscription: any;
-  createStaffRequest: CreateStaffRequest;
+
+  // Variable
+  createStaffRequest: CreateStaffRequest = new CreateStaffRequest();;
   roles: ListRoleResponse[];
 
+  s// Form Validation
+  formErrors: { [key: string]: string } = {};
+  validationMessages = {};
   @ViewChild('staffForm') staffForm: NgForm;
+  validationNotify: ValidationNotify;
 
   constructor(
     private staffService: StaffService,
     private roleService: RoleService,
     private themeService: NbThemeService,
-    private toast: Toast
+    private toast: Toast,
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -36,13 +43,19 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadRoles();
-    this.createStaffRequest = new CreateStaffRequest();
+    this.validationMessages = this.createStaffRequest.validationMessages
+    this.createStaffRequest.gender = 'Nam';
+  }
+
+  ngAfterViewInit(): void {
+    this.validationNotify = new ValidationNotify(this.formErrors, this.validationMessages, this.staffForm);
   }
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
   }
 
+  // Xử lý khi thay đổi quyền
   onRoleChange(role: string, event: any) {
     if (event.target.checked) {
       this.createStaffRequest.roles.push(role);
@@ -54,6 +67,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Xử lý khi thay đổi hình ảnh
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file && file.type.startsWith("image/")) {
@@ -65,7 +79,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Load roles
+  // Xử lý load roles
   loadRoles() {
     this.roleService.getRoles().subscribe(
       (res) => {
@@ -81,35 +95,28 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Xử lý thêm nhân viên
   createStaff() {
+    // Valid
     if (this.staffForm.invalid) {
-      this.markFormControlsAsTouchedAndDirty(this.staffForm);
-      
+      this.validationNotify.validateForm();
+      this.formErrors =  this.validationNotify.formErrors;
       return;
     }
 
+    // Call API Create Staff
     this.staffService.create(this.createStaffRequest).subscribe(
       (res) => {
         if (res.code === 200) {
-          this.toast.successToast("Thêm thành công", res.message);
+          this.toast.successToast("Thành công", res.message);
         } else {
-          this.toast.warningToast("Thêm thất bại", res.message);
+          this.validationNotify.formErrors['userName'] = res.message;
         }
       },
       (error) => {
         console.error("Lỗi khi thêm nhân", error);
-        this.toast.warningToast(
-          "Thêm thất bại",
-          "Thêm nhân viên không thành công."
-        );
+        this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
       }
     );
-  }
-
-  markFormControlsAsTouchedAndDirty(form: NgForm) {
-    Object.keys(form.controls).forEach(controlName => {
-      form.controls[controlName].markAsTouched();
-      form.controls[controlName].markAsDirty();
-    });
   }
 }

@@ -12,24 +12,29 @@
       <nb-card-header>Thông tin nhân viên</nb-card-header>
       <nb-card-body>
         <div>
-          <!-- Tên và tên đăng nhập -->
+          <!-- Tên -->
           <div class="form-group">
             <label for="forFullName" class="label">Họ và tên<small class="text-danger">*</small></label>
             <input required [(ngModel)]="createStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
-              id="forFullname" placeholder="Họ và tên" #fullName="ngModel">
-            <div *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="text-danger">
-              Họ và tên là bắt buộc
+              id="forFullname" placeholder="Họ và tên" #fullName="ngModel" (input)="validationNotify.onInputChange('fullName')">
+            <div class="text-danger-container">
+              <div *ngIf="formErrors['fullName']" class="text-danger">
+                {{ formErrors['fullName'] }}
+              </div>
             </div>
           </div>
 
+          <!-- Tên đăng nhập -->
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forUsername" class="label">Tên đăng nhập<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.userName" name="userName" type="text" nbInput fullWidth
-                  id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel">
-                <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="text-danger">
-                  Tên đăng nhập là bắt buộc
+                  id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel" (input)="validationNotify.onInputChange('userName')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['userName']" class="text-danger">
+                    {{ formErrors['userName'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -37,9 +42,11 @@
               <div class="form-group">
                 <label for="forEmail" class="label">Email<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.email" name="email" type="email" nbInput fullWidth
-                  id="forEmail" placeholder="Email" #email="ngModel">
-                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                  Email là bắt buộc
+                  id="forEmail" placeholder="Email" #email="ngModel" (input)="validationNotify.onInputChange('email')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['email']" class="text-danger">
+                    {{ formErrors['email'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -51,9 +58,11 @@
               <div class="form-group">
                 <label for="forPassword" class="label">Mật khẩu<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.password" name="password" type="password" nbInput
-                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel">
-                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
-                  Mật khẩu là bắt buộc
+                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel" (input)="validationNotify.onInputChange('password')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['password']" class="text-danger">
+                    {{ formErrors['password'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -62,10 +71,11 @@
                 <label for="forConfirmPassword" class="label">Mật khẩu xác nhận<small
                     class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.confirmPassword" name="confirmPassword" type="password"
-                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel">
-                <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
-                  class="text-danger">
-                  Mật khẩu xác nhận là bắt buộc
+                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel" (input)="validationNotify.onInputChange('confirmPassword')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['confirmPassword']" class="text-danger">
+                    {{ formErrors['confirmPassword'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -77,7 +87,7 @@
               <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Giới tính<small
                   class="text-danger">*</small></label>
               <div class="demo-items" style="margin: 0">
-                <nb-radio-group required [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline"
+                <nb-radio-group (input)="validationNotify.onInputChange('gender')" required [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline"
                   id="forGender" #gender="ngModel">
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
@@ -85,8 +95,10 @@
                 </nb-radio-group>
               </div>
             </div>
-            <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-danger">
-              Giới tính là bắt buộc
+            <div class="text-danger-container">
+              <div *ngIf="formErrors['gender']" class="text-danger">
+                {{ formErrors['gender'] }}
+              </div>
             </div>
           </div>
 
@@ -96,9 +108,11 @@
               <div class="form-group">
                 <label for="forPhone" class="label">Số điện thoại<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
-                  fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel">
-                <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
-                  Số điện thoại là bắt buộc
+                  fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel" (input)="validationNotify.onInputChange('phoneNumber')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['phoneNumber']" class="text-danger">
+                    {{ formErrors['phoneNumber'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -106,9 +120,11 @@
               <div class="form-group">
                 <label for="forBirthday" class="label">Ngày sinh<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.birthday" name="birthday" type="date" nbInput fullWidth
-                  id="forBirthday" #birthday="ngModel">
-                <div *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)" class="text-danger">
-                  Ngày sinh là bắt buộc
+                  id="forBirthday" #birthday="ngModel" (input)="validationNotify.onInputChange('birthday')">
+                <div class="text-danger-container">
+                  <div *ngIf="formErrors['birthday']" class="text-danger">
+                    {{ formErrors['birthday'] }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -118,9 +134,11 @@
           <div class="form-group">
             <label for="forAddress" class="label">Địa chỉ<small class="text-danger">*</small></label>
             <textarea required [(ngModel)]="createStaffRequest.address" name="address" rows="3" nbInput fullWidth
-              id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel"></textarea>
-            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="text-danger">
-              Địa chỉ là bắt buộc
+              id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel" (input)="validationNotify.onInputChange('address')"></textarea>
+            <div class="text-danger-container">
+              <div *ngIf="formErrors['address']" class="text-danger">
+                {{ formErrors['address'] }}
+              </div>
             </div>
           </div>
 
@@ -146,7 +164,7 @@
           <div class="col-sm-6">
             <div class="form-group" style="overflow: hidden">
               <label for="forImage" class="label">Chọn hình ảnh<small class="text-danger">*</small></label>
-              <input type="file" fullWidth id="forImage" (change)="onFileChange($event)" accept="image/*">
+              <input type="file" fullWidth id="forImage" name="image" (change)="onFileChange($event)" accept="image/*">
             </div>
           </div>
         </div>
