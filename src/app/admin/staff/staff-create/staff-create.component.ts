@@ -22,12 +22,13 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   createStaffRequest: CreateStaffRequest = new CreateStaffRequest();;
   roles: ListRoleResponse[];
 
-  s// Form Validation
+  // Form Validation
   formErrors: { [key: string]: string } = {};
   validationMessages = {};
   @ViewChild('staffForm') staffForm: NgForm;
   validationNotify: ValidationNotify;
 
+  // Constructor
   constructor(
     private staffService: StaffService,
     private roleService: RoleService,
@@ -41,12 +42,14 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
       });
   }
 
+  // InitData
   ngOnInit(): void {
     this.loadRoles();
     this.validationMessages = this.createStaffRequest.validationMessages
     this.createStaffRequest.gender = 'Nam';
   }
 
+  // After Init Data
   ngAfterViewInit(): void {
     this.validationNotify = new ValidationNotify(this.formErrors, this.validationMessages, this.staffForm);
   }
@@ -115,7 +118,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
         }
       },
       (error) => {
-        console.error("Lỗi khi thêm nhân", error);
+        //console.error("Lỗi khi thêm nhân", error);
         this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
       }
     );
