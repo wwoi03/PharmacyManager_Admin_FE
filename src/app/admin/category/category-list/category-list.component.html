@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Danh sách loại sản phẩm</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+
+<nb-card>
+    <nb-card-body>
+        <div class="d-flex justify-content-between ">
+            <div style="flex: 1">
+                <label class="search-label" for="search">Tìm kiếm:</label>
+                <input fullWidth nbInput [nbFilterInput]="dataSource" id="search" class="search-input"
+                    placeholder="Tên loại sản phẩm, code">
+            </div>
+
+            <div style="flex: 1; text-align: end;">
+                <button nbButton status="primary" (click)="onCreate()">Thêm mới</button>
+            </div>
+        </div>
+
+        <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" (sort)="updateSort($event)">
+
+            <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+            <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+            <ng-container [nbTreeGridColumnDef]="customColumn">
+                <th class="category-name-column" nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(customColumn)"
+                    *nbTreeGridHeaderCellDef>
+                    {{ getColumnTitle(customColumn) }} <!-- Cập nhật tên cột -->
+                </th>
+                <td class="category-name-column" nbTreeGridCell *nbTreeGridCellDef="let row">
+                    <ngx-fs-icon [kind]="row.data.kind" [expanded]="row.expanded"></ngx-fs-icon>
+                    {{row.data[customColumn]}}
+                </td>
+            </ng-container>
+
+            <ng-container *ngFor="let column of defaultColumns; let index = index" [nbTreeGridColumnDef]="column"
+                [showOn]="getShowOn(index)">
+                <th class="default-column" nbTreeGridHeaderCell [nbSortHeader]="getSortDirection(column)"
+                    *nbTreeGridHeaderCellDef>
+                    {{ getColumnTitle(column) }} <!-- Cập nhật tên cột -->
+                </th>
+                <td class="default-column" nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column] || '0'}}</td>
+            </ng-container>
+
+            <!-- Cột Hành Động -->
+            <ng-container [nbTreeGridColumnDef]="'actions'">
+                <th class="actions-column" nbTreeGridHeaderCell *nbTreeGridHeaderCellDef> Actions </th>
+                <!-- <td nbTreeGridCell *nbTreeGridCellDef="let row" class="action-cell">
+                    <nb-icon icon="eye-outline" status="primary" class="action-icon"
+                        (click)="onViewDetails(row)"></nb-icon>
+                    <nb-icon icon="edit-2-outline" status="info" class="action-icon" (click)="onEdit(row)"></nb-icon>
+                    <nb-icon icon="trash-2-outline" status="danger" class="action-icon"
+                        (click)="onDelete(row)"></nb-icon>
+                </td> -->
+
+                <td nbTreeGridCell *nbTreeGridCellDef="let row" class="action-cell">
+                    <a class="action-link" (click)="onViewDetails(row)">Chi tiết</a>
+                    <a class="action-link" (click)="onEdit(row)">Sửa</a>
+                    <a class="action-link" (click)="onDelete(row)">Xóa</a>
+                </td>
+            </ng-container>
+        </table>
+
+    </nb-card-body>
+</nb-card>

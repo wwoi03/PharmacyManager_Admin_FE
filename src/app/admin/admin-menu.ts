@@ -91,4 +91,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  // Loại sản phẩm
+  {
+    title: 'Loại sản phẩm',
+    icon: 'grid-outline',
+    children: [
+      {
+        title: 'Danh sách loại sản phẩm',
+        link: '/admin/category/category-list',
+      },
+    ],
+  },
 ];
