@@ -4,12 +4,10 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { DiseaseRoutingModule, routedComponents } from './disease-routing.module';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   
   imports: [
-    RouterModule.forRoot([]),
     NbCardModule,
     NbIconModule,
     NbInputModule,

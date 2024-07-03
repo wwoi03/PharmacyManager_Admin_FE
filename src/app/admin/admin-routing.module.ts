@@ -16,7 +16,7 @@ const routes: Routes = [{
     },
     {
       path: 'disease',
-      component: DiseaseComponent,
+      loadChildren: ()=> import('./disease/disease.module').then(m => m.DiseaseModule),
     },
     {
       path: 'product',
