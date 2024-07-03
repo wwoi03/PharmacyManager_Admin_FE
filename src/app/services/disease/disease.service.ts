@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ResponseApi } from '../../models/response-apis/response-api';
-import { listDiseaseResponse } from '../../models/responses/staff/list-disease-response';
+import { listDiseaseResponse } from '../../models/responses/disease/list-disease-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiseaseService {
-  private apiURL: string = environment.API_BASE_URL + '/admin/disease';
+  private apiURL: string = environment.API_BASE_URL + '/admin/Disease/';
 
   constructor(private http: HttpClient) { }
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { listDiseaseResponse } from '../../../models/responses/staff/list-disease-response';
+import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { Router } from '@angular/router';
 
@@ -33,7 +33,7 @@ export class DiseaseListComponent {
       confirmDelete: true,
     },
     columns: {
-      nameDisease:{
+      name:{
         title: 'Tên bệnh',
         type: 'string',
       },
@@ -57,7 +57,7 @@ export class DiseaseListComponent {
 
   loadDiseaseData(){
     this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease =data;
+      this.listDisease = data;
       this.source.load(this.listDisease);
     });
   }
