@@ -117,7 +117,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
           this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
-      (error) => {
+      (err) => {
         //console.error("Lỗi khi thêm nhân", error);
         this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
       }

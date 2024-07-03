@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import {
+  NbDialogService,
   NbSortDirection,
   NbSortRequest,
   NbTreeGridDataSource,
@@ -8,6 +9,7 @@ import {
 import { CategoryService } from "../../../services/category/category.service";
 import { Toast } from "../../../helpers/toast";
 import { ListCategoryResponse } from "../../../models/responses/category/list-category-response";
+import { CategoryCreateComponent } from "../category-create/category-create.component";
 
 interface TreeNode<T> {
   data: T;
@@ -39,7 +41,8 @@ export class CategoryListComponent {
   constructor(
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>,
     private categoryService: CategoryService,
-    private toast: Toast
+    private toast: Toast,
+    private dialogService: NbDialogService
   ) {}
 
   ngOnInit() {
@@ -88,7 +91,13 @@ export class CategoryListComponent {
     }
   }
 
-  // details
+  // Create
+  onCreate() {
+    this.dialogService.open(CategoryCreateComponent)
+      
+  }
+
+  // Details
   onViewDetails(row: any) {
 
   }

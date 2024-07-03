@@ -1,5 +1,7 @@
 <nb-card>
     <nb-card-body>
+        <button nbButton status="primary" (click)="onCreate()">Thêm mới</button>
+        <label class="search-label" for="search"></label>
 
         <label class="search-label" for="search">Tìm kiếm:</label>
         <input fullWidth nbInput [nbFilterInput]="dataSource" id="search" class="search-input"

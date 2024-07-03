@@ -1,0 +1,57 @@
+<form (ngSubmit)="createCategory()" #categoryForm="ngForm">
+    <nb-card>
+        <nb-card-header>Thêm danh mục sản phẩm</nb-card-header>
+        <nb-card-body>
+            <div>
+                <!-- Tên -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên loại sản phẩm<small class="text-danger">*</small></label>
+                    <input required [(ngModel)]="createCategoryRequest.name" name="name" type="text" nbInput
+                        fullWidth id="forName" placeholder="Tên loại sản phẩm" #name="ngModel"
+                        (input)="validationNotify.onInputChange('name')">
+                    <div class="text-danger-container">
+                        <div *ngIf="formErrors['name']" class="text-danger">
+                            {{ formErrors['name'] }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code -->
+                <div class="form-group">
+                    <label for="forCode" class="label">Code<small class="text-danger">*</small></label>
+                    <input required [(ngModel)]="createCategoryRequest.codeCategory" name="codeCategory" type="text" nbInput
+                        fullWidth id="forCode" placeholder="Code" #codeCategory="ngModel"
+                        (input)="validationNotify.onInputChange('codeCategory')">
+                    <div class="text-danger-container">
+                        <div *ngIf="formErrors['codeCategory']" class="text-danger">
+                            {{ formErrors['codeCategory'] }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danh mục cha -->
+                <div class="form-group">
+                    <label for="forCategoryParent" class="label">Danh mục cha</label>
+                    <input (blur)="onInputCategoryParentFinish($event)" [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
+                        fullWidth id="forCategoryParent" placeholder="Danh mục cha" #parentCategoryCode="ngModel">
+                    <div class="text-danger-container">
+                        <div *ngIf="formErrors['parentCategoryCode']" class="text-danger">
+                            {{ formErrors['parentCategoryCode'] }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tên danh mục cha -->
+                <div *ngIf="showParentCategoryField" class="form-group">
+                    <label for="forCategoryParent" class="label">Tên loại sản phẩm cha</label>
+                    <input [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
+                        fullWidth id="forCategoryParent" placeholder="Danh mục cha">
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button nbButton status="success">Thêm</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

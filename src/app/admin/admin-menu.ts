@@ -101,8 +101,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/category/category-list',
       },
       {
-        title: 'Thêm sản phẩm',
-        link: '',
+        title: 'Thêm loại sản phẩm',
+        link: '/admin/category/category-create',
       },
     ],
   },

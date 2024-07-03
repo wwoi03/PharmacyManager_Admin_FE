@@ -5,6 +5,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { CategoryRoutingModule, routedComponents } from './category-routing.module';
 import { ThemeModule } from '../../@theme/theme.module';
 import { FsIconComponent } from './category-list/category-list.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FsIconComponent } from './category-list/category-list.component';
     ThemeModule,
     Ng2SmartTableModule,
     CategoryRoutingModule,
-    NbButtonModule
+    NbButtonModule,
+    FormsModule,
   ]
 })
 export class CategoryModule { }
