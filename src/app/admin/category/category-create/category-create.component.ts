@@ -102,11 +102,8 @@ export class CategoryCreateComponent {
     )
   }
 
+  // Hủy
   cancel() {
     this.ref.close();
-  }
-
-  submit(name) {
-    this.ref.close(name);
   }
 }
