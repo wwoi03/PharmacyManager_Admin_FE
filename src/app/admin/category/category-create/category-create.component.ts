@@ -15,6 +15,7 @@ export class CategoryCreateComponent {
   // Variable
   showParentCategoryField: boolean = false; 
   parentCategoryCode: string;
+  parentCategoryName: string;
   createCategoryRequest: CreateCategoryRequest = new CreateCategoryRequest();
 
   // Form Validation
@@ -75,15 +76,24 @@ export class CategoryCreateComponent {
   onInputCategoryParentFinish(event: any): void {
     this.parentCategoryCode = event.target.value;
 
+    if (this.parentCategoryCode === "" || this.parentCategoryCode === null) {
+      this.validationNotify.formErrors['parentCategoryId'] = null;
+    }
+
     this.categoryService.getCategoryByCode(this.parentCategoryCode).subscribe(
       (res) => {
         if (res.code === 200) {
-          this.toast.successToast("Thành công", res.obj.name);
-          //this.showParentCategoryField = true;
+          this.parentCategoryName = res.obj.name;
+          this.createCategoryRequest.parentCategoryId = res.obj.id;
+          this.validationNotify.formErrors['parentCategoryId'] = null;
+          this.showParentCategoryField = true;
         } else if (res.code === 409) {
-          this.validationNotify.formErrors['parentCategoryCode'] = "Loại sản phẩm không tồn tại.";
+          this.createCategoryRequest.parentCategoryId = null;
+          this.validationNotify.formErrors['parentCategoryId'] = "Loại sản phẩm không tồn tại.";
+          this.showParentCategoryField = false;
         } else if (res.code === 500) {
           this.toast.dangerToast("Lỗi hệ thống", res.message);
+          this.showParentCategoryField = false;
         }
       },
       (err) => {

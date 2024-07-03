@@ -1,3 +1,5 @@
+
+
 <form (ngSubmit)="createCategory()" #categoryForm="ngForm">
     <nb-card>
         <nb-card-header>Thêm danh mục sản phẩm</nb-card-header>
@@ -32,20 +34,21 @@
                 <!-- Danh mục cha -->
                 <div class="form-group">
                     <label for="forCategoryParent" class="label">Danh mục cha</label>
-                    <input (blur)="onInputCategoryParentFinish($event)" [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
-                        fullWidth id="forCategoryParent" placeholder="Danh mục cha" #parentCategoryCode="ngModel">
+                    <input (input)="onInputCategoryParentFinish($event)" [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
+                        fullWidth id="forCategoryParent" placeholder="Danh mục cha" #parentCategoryId="ngModel"
+                        (input)="validationNotify.onInputChange('parentCategoryId')">
                     <div class="text-danger-container">
-                        <div *ngIf="formErrors['parentCategoryCode']" class="text-danger">
-                            {{ formErrors['parentCategoryCode'] }}
+                        <div *ngIf="formErrors['parentCategoryId']" class="text-danger">
+                            {{ formErrors['parentCategoryId'] }}
                         </div>
                     </div>
                 </div>
 
                 <!-- Tên danh mục cha -->
                 <div *ngIf="showParentCategoryField" class="form-group">
-                    <label for="forCategoryParent" class="label">Tên loại sản phẩm cha</label>
-                    <input [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
-                        fullWidth id="forCategoryParent" placeholder="Danh mục cha">
+                    <label for="forCategoryParentName" class="label">Tên loại sản phẩm cha</label>
+                    <input readonly [(ngModel)]="parentCategoryName" name="parentCategoryName" type="text" nbInput
+                        fullWidth id="forCategoryParentName" placeholder="Danh mục cha">
                 </div>
             </div>
         </nb-card-body>
