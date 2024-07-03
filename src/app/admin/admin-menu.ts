@@ -27,6 +27,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  //Loại bệnh
+  {
+    title: 'Quản lý bệnh',
+    icon: 'shake-outline',
+    children:[{
+      title:'Danh sách bệnh',
+      link: '/admin/disease/disease-list',
+    }]
+  },
   // Kho
   {
     title: 'Kho',
