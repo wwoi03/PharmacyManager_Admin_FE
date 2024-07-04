@@ -49,6 +49,7 @@ export class CategoryListComponent {
   // InitData
   ngOnInit() {
     this.loadCategoriesByLevel();
+    console.log(this.treeNodes);
   }
 
   // Load Categories by level
