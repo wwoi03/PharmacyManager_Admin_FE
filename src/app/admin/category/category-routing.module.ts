@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryComponent } from './category.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryCreateComponent } from './category-create/category-create.component';
+import { CategoryDeleteComponent } from './category-delete/category-delete.component';
+import { CategoryEditComponent } from './category-edit/category-edit.component';
 
 const routes: Routes = [{
   path: '',
@@ -25,5 +27,7 @@ export class CategoryRoutingModule { }
 export const routedComponents = [
   CategoryComponent,
   CategoryListComponent,
-  CategoryCreateComponent
+  CategoryCreateComponent,
+  CategoryDeleteComponent,
+  CategoryEditComponent,
 ];

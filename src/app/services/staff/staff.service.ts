@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ListStaffResponse } from "../../models/responses/staff/list-staff-response";
 import { ResponseApi } from "../../models/response-apis/response-api";
-import { map, tap } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment.prod";
 import { CreateStaffRequest } from "../../models/requests/staff/create-staff-request";
+import { ErrorNotify } from "../../helpers/error-notify";
 
 @Injectable({
   providedIn: "root",
@@ -13,12 +14,23 @@ import { CreateStaffRequest } from "../../models/requests/staff/create-staff-req
 export class StaffService {
   private apiUrl: string = environment.API_BASE_URL + "/admin/staff/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
 
-  getStaffs(): Observable<ListStaffResponse[]> {
+  getStaffs(): Observable<ResponseApi<ListStaffResponse[]>> {
     return this.http
       .get<ResponseApi<ListStaffResponse[]>>(this.apiUrl + "GetStaffs")
-      .pipe(map((response: ResponseApi<ListStaffResponse[]>) => response.obj));
+      .pipe(
+        tap((response: ResponseApi<ListStaffResponse[]>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+    );
   }
 
   // Thêm staff

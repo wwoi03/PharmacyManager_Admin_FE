@@ -14,7 +14,7 @@ export class ErrorNotify {
     if (status === 403) {
       this.router.navigate(["/admin/miscellaneous/not-found"]);
     } else if (status === 401) {
-      this.router.navigate(["/auth/login"]);
+      this.router.navigate(["/admin/account/sign-in"]);
     }
     
     return throwError(() => new Error("Mày phá đúng không?"));

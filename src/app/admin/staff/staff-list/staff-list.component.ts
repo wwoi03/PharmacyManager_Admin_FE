@@ -91,10 +91,14 @@ export class StaffListComponent {
   }
 
   loadStaffData() {
-    this.staffService.getStaffs().subscribe((data: ListStaffResponse[]) => {
-      this.listStaff = data;
-      this.source.load(this.listStaff); 
-    });
+    this.staffService.getStaffs().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.listStaff = res.obj;
+          this.source.load(this.listStaff);
+        }
+      }  
+    );
   }
 
   onCustomAction(event) {

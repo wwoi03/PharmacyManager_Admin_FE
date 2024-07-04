@@ -21,7 +21,16 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
+import { CookieService } from 'ngx-cookie-service';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth/authInterceptor';
+
 @NgModule({
+  providers: [
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   declarations: [AppComponent],
   imports: [
     BrowserModule,

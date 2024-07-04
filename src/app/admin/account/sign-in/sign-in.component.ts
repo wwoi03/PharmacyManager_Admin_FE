@@ -4,6 +4,7 @@ import { ValidationNotify } from "../../../helpers/validation-notify";
 import { SignInRequest } from "../../../models/requests/account/sign-in-request";
 import { AccountService } from "../../../services/account/account.service";
 import { Toast } from "../../../helpers/toast";
+import { AuthService } from "../../../services/auth/auth.service";
 
 @Component({
   selector: "ngx-sign-in",
@@ -23,7 +24,8 @@ export class SignInComponent {
   // Constructor
   constructor(
     private accountService: AccountService,
-    private toast: Toast
+    private toast: Toast,
+    private authService: AuthService
   ) {}
 
   // InitData
@@ -45,6 +47,7 @@ export class SignInComponent {
     this.accountService.signIn(this.signInRequest).subscribe(
       (res) => {
         if (res.code === 200) {
+          this.authService.setToken(res.obj);
           this.toast.successToast("Thành Công", res.message);
         } else if (res.code === 401) {
           this.toast.warningToast("Thất bại", res.message);
