@@ -45,13 +45,29 @@ export class CategoryService {
       );
   }
 
-  // Thêm loại sản phẩm
+  // Lấy loại sản phẩm theo code
   getCategoryByCode(codeCategory: string): Observable<ResponseApi<any>> {
     const params = new HttpParams().set('codeCategory', codeCategory);
     
     return this.http.get<ResponseApi<any>>(this.apiUrl + "GetCategoryByCode", { params })
     .pipe(
       tap((response: ResponseApi<any>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+
+        }
+      })
+    );
+  }
+
+  // Xóa loại sản phẩm
+  delete(categoryId: string): Observable<ResponseApi<string>> {
+    const params = new HttpParams().set('categoryId', categoryId);
+    
+    return this.http.delete<ResponseApi<string>>(this.apiUrl + "Delete", { params })
+    .pipe(
+      tap((response: ResponseApi<string>) => {
         if (response.isSuccessed) {
           return response;
         } else {

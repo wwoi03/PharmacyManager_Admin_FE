@@ -61,9 +61,6 @@ export class CategoryCreateComponent {
           this.toast.dangerToast("Lỗi hệ thống", res.message);
         }
       },
-      (err) => {
-        this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
-      }
     )
   }
 
@@ -96,9 +93,6 @@ export class CategoryCreateComponent {
           this.showParentCategoryField = false;
         }
       },
-      (err) => {
-
-      }
     )
   }
 
