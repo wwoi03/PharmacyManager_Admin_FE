@@ -3,16 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPublicComponent } from './admin-public.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 
-const routes: Routes = [{
-  path: '',
-  component: AdminPublicComponent,
-  children: [
-    {
-      path: 'sign-in',
-      component: SignInComponent,
-    },
-  ],
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: AdminPublicComponent,
+    children: [
+      {
+        path: 'sign-in',
+        component: SignInComponent,
+      },
+    ],
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
