@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPublicComponent } from './admin-public.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { LoginGuard } from '../services/auth/login-guard';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
       {
         path: 'sign-in',
         component: SignInComponent,
+        canActivate: [LoginGuard]
       },
     ],
   }

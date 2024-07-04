@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account.component';
 import { ProfileComponent } from './profile/profile.component';
-import { SignInComponent } from './sign-in/sign-in.component';
 
 const routes: Routes = [{
   path: '',
@@ -11,10 +10,6 @@ const routes: Routes = [{
     {
       path: 'profile',
       component: ProfileComponent
-    },
-    {
-      path: 'sign-in',
-      component: SignInComponent
     },
   ],
 }];
@@ -28,5 +23,4 @@ export class AccountRoutingModule { }
 export const routedComponents = [
   AccountComponent,
   ProfileComponent,
-  SignInComponent
 ];
