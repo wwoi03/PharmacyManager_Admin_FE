@@ -1,7 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AdminPublicComponent } from './admin-public/admin-public.component';
-import { SignInComponent } from './admin-public/sign-in/sign-in.component';
 
 export const routes: Routes = [
   {
@@ -10,17 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin-public',
-    component: AdminPublicComponent,
-    children: [
-      {
-        path: '',
-        component: SignInComponent,
-      },
-      {
-        path: 'sign-in',
-        component: SignInComponent,
-      },
-    ],
+    loadChildren: () => import('./admin-public/admin-public.module').then(m => m.AdminPublicModule),
   },
   { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'admin/dashboard' },

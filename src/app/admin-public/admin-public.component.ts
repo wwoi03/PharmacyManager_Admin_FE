@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngx-admin-public',
-  templateUrl: './admin-public.component.html',
-  styleUrls: ['./admin-public.component.scss']
+  styleUrls: ['./admin-public.component.scss'],
+  template: `
+      <router-outlet></router-outlet>
+  `,
 })
 export class AdminPublicComponent {
 

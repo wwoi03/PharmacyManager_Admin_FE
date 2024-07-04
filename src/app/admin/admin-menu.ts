@@ -82,6 +82,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '',
       },
       {
+        title: 'Đăng nhập FAKE',
+        link: '/admin/account/sign-in',
+      },
+      {
         title: 'Đổi mật khẩu',
         link: '/auth/reset-password',
       },

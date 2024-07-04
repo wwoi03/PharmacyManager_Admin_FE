@@ -34,8 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbUserModule,
     StaffRoutingModule,
     FormsModule,
-    ReactiveFormsModule, // Thêm ReactiveFormsModule
-    NbTooltipModule, // Thêm NbTooltipModule
+    ReactiveFormsModule, 
+    NbTooltipModule,
   ],
   declarations: [
     ...routedComponents,

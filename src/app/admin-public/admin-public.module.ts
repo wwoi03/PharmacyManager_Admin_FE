@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { AdminPublicRoutingModule, routedComponents } from './admin-public-routing.module';
 
@@ -8,8 +7,7 @@ import { AdminPublicRoutingModule, routedComponents } from './admin-public-routi
     ...routedComponents,
   ],
   imports: [
-    CommonModule,
-    AdminPublicRoutingModule
+    AdminPublicRoutingModule,
   ]
 })
 export class AdminPublicModule { }
