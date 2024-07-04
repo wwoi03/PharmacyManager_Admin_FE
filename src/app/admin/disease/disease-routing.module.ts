@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DiseaseComponent } from './disease.component';
 import { DiseaseListComponent } from './disease-list/disease-list.component';
 import { DiseaseIndexComponent } from './disease-index/disease-index.component';
+import { DiseaseCreateComponent } from './disease-create/disease-create.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'disease-list', component: DiseaseListComponent },
       { path: 'disease-index', component: DiseaseIndexComponent },
+      {path: 'disease-create', component: DiseaseCreateComponent},
     ]
   }
 ];
@@ -25,5 +27,6 @@ export class DiseaseRoutingModule { }
 export const routedComponents = [
   DiseaseComponent,
   DiseaseListComponent,
-  DiseaseIndexComponent
+  DiseaseIndexComponent,
+  DiseaseCreateComponent,
 ];

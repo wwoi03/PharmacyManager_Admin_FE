@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="d-flex">
+      <nb-card-header>Thêm loại bệnh</nb-card-header>
+    </nb-card>
+  </div>
+</div>
+
+
+<form (ngSubmit)="create()" #diseaseForm="ngForm" class="row">
+    <div class="col-lg-12">
+      <nb-card>
+        <nb-card-header>Thông tin loại bệnh</nb-card-header>
+        <nb-card-body>
+        <div class="row">
+          <!-- Tên bệnh -->
+          <div class="col-lg-8">
+            <label for="forName" class="label">Tên bệnh<small class="text-danger">*</small></label>
+            <input required [(ngModel)]="createDiseaseRequest.name" name="name" type="text" nbInput fullWidth
+              id="forName" placeholder="Tên bệnh" #name="ngModel" (input)="validationNotify.onInputChange('name')">
+            <div class="text-danger-container">
+              <div *ngIf="formErrors['name']" class="text-danger">
+                {{ formErrors['name'] }}
+              </div>
+            </div>
+          </div>
+          <!-- mã bệnh -->
+          <div class="col-lg-4">
+            <label for="forCodeDisease" class="label">Mã bệnh<small class="text-danger">*</small></label>
+            <input required [(ngModel)]="createDiseaseRequest.codeDisease" name="codeDisease" type="text" nbInput fullWidth
+              id="forCodeDisease" placeholder="Mã bệnh" #codeDisease="ngModel" (input)="validationNotify.onInputChange('codeDisease')">
+            <div class="text-danger-container">
+              <div *ngIf="formErrors['codeDisease']" class="text-danger">
+                {{ formErrors['codeDisease'] }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Mô tả -->
+          <div class="form-group col-lg-12">
+            <label for="forDescription" class="label">Mô tả bệnh</label>
+            <textarea required [(ngModel)]="createDiseaseRequest.description" name="description" rows="3" nbInput fullWidth
+              id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
+          </div>
+        </div>
+
+        
+
+           <!-- Submit -->
+           <button type="submit" nbButton status="primary">Thêm mới</button>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</form>

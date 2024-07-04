@@ -34,6 +34,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children:[{
       title:'Danh sách bệnh',
       link: '/admin/disease/disease-list',
+    },
+    {
+      title: 'Thêm bệnh mới',
+      link: '/admin/disease/disease-create'
     }]
   },
   // Kho

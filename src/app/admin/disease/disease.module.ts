@@ -4,6 +4,8 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { DiseaseRoutingModule, routedComponents } from './disease-routing.module';
+import { DiseaseCreateComponent } from './disease-create/disease-create.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   
@@ -13,11 +15,12 @@ import { DiseaseRoutingModule, routedComponents } from './disease-routing.module
     NbInputModule,
     ThemeModule,
     Ng2SmartTableModule,
+    FormsModule,
 
     DiseaseRoutingModule,
   ],
   
-  declarations: [...routedComponents],
+  declarations: [...routedComponents, DiseaseCreateComponent],
 
 })
 export class DiseaseModule { }
