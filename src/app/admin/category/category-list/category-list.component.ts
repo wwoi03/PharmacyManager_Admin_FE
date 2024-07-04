@@ -13,7 +13,6 @@ import { Toast } from "../../../helpers/toast";
 import { ListCategoryResponse } from "../../../models/responses/category/list-category-response";
 import { CategoryCreateComponent } from "../category-create/category-create.component";
 import { CategoryDeleteComponent } from "../category-delete/category-delete.component";
-import { CreateCategoryRequest } from "../../../models/requests/category/create-category-request";
 
 interface TreeNode<T> {
   data: T;

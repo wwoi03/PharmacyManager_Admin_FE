@@ -21,6 +21,12 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
+// import { CookieService } from 'ngx-cookie-service';
+
+// @NgModule({
+//   providers: [CookieService],
+// })
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
