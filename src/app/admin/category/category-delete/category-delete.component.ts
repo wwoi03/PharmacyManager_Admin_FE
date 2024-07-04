@@ -37,6 +37,6 @@ export class CategoryDeleteComponent {
 
   // Hủy
   cancel() {
-    this.ref.close();
+    this.ref.close(null);
   }
 }

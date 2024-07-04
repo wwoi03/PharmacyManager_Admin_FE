@@ -13,6 +13,7 @@ import { Toast } from "../../../helpers/toast";
 import { ListCategoryResponse } from "../../../models/responses/category/list-category-response";
 import { CategoryCreateComponent } from "../category-create/category-create.component";
 import { CategoryDeleteComponent } from "../category-delete/category-delete.component";
+import { CreateCategoryRequest } from "../../../models/requests/category/create-category-request";
 
 interface TreeNode<T> {
   data: T;
@@ -104,7 +105,13 @@ export class CategoryListComponent {
 
   // Create
   onCreate() {
-    this.dialogService.open(CategoryCreateComponent)
+    this.dialogService
+      .open(CategoryCreateComponent)
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadCategoriesByLevel();
+        }
+      });
   }
 
   // Details
@@ -128,8 +135,10 @@ export class CategoryListComponent {
         }
       })
       .onClose.subscribe((result: ListCategoryResponse) => {
-        this.treeNodes = this.removeNode(this.treeNodes, result.id);
-        this.dataSource = this.dataSourceBuilder.create(this.treeNodes);  // Tạo lại dataSource
+        if (result !== null) {
+          this.treeNodes = this.removeNode(this.treeNodes, result.id);
+          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);  // Tạo lại dataSource
+        }
       });
   }
 

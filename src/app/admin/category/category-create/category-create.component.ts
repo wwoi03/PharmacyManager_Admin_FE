@@ -54,6 +54,7 @@ export class CategoryCreateComponent {
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
+          this.ref.close(true);
         } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.validationNotify.message);
           this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
@@ -98,6 +99,6 @@ export class CategoryCreateComponent {
 
   // Hủy
   cancel() {
-    this.ref.close();
+    this.ref.close(false);
   }
 }
