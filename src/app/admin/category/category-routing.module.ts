@@ -13,10 +13,6 @@ const routes: Routes = [{
       path: 'category-list',
       component: CategoryListComponent,
     },
-    {
-      path: 'category-create',
-      component: CategoryCreateComponent,
-    },
   ],
 }];
 

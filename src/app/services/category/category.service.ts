@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
 import { ResponseApi } from "../../models/response-apis/response-api";
-import { map, tap } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment.prod";
 import { ListCategoryResponse } from "../../models/responses/category/list-category-response";
 import { CreateCategoryRequest } from "../../models/requests/category/create-category-request";
+import { ErrorNotify } from "../../helpers/error-notify";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +14,7 @@ import { CreateCategoryRequest } from "../../models/requests/category/create-cat
 export class CategoryService {
   private apiUrl: string = environment.API_BASE_URL + "/admin/category/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
 
   // Lấy danh sách loại sản phẩm
   getCategoriesByLevel(): Observable<ResponseApi<ListCategoryResponse[]>> {
@@ -24,8 +25,11 @@ export class CategoryService {
           if (response.isSuccessed) {
             return response;
           } else {
-
+            this.errorNotify.handleStatusError(response.code);
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
         })
       );
   }
@@ -39,8 +43,11 @@ export class CategoryService {
           if (response.isSuccessed) {
             return response;
           } else {
-
+            this.errorNotify.handleStatusError(response.code);
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
         })
       );
   }
@@ -55,8 +62,11 @@ export class CategoryService {
         if (response.isSuccessed) {
           return response;
         } else {
-
+          this.errorNotify.handleStatusError(response.code);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
       })
     );
   }
@@ -71,8 +81,11 @@ export class CategoryService {
         if (response.isSuccessed) {
           return response;
         } else {
-
+          this.errorNotify.handleStatusError(response.code);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
       })
     );
   }

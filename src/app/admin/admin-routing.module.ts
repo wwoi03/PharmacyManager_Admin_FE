@@ -26,6 +26,10 @@ const routes: Routes = [{
       loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule),
     },
     {
+      path: 'miscellaneous',
+      loadChildren: () => import('./miscellaneous/miscellaneous.module').then(m => m.MiscellaneousModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
