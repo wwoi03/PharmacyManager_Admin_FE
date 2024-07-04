@@ -1,5 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { AdminPublicComponent } from './admin-public/admin-public.component';
+import { SignInComponent } from './admin-public/sign-in/sign-in.component';
 
 export const routes: Routes = [
   {
@@ -7,11 +9,21 @@ export const routes: Routes = [
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
   },
   {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    path: 'admin-public',
+    component: AdminPublicComponent,
+    children: [
+      {
+        path: '',
+        component: SignInComponent,
+      },
+      {
+        path: 'sign-in',
+        component: SignInComponent,
+      },
+    ],
   },
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'auth/login' },
+  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: 'admin/dashboard' },
 ];
 
 @NgModule({
