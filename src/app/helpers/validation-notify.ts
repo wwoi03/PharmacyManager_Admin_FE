@@ -27,7 +27,6 @@ export class ValidationNotify {
     const form = this.dataForm.form;
     for (const field in form.controls) {
       const control = form.get(field);
-      console.log(control);
 
       if (control && control.invalid) {
         const messages = this.validationMessages[field];
@@ -40,7 +39,6 @@ export class ValidationNotify {
 
   public onInputChange(field: string): void {
     const control = this.dataForm.form.get(field);
-    console.log(control);
 
     if (control && control.dirty && control.valid) {
       delete this.formErrors[field];

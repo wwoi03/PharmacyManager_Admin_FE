@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ThemeModule } from '../../@theme/theme.module';
-import { StaffRoutingModule, routedComponents } from './staff-routing.module';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -17,6 +16,7 @@ import {
   NbTooltipModule,
 } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AccountRoutingModule, routedComponents } from './account-routing.module';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbRadioModule,
     NbSelectModule,
     NbUserModule,
-    StaffRoutingModule,
+    AccountRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
     NbTooltipModule,
@@ -41,4 +41,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ...routedComponents,
   ],
 })
-export class StaffModule { }
+export class AccountModule { }

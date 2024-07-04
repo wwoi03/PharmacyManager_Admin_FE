@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Thêm nhân viên</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+
+<form (ngSubmit)="signIn()" #signInForm="ngForm" class="row">
+    <div class="col-md-6">
+        <nb-card>
+            <nb-card-header>Thông tin nhân viên</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <!-- Tên đăng nhập -->
+                    <div class="form-group">
+                        <label for="forUserName" class="label">Tên đăng nhập<small class="text-danger">*</small></label>
+                        <input required [(ngModel)]="signInRequest.userName" name="userName" type="text" nbInput
+                            fullWidth id="forUserName" placeholder="Họ và tên" #userName="ngModel"
+                            (input)="validationNotify.onInputChange('userName')">
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['userName']" class="text-danger">
+                                {{ formErrors['userName'] }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mật khẩu -->
+                    <div class="form-group">
+                        <label for="forPassword" class="label">Mật khẩu<small
+                                class="text-danger">*</small></label>
+                        <input required [(ngModel)]="signInRequest.password" name="password"
+                            type="password" nbInput fullWidth id="forPassword" placeholder="Mật khẩu"
+                            #password="ngModel" (input)="validationNotify.onInputChange('password')">
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['password']" class="text-danger">
+                                {{ formErrors['password'] }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Đăng nhập</button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</form>

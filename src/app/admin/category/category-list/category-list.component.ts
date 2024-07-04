@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+
 import {
   NbDialogService,
   NbSortDirection,
@@ -6,21 +7,18 @@ import {
   NbTreeGridDataSource,
   NbTreeGridDataSourceBuilder,
 } from "@nebular/theme";
+
 import { CategoryService } from "../../../services/category/category.service";
 import { Toast } from "../../../helpers/toast";
 import { ListCategoryResponse } from "../../../models/responses/category/list-category-response";
 import { CategoryCreateComponent } from "../category-create/category-create.component";
+import { CategoryDeleteComponent } from "../category-delete/category-delete.component";
+import { CreateCategoryRequest } from "../../../models/requests/category/create-category-request";
 
 interface TreeNode<T> {
   data: T;
   children?: TreeNode<T>[];
   expanded?: boolean;
-}
-
-interface FSEntry {
-  categoryName: string;
-  codeCategory: string;
-  items?: number;
 }
 
 @Component({
@@ -29,22 +27,27 @@ interface FSEntry {
   styleUrls: ["./category-list.component.scss"],
 })
 export class CategoryListComponent {
+  // Setup
   customColumn = "categoryName";
-  defaultColumns = ["codeCategory", "items"];
+  defaultColumns = ["codeCategory", "numberChildren"];
   allColumns = [this.customColumn, ...this.defaultColumns, 'actions'];
 
-  dataSource: NbTreeGridDataSource<FSEntry>;
+  // Dât
+  dataSource: NbTreeGridDataSource<ListCategoryResponse>;
+  treeNodes: TreeNode<ListCategoryResponse>[];  // Dữ liệu nguyên thủy cho tree
 
+  // Actions
   sortColumn: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
 
   constructor(
-    private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>,
+    private dataSourceBuilder: NbTreeGridDataSourceBuilder<ListCategoryResponse>,
     private categoryService: CategoryService,
     private toast: Toast,
     private dialogService: NbDialogService
   ) {}
 
+  // InitData
   ngOnInit() {
     this.loadCategoriesByLevel();
   }
@@ -54,28 +57,39 @@ export class CategoryListComponent {
     this.categoryService.getCategoriesByLevel().subscribe(
       (res) => {
         if (res.code === 200) {
-          const treeNodes = this.mapToTreeNode(res.obj);
-          this.dataSource = this.dataSourceBuilder.create(treeNodes);
+          this.treeNodes = this.mapToTreeNode(res.obj);
+          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);
         } else {
           this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
         }
       },
-      (err) => {
-        this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
-      }
     );
   }
 
   // Map to Tree Node
-  mapToTreeNode(categories: ListCategoryResponse[]): TreeNode<FSEntry>[] {
+  mapToTreeNode(categories: ListCategoryResponse[]): TreeNode<ListCategoryResponse>[] {
     return categories.map((category) => ({
       data: {
+        id: category.id,
         categoryName: category.categoryName,
         codeCategory: category.codeCategory,
-        items: category.children.length,
+        numberChildren: category.children.length,
       },
       children: category.children ? this.mapToTreeNode(category.children) : [],
     }));
+  }
+
+  // Xóa node trong Tree Node
+  removeNode(nodes: TreeNode<ListCategoryResponse>[], nodeId: string): TreeNode<ListCategoryResponse>[] {
+    return nodes.filter(node => {
+      if (node.data.id === nodeId) {
+        return false;  // Loại bỏ node này
+      }
+      if (node.children) {
+        node.children = this.removeNode(node.children, nodeId);  // Đệ quy xóa node con
+      }
+      return true;
+    });
   }
 
   // Customer title
@@ -86,15 +100,18 @@ export class CategoryListComponent {
       return "Code";
     } else if (column === "items") {
       return "Danh mục con";
-    } else {
-      return column; // Fallback to column name if no custom title is defined
-    }
+    } 
   }
 
   // Create
   onCreate() {
-    this.dialogService.open(CategoryCreateComponent)
-      
+    this.dialogService
+      .open(CategoryCreateComponent)
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadCategoriesByLevel();
+        }
+      });
   }
 
   // Details
@@ -109,7 +126,20 @@ export class CategoryListComponent {
 
   // Delete
   onDelete(row: any): void {
-    console.log("Deleting:", row);
+    const category: ListCategoryResponse = row.data;
+    
+    this.dialogService
+      .open(CategoryDeleteComponent, {
+        context: {
+          category: category
+        }
+      })
+      .onClose.subscribe((result: ListCategoryResponse) => {
+        if (result !== null) {
+          this.treeNodes = this.removeNode(this.treeNodes, result.id);
+          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);  // Tạo lại dataSource
+        }
+      });
   }
 
   updateSort(sortRequest: NbSortRequest): void {

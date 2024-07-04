@@ -54,6 +54,7 @@ export class CategoryCreateComponent {
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
+          this.ref.close(true);
         } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.validationNotify.message);
           this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
@@ -61,9 +62,6 @@ export class CategoryCreateComponent {
           this.toast.dangerToast("Lỗi hệ thống", res.message);
         }
       },
-      (err) => {
-        this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
-      }
     )
   }
 
@@ -96,14 +94,11 @@ export class CategoryCreateComponent {
           this.showParentCategoryField = false;
         }
       },
-      (err) => {
-
-      }
     )
   }
 
   // Hủy
   cancel() {
-    this.ref.close();
+    this.ref.close(false);
   }
 }

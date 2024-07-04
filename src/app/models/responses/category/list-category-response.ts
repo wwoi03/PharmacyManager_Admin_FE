@@ -3,7 +3,7 @@ export class ListCategoryResponse {
     codeCategory: string;
     categoryName: string;
     numberChildren: number;
-    children: ListCategoryResponse[];
+    children?: ListCategoryResponse[];
 
     constructor() {
         this.children = [];

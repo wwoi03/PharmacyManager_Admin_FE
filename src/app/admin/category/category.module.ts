@@ -6,12 +6,16 @@ import { CategoryRoutingModule, routedComponents } from './category-routing.modu
 import { ThemeModule } from '../../@theme/theme.module';
 import { FsIconComponent } from './category-list/category-list.component';
 import { FormsModule } from '@angular/forms';
+import { CategoryDeleteComponent } from './category-delete/category-delete.component';
+import { CategoryEditComponent } from './category-edit/category-edit.component';
 
 
 @NgModule({
   declarations: [
     ...routedComponents,
     FsIconComponent,
+    CategoryDeleteComponent,
+    CategoryEditComponent,
   ],
   imports: [
     NbCardModule,
