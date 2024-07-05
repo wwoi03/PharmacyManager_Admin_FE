@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
+import { Console } from 'console';
 
 @Component({
   selector: 'ngx-disease-details',
@@ -50,10 +51,6 @@ export class DiseaseDetailsComponent implements OnInit, OnDestroy{
         }
       );
     }
-  }
-
-   // After Init Data
-   ngAfterViewInit(): void {
   }
 
   ngOnDestroy() {
