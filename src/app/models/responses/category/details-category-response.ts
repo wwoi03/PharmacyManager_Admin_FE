@@ -4,6 +4,7 @@ export class DetailsCategoryResponse {
     id: string = '';
     codeCategory: string = '';
     categoryName: string = '';
+    parentCategoryCode?: string;
     parentCategoryId?: string;
     parentCategoryName?: string;
     numberChildren: number;

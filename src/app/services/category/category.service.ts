@@ -12,6 +12,7 @@ import { ListCategoryResponse } from "../../models/responses/category/list-categ
 import { CreateCategoryRequest } from "../../models/requests/category/create-category-request";
 import { ErrorNotify } from "../../helpers/error-notify";
 import { DetailsCategoryResponse } from "../../models/responses/category/details-category-response";
+import { UpdateCategoryRequest } from "../../models/requests/category/update-category-request";
 
 @Injectable({
   providedIn: "root",
@@ -117,5 +118,23 @@ export class CategoryService {
           return this.errorNotify.handleStatusError(error.status);
         })
       )
+  }
+
+  // Sửa loại sản phẩm
+  update(request: UpdateCategoryRequest): Observable<ResponseApi<string>> {
+    return this.http
+      .put<ResponseApi<string>>(this.apiUrl + "Update", request)
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
   }
 }

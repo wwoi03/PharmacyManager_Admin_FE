@@ -65,17 +65,13 @@ export class CategoryCreateComponent {
     )
   }
 
-  // Hàm để chuyển đổi trạng thái hiển thị
-  toggleParentCategoryField() {
-    this.showParentCategoryField = !this.showParentCategoryField;
-  }
-
   // Xử lý khi nhấn xong code category
   onInputCategoryParentFinish(event: any): void {
     this.parentCategoryCode = event.target.value;
 
     if (this.parentCategoryCode === "" || this.parentCategoryCode === null) {
       this.validationNotify.formErrors['parentCategoryId'] = null;
+      this.showParentCategoryField = false;
     }
 
     this.categoryService.getCategoryByCode(this.parentCategoryCode).subscribe(
@@ -89,10 +85,7 @@ export class CategoryCreateComponent {
           this.createCategoryRequest.parentCategoryId = null;
           this.validationNotify.formErrors['parentCategoryId'] = "Loại sản phẩm không tồn tại.";
           this.showParentCategoryField = false;
-        } else if (res.code === 500) {
-          this.toast.dangerToast("Lỗi hệ thống", res.message);
-          this.showParentCategoryField = false;
-        }
+        } 
       },
     )
   }

@@ -111,7 +111,19 @@ export class CategoryListComponent {
 
   // Edit
   onEdit(row: any): void {
-    
+    const category: ListCategoryResponse = row.data;
+
+    this.dialogService
+      .open(CategoryEditComponent, {
+        context: {
+          categoryId: category.id
+        }
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadCategoriesByLevel();
+        }
+      });
   }
 
   // Delete
