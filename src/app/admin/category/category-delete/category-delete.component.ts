@@ -25,7 +25,7 @@ export class CategoryDeleteComponent {
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-          this.ref.close(this.category);
+          this.ref.close(true);
         } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
         } else if (res.code === 500) {
@@ -37,6 +37,6 @@ export class CategoryDeleteComponent {
 
   // Hủy
   cancel() {
-    this.ref.close(null);
+    this.ref.close(false);
   }
 }

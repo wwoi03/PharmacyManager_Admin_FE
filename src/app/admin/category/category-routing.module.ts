@@ -6,6 +6,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryCreateComponent } from './category-create/category-create.component';
 import { CategoryDeleteComponent } from './category-delete/category-delete.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
+import { CategoryDetailsComponent } from './category-details/category-details.component';
 
 const routes: Routes = [{
   path: '',
@@ -15,6 +16,10 @@ const routes: Routes = [{
       path: 'category-list',
       component: CategoryListComponent,
     },
+    {
+       path: 'category-details/:categoryId', 
+       component: CategoryDetailsComponent 
+      },
   ],
 }];
 
@@ -30,4 +35,5 @@ export const routedComponents = [
   CategoryCreateComponent,
   CategoryDeleteComponent,
   CategoryEditComponent,
+  CategoryDetailsComponent,
 ];
