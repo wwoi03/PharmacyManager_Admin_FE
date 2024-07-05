@@ -5,6 +5,8 @@ import { DiseaseComponent } from './disease.component';
 import { DiseaseListComponent } from './disease-list/disease-list.component';
 import { DiseaseIndexComponent } from './disease-index/disease-index.component';
 import { DiseaseCreateComponent } from './disease-create/disease-create.component';
+import { DiseaseEditComponent } from './disease-edit/disease-edit.component';
+import { DiseaseDetailsComponent } from './disease-details/disease-details.component';
 
 const routes: Routes = [
   {
@@ -14,6 +16,8 @@ const routes: Routes = [
       { path: 'disease-list', component: DiseaseListComponent },
       { path: 'disease-index', component: DiseaseIndexComponent },
       {path: 'disease-create', component: DiseaseCreateComponent},
+      {path: 'disease-edit/:id', component: DiseaseEditComponent },
+      {path: 'disease-details/:id', component: DiseaseDetailsComponent},
     ]
   }
 ];
@@ -29,4 +33,6 @@ export const routedComponents = [
   DiseaseListComponent,
   DiseaseIndexComponent,
   DiseaseCreateComponent,
+  DiseaseEditComponent,
+  DiseaseDetailsComponent,
 ];

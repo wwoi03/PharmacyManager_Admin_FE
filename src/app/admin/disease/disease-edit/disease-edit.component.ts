@@ -1,25 +1,28 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CreateDiseaseRequest } from '../../../models/requests/disease/create-disease-request';
-import { ValidationNotify } from '../../../helpers/validation-notify';
+import { EditDiseaseRequest } from '../../../models/requests/disease/edit-disease-request';
 import { NgForm } from '@angular/forms';
+import { ValidationNotify } from '../../../helpers/validation-notify';
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DiseaseDTO } from '../../../models/DTOs/Disease/DiseaseDTO';
+import { DetailsDiseaseRequest } from '../../../models/requests/disease/get-details-disease-request';
 
 @Component({
-  selector: 'ngx-disease-create',
-  templateUrl: './disease-create.component.html',
-  styleUrls: ['./disease-create.component.scss']
+  selector: 'ngx-disease-edit',
+  templateUrl: './disease-edit.component.html',
+  styleUrls: ['./disease-edit.component.scss']
 })
+export class DiseaseEditComponent implements OnDestroy, OnInit {
 
-export class DiseaseCreateComponent implements OnInit, OnDestroy {
-  
   currentTheme: string;
   themeSubscription: any;
+  diseaseRequest: DetailsDiseaseRequest = new DetailsDiseaseRequest();
+  disease: DiseaseDTO;
 
   //Tạo biến
-  createDiseaseRequest: CreateDiseaseRequest = new CreateDiseaseRequest();
+  editDiseaseRequest: EditDiseaseRequest = new EditDiseaseRequest();
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -29,6 +32,7 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
 
    // Constructor
    constructor(
+    private route: ActivatedRoute,
     private diseaseService: DiseaseService,
     private themeService: NbThemeService,
     private toast: Toast,
@@ -42,7 +46,26 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.validationMessages = this.createDiseaseRequest.validationMessages;
+    //Lấy disease từ id
+    this.diseaseRequest.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.diseaseRequest) {
+      // Gọi service để lấy thông tin chi tiết bệnh
+      this.diseaseService.details(this.diseaseRequest).subscribe(
+        (response) => {
+          this.disease = response.obj;
+          this.editDiseaseRequest.id = this.disease.id;
+          this.editDiseaseRequest.name = this.disease.name;
+          this.editDiseaseRequest.description = this.disease.description;
+          this.editDiseaseRequest.codeDisease = this.disease.codeDisease;
+        },
+        (error) => {
+          this.toast.warningToast('Lấy thông tin thất bại', error);
+        }
+      );
+    }
+    
+    this.validationMessages = this.editDiseaseRequest.validationMessages;
   }
 
    // After Init Data
@@ -54,8 +77,8 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
     this.themeSubscription.unsubscribe();
   }
 
-   // Xử lý thêm 
-   create() {
+   // Xử lý thay 
+   edit() {
     // Lấy form controls
     const controls = this.diseaseForm.controls;
     
@@ -74,8 +97,8 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Call API Create 
-    this.diseaseService.create(this.createDiseaseRequest).subscribe(
+    // Call API update 
+    this.diseaseService.edit(this.editDiseaseRequest).subscribe(
       (res) => {
         console.log('Response from server:', res);
         if (res.code === 200) {

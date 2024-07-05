@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
 import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './disease-list.component.html',
   styleUrls: ['./disease-list.component.scss']
 })
-export class DiseaseListComponent {
+export class DiseaseListComponent implements OnInit {
   settings = {
     mode: 'external',
     actions: {
@@ -21,16 +21,8 @@ export class DiseaseListComponent {
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
-      create: true,
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
+      create: false,
+      position: 'left',
     },
     columns: {
       name:{
@@ -45,7 +37,19 @@ export class DiseaseListComponent {
         title: 'Mã bệnh',
         type:'string',
       }
-    }
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
+      position: 'left',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+      position: 'left',
+    },
   };
 
   source: LocalDataSource;
@@ -79,7 +83,11 @@ export class DiseaseListComponent {
   }
 
   onCreate(event): void {
-    this.router.navigate(['/admin/dashboard']);
+    this.router.navigate(['/admin/disease/disease-create']);
+  }
+
+  onEdit(event): void{
+    this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
   }
 
   onDeleteConfirm(event): void {
@@ -88,5 +96,9 @@ export class DiseaseListComponent {
     } else {
       event.confirm.reject();
     }
+  }
+
+  onRowSelect(event): void{
+    this.router.navigate(['/admin/disease/disease-details', event.data.id]);
   }
 }
