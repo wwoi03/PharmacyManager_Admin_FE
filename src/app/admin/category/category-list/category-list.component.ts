@@ -13,6 +13,8 @@ import { Toast } from "../../../helpers/toast";
 import { ListCategoryResponse } from "../../../models/responses/category/list-category-response";
 import { CategoryCreateComponent } from "../category-create/category-create.component";
 import { CategoryDeleteComponent } from "../category-delete/category-delete.component";
+import { CategoryEditComponent } from "../category-edit/category-edit.component";
+import { Router } from "@angular/router";
 
 interface TreeNode<T> {
   data: T;
@@ -31,7 +33,7 @@ export class CategoryListComponent {
   defaultColumns = ["codeCategory", "numberChildren"];
   allColumns = [this.customColumn, ...this.defaultColumns, 'actions'];
 
-  // Dât
+  // Data
   dataSource: NbTreeGridDataSource<ListCategoryResponse>;
   treeNodes: TreeNode<ListCategoryResponse>[];  // Dữ liệu nguyên thủy cho tree
 
@@ -43,13 +45,13 @@ export class CategoryListComponent {
     private dataSourceBuilder: NbTreeGridDataSourceBuilder<ListCategoryResponse>,
     private categoryService: CategoryService,
     private toast: Toast,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private router: Router
   ) {}
 
   // InitData
   ngOnInit() {
     this.loadCategoriesByLevel();
-    console.log(this.treeNodes);
   }
 
   // Load Categories by level
@@ -79,19 +81,6 @@ export class CategoryListComponent {
     }));
   }
 
-  // Xóa node trong Tree Node
-  removeNode(nodes: TreeNode<ListCategoryResponse>[], nodeId: string): TreeNode<ListCategoryResponse>[] {
-    return nodes.filter(node => {
-      if (node.data.id === nodeId) {
-        return false;  // Loại bỏ node này
-      }
-      if (node.children) {
-        node.children = this.removeNode(node.children, nodeId);  // Đệ quy xóa node con
-      }
-      return true;
-    });
-  }
-
   // Customer title
   getColumnTitle(column: string): string {
     if (column === "categoryName") {
@@ -116,12 +105,25 @@ export class CategoryListComponent {
 
   // Details
   onViewDetails(row: any) {
-
+    const category: ListCategoryResponse = row.data;
+    this.router.navigate(['/admin/category/category-details', category.id]);
   }
 
   // Edit
   onEdit(row: any): void {
-    console.log("Editing:", row);
+    const category: ListCategoryResponse = row.data;
+
+    this.dialogService
+      .open(CategoryEditComponent, {
+        context: {
+          categoryId: category.id
+        }
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadCategoriesByLevel();
+        }
+      });
   }
 
   // Delete
@@ -134,10 +136,9 @@ export class CategoryListComponent {
           category: category
         }
       })
-      .onClose.subscribe((result: ListCategoryResponse) => {
-        if (result !== null) {
-          this.treeNodes = this.removeNode(this.treeNodes, result.id);
-          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);  // Tạo lại dataSource
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadCategoriesByLevel();
         }
       });
   }

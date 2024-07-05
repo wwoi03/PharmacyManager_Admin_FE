@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Chi tiết loại sản phẩm</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+
+<form #staffForm="ngForm" class="row">
+    <div class="col-md-6">
+        <nb-card>
+            <nb-card-header>Thông tin loại sản phẩm</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <!-- Code -->
+                    <div class="form-group">
+                        <label for="forCodeCategory" class="label">Mã loại sản phẩm</label>
+                        <input readonly [(ngModel)]="detailsCategoryResponse.codeCategory" name="codeCategory"
+                            type="text" nbInput fullWidth id="forCodeCategory">
+                    </div>
+
+                    <!-- Tên -->
+                    <div class="form-group">
+                        <label for="forName" class="label">Tên loại sản phẩm</label>
+                        <input readonly [(ngModel)]="detailsCategoryResponse.categoryName" name="categoryName" type="text"
+                            nbInput fullWidth id="forName">
+                    </div>
+
+                    <!-- Tên -->
+                    <div class="form-group">
+                        <label for="forParentCategoryName" class="label">Danh mục cha {{ detailsCategoryResponse.parentCategoryName ? "" : "(chưa có)" }}</label>
+                        <input readonly [(ngModel)]="detailsCategoryResponse.parentCategoryName"
+                            name="parentCategoryName" type="text" nbInput fullWidth id="forParentCategoryName">
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <div class="col-md-6">
+        <div fullWidth>
+            <nb-card class="list-card" size="small">
+                <nb-card-header>Danh mục con ({{  detailsCategoryResponse.childrenCategories ? detailsCategoryResponse.childrenCategories.length : "0" }})</nb-card-header>
+                <nb-list>
+                    <nb-list-item fullWidth style="padding: 16px 24px;"
+                        *ngFor="let item of detailsCategoryResponse.childrenCategories">
+                        <div class="d-flex justify-content-between" style="width: 100%;">
+                            <div class="flex-grow-1">
+                                {{ item.categoryName }}
+                            </div>
+                            <div class="d-flex flex-grow-1 justify-content-end action-cell">
+                                <a class="action-link" (click)="onViewDetails(item)">Chi tiết</a>
+                                <a class="action-link" (click)="onEdit(row)">Sửa</a>
+                            </div>
+                        </div>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card>
+        </div>
+    </div>
+
+    <div class="accordion-container col-md-12">
+        <nb-accordion multi>
+            <nb-accordion-item>
+                <nb-accordion-item-header>
+                    Danh sách sản phẩm
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+                    Originally, nebula was a name for any diffuse astronomical object,
+                    including galaxies beyond the Milky Way.
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+    </div>
+</form>

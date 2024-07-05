@@ -50,6 +50,7 @@ export class ValidationNotify {
       const messages = this.validationMessages[field];
       for (const key in control.errors) {
         this.formErrors[field] = messages[key];
+        console.log(this.formErrors[field])
       }
     }
   }
