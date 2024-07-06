@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-12">
+      <nb-card class="d-flex">
+        <nb-card-header>Thêm loại hỗ trợ</nb-card-header>
+      </nb-card>
+    </div>
+  </div>
+  
+  
+  <form (ngSubmit)="create()" #supportForm="ngForm" class="row">
+      <div class="col-lg-12">
+        <nb-card>
+          <nb-card-header>Thông tin loại hỗ trợ</nb-card-header>
+          <nb-card-body>
+          <div class="row">
+            <!-- Tên hỗ trợ -->
+            <div class="col-lg-8">
+              <label for="forName" class="label">Tên hỗ trợ<small class="text-danger">*</small></label>
+              <input required [(ngModel)]="createSupportRequest.name" name="name" type="text" nbInput fullWidth
+                id="forName" placeholder="Tên hỗ trợ" #name="ngModel" (input)="validationNotify.onInputChange('name')">
+              <div class="text-danger-container">
+                <div *ngIf="formErrors['name']" class="text-danger">
+                  {{ formErrors['name'] }}
+                </div>
+              </div>
+            </div>
+            <!-- mã hỗ trợ -->
+            <div class="col-lg-4">
+              <label for="forCodeSupport" class="label">Mã hỗ trợ<small class="text-danger">*</small></label>
+              <input required [(ngModel)]="createSupportRequest.codeSupport" name="codeSupport" type="text" nbInput fullWidth
+                id="forCodeSupport" placeholder="Mã hỗ trợ" #codeSupport="ngModel" (input)="validationNotify.onInputChange('codeSupport')">
+              <div class="text-danger-container">
+                <div *ngIf="formErrors['codeSupport']" class="text-danger">
+                  {{ formErrors['codeSupport'] }}
+                </div>
+              </div>
+            </div>
+  
+            <!-- Mô tả -->
+            <div class="form-group col-lg-12">
+              <label for="forDescription" class="label">Mô tả hỗ trợ</label>
+              <textarea required [(ngModel)]="createSupportRequest.description" name="description" rows="3" nbInput fullWidth
+                id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
+            </div>
+          </div>
+  
+          
+  
+             <!-- Submit -->
+             <button class="btn-submit" type="submit" nbButton status="primary">Thêm mới</button>
+          </nb-card-body>
+        </nb-card>
+      </div>
+  </form>

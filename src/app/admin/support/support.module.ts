@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { routedComponents, SupportRoutingModule } from './support-routing.module';
+import { SupportDetailsComponent } from './support-details/support-details.component';
 import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
-import { DiseaseRoutingModule, routedComponents } from './disease-routing.module';
-import { DiseaseCreateComponent } from './disease-create/disease-create.component';
 import { FormsModule } from '@angular/forms';
-import { DiseaseEditComponent } from './disease-edit/disease-edit.component';
-import { DiseaseDetailsComponent } from './disease-details/disease-details.component';
 import { RouterModule } from '@angular/router';
-import { DialogComponent } from './dialog/dialog.component';
 
 
 @NgModule({
-  
+  declarations: [
+    ...routedComponents,
+  ],
   imports: [
     NbCardModule,
     NbIconModule,
@@ -25,10 +25,7 @@ import { DialogComponent } from './dialog/dialog.component';
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
 
-    DiseaseRoutingModule,
-  ],
-  
-  declarations: [...routedComponents],
-
+    SupportRoutingModule,
+  ]
 })
-export class DiseaseModule { }
+export class SupportModule { }

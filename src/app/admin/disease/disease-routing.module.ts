@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DiseaseComponent } from './disease.component';
 import { DiseaseListComponent } from './disease-list/disease-list.component';
-import { DiseaseIndexComponent } from './disease-index/disease-index.component';
 import { DiseaseCreateComponent } from './disease-create/disease-create.component';
 import { DiseaseEditComponent } from './disease-edit/disease-edit.component';
 import { DiseaseDetailsComponent } from './disease-details/disease-details.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 const routes: Routes = [
   {
@@ -14,7 +14,6 @@ const routes: Routes = [
     component: DiseaseComponent,
     children: [
       { path: 'disease-list', component: DiseaseListComponent },
-      { path: 'disease-index', component: DiseaseIndexComponent },
       {path: 'disease-create', component: DiseaseCreateComponent},
       {path: 'disease-edit/:id', component: DiseaseEditComponent },
       {path: 'disease-details/:id', component: DiseaseDetailsComponent},
@@ -31,8 +30,8 @@ export class DiseaseRoutingModule { }
 export const routedComponents = [
   DiseaseComponent,
   DiseaseListComponent,
-  DiseaseIndexComponent,
   DiseaseCreateComponent,
   DiseaseEditComponent,
   DiseaseDetailsComponent,
+  DialogComponent,
 ];

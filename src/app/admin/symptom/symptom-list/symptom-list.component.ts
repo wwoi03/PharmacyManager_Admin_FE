@@ -1,18 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
-import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
-import { DiseaseService } from '../../../services/disease/disease.service';
-import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
-import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
+import { ListSymptomResponse } from '../../../models/responses/symptom/list-symptom-response';
+import { SymptomService } from '../../../services/symptom/symptom.service';
+import { DialogComponent } from '../../disease/dialog/dialog.component';
 
 @Component({
-  selector: 'ngx-disease-list',
-  templateUrl: './disease-list.component.html',
-  styleUrls: ['./disease-list.component.scss']
+  selector: 'ngx-symptom-list',
+  templateUrl: './symptom-list.component.html',
+  styleUrls: ['./symptom-list.component.scss']
 })
-export class DiseaseListComponent implements OnInit {
+export class SymptomListComponent implements OnInit{
 
   @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
   
@@ -44,38 +43,38 @@ export class DiseaseListComponent implements OnInit {
     },
     columns: {
       name:{
-        title: 'Tên bệnh',
+        title: 'Tên triệu chứng',
         type: 'string',
       },
       description:{
         title: 'Mô tả',
         type: 'string',
       },
-      codeDisease:{
-        title: 'Mã bệnh',
+      codeSymptom:{
+        title: 'Mã triệu chứng',
         type:'string',
       }
     },
   };
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [];
+  listSymptom: ListSymptomResponse[] = [];
   dialogService: NbDialogService;
 
-  constructor(private diseaseService: DiseaseService, 
+  constructor(private symptomService: SymptomService, 
     private router: Router){
     this.source = new LocalDataSource();
   }
 
-  loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease = data;
-      this.source.load(this.listDisease);
+  loadSymptomData(){
+    this.symptomService.getSymptom().subscribe((data: ListSymptomResponse[])=>{
+      this.listSymptom = data;
+      this.source.load(this.listSymptom);
     });
   }
 
   ngOnInit(){
-    this.loadDiseaseData();
+    this.loadSymptomData();
   }
 
   onCustomAction(event) {
@@ -91,11 +90,11 @@ export class DiseaseListComponent implements OnInit {
   }
 
   onCreate(event): void {
-    this.router.navigate(['/admin/disease/disease-create']);
+    this.router.navigate(['/admin/symptom/symptom-create']);
   }
 
   onEdit(event): void{
-    this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
+    this.router.navigate(['/admin/symptom/symptom-edit', event.data.id]);
   }
   
   onDeleteConfirm(event): void {
@@ -111,7 +110,7 @@ export class DiseaseListComponent implements OnInit {
   }
 
   onRowSelect(event): void{
-    this.router.navigate(['/admin/disease/disease-details', event.data.id]);
+    this.router.navigate(['/admin/symptom/symptom-details', event.data.id]);
   }
 
   open(): void {

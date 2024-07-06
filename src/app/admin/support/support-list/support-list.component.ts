@@ -1,18 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
-import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
-import { DiseaseService } from '../../../services/disease/disease.service';
-import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
-import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
+import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
+import { SupportService } from '../../../services/support/support.service';
+import { DialogComponent } from '../../disease/dialog/dialog.component';
 
 @Component({
-  selector: 'ngx-disease-list',
-  templateUrl: './disease-list.component.html',
-  styleUrls: ['./disease-list.component.scss']
+  selector: 'ngx-support-list',
+  templateUrl: './support-list.component.html',
+  styleUrls: ['./support-list.component.scss']
 })
-export class DiseaseListComponent implements OnInit {
+export class SupportListComponent implements OnInit{
 
   @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
   
@@ -44,38 +43,38 @@ export class DiseaseListComponent implements OnInit {
     },
     columns: {
       name:{
-        title: 'Tên bệnh',
+        title: 'Tên hỗ trợ',
         type: 'string',
       },
       description:{
         title: 'Mô tả',
         type: 'string',
       },
-      codeDisease:{
-        title: 'Mã bệnh',
+      codeSupport:{
+        title: 'Mã hỗ trợ',
         type:'string',
       }
     },
   };
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [];
+  listSupport: ListSupportResponse[] = [];
   dialogService: NbDialogService;
 
-  constructor(private diseaseService: DiseaseService, 
+  constructor(private supportService: SupportService, 
     private router: Router){
     this.source = new LocalDataSource();
   }
 
-  loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease = data;
-      this.source.load(this.listDisease);
+  loadSupportData(){
+    this.supportService.getSupport().subscribe((data: ListSupportResponse[])=>{
+      this.listSupport = data;
+      this.source.load(this.listSupport);
     });
   }
 
   ngOnInit(){
-    this.loadDiseaseData();
+    this.loadSupportData();
   }
 
   onCustomAction(event) {
@@ -91,11 +90,11 @@ export class DiseaseListComponent implements OnInit {
   }
 
   onCreate(event): void {
-    this.router.navigate(['/admin/disease/disease-create']);
+    this.router.navigate(['/admin/support/support-create']);
   }
 
   onEdit(event): void{
-    this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
+    this.router.navigate(['/admin/support/support-edit', event.data.id]);
   }
   
   onDeleteConfirm(event): void {
@@ -111,7 +110,7 @@ export class DiseaseListComponent implements OnInit {
   }
 
   onRowSelect(event): void{
-    this.router.navigate(['/admin/disease/disease-details', event.data.id]);
+    this.router.navigate(['/admin/support/support-details', event.data.id]);
   }
 
   open(): void {
