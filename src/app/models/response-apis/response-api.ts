@@ -5,6 +5,6 @@ export interface ResponseApi<T> {
     isSuccessed: boolean;
     message: string;
     obj: T;
-    validationNotify: ValidationNotify<T>
+    validationNotify: ValidationNotify<string>
 }
   
