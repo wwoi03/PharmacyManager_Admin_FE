@@ -5,8 +5,9 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class AuthService {
-
   private readonly TOKEN_NAME = 'jwt_token';
+  private readonly ROLES = 'roles';
+  private readonly NAME = 'name';
 
   constructor(private cookieService: CookieService) {}
 
@@ -21,5 +22,28 @@ export class AuthService {
 
   deleteToken(): void {
     this.cookieService.delete(this.TOKEN_NAME, '/');
+  }
+
+  setRoles(roles: string[]): void {
+    this.cookieService.set(this.ROLES, JSON.stringify(roles), 0, '/', null, true, 'Strict');
+  }
+
+  getRoles(): string[] {
+    const roles = this.cookieService.get(this.ROLES);
+    return roles ? JSON.parse(roles) : [];
+  }
+
+  setName(name: string): void {
+    this.cookieService.set(this.NAME, name, 0, '/', null, true, 'Strict');
+  }
+
+  getName(): string {
+    return this.cookieService.get(this.NAME);
+  }
+
+  logout(): void {
+    this.cookieService.delete(this.TOKEN_NAME, '/');
+    this.cookieService.delete(this.ROLES, '/');
+    this.cookieService.delete(this.NAME, '/');
   }
 }

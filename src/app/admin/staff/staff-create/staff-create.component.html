@@ -16,7 +16,8 @@
           <div class="form-group">
             <label for="forFullName" class="label">Họ và tên<small class="text-danger">*</small></label>
             <input required [(ngModel)]="createStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
-              id="forFullname" placeholder="Họ và tên" #fullName="ngModel" (input)="validationNotify.onInputChange('fullName')">
+              id="forFullname" placeholder="Họ và tên" #fullName="ngModel"
+              (input)="validationNotify.onInputChange('fullName')">
             <div class="text-danger-container">
               <div *ngIf="formErrors['fullName']" class="text-danger">
                 {{ formErrors['fullName'] }}
@@ -30,7 +31,8 @@
               <div class="form-group">
                 <label for="forUsername" class="label">Tên đăng nhập<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.userName" name="userName" type="text" nbInput fullWidth
-                  id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel" (input)="validationNotify.onInputChange('userName')">
+                  id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel"
+                  (input)="validationNotify.onInputChange('userName')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['userName']" class="text-danger">
                     {{ formErrors['userName'] }}
@@ -58,7 +60,8 @@
               <div class="form-group">
                 <label for="forPassword" class="label">Mật khẩu<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.password" name="password" type="password" nbInput
-                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel" (input)="validationNotify.onInputChange('password')">
+                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel"
+                  (input)="validationNotify.onInputChange('password')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['password']" class="text-danger">
                     {{ formErrors['password'] }}
@@ -71,7 +74,8 @@
                 <label for="forConfirmPassword" class="label">Mật khẩu xác nhận<small
                     class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.confirmPassword" name="confirmPassword" type="password"
-                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel" (input)="validationNotify.onInputChange('confirmPassword')">
+                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel"
+                  (input)="validationNotify.onInputChange('confirmPassword')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['confirmPassword']" class="text-danger">
                     {{ formErrors['confirmPassword'] }}
@@ -87,8 +91,9 @@
               <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Giới tính<small
                   class="text-danger">*</small></label>
               <div class="demo-items" style="margin: 0">
-                <nb-radio-group (input)="validationNotify.onInputChange('gender')" required [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline"
-                  id="forGender" #gender="ngModel">
+                <nb-radio-group (input)="validationNotify.onInputChange('gender')" required
+                  [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline" id="forGender"
+                  #gender="ngModel">
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Khác'">Khác</nb-radio>
@@ -108,7 +113,8 @@
               <div class="form-group">
                 <label for="forPhone" class="label">Số điện thoại<small class="text-danger">*</small></label>
                 <input required [(ngModel)]="createStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
-                  fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel" (input)="validationNotify.onInputChange('phoneNumber')">
+                  fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel"
+                  (input)="validationNotify.onInputChange('phoneNumber')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['phoneNumber']" class="text-danger">
                     {{ formErrors['phoneNumber'] }}
@@ -134,7 +140,8 @@
           <div class="form-group">
             <label for="forAddress" class="label">Địa chỉ<small class="text-danger">*</small></label>
             <textarea required [(ngModel)]="createStaffRequest.address" name="address" rows="3" nbInput fullWidth
-              id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel" (input)="validationNotify.onInputChange('address')"></textarea>
+              id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel"
+              (input)="validationNotify.onInputChange('address')"></textarea>
             <div class="text-danger-container">
               <div *ngIf="formErrors['address']" class="text-danger">
                 {{ formErrors['address'] }}

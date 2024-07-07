@@ -93,8 +93,7 @@
                                 class="text-danger">*</small></label>
 
                         <nb-radio-group (input)="validationNotify.onInputChange('status')" required
-                            [(ngModel)]="createShipmentRequest.status" name="status" id="forStatus"
-                            #status="ngModel">
+                            [(ngModel)]="createShipmentRequest.status" name="status" id="forStatus" #status="ngModel">
                             <nb-radio [value]="'PM_Shipment_Pending'">Đã giao</nb-radio>
                             <nb-radio [value]="'PM_Shipment_Delivered'">Đang chờ xử lý</nb-radio>
                         </nb-radio-group>
