@@ -114,13 +114,6 @@ export class ShipmentListComponent {
   // Thêm đơn nhập kho
   onCreate(event): void {
     //this.router.navigate(['/admin/shipment/shipment-create']);
-    this.dialogService
-      .open(ShipmentCreateComponent)
-      .onClose.subscribe((result: boolean) => {
-        if (result) {
-          this.loadShipmentData();
-        }
-      });
   }
 
   // Xóa đơn nhập kho

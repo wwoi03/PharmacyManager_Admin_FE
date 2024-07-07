@@ -11,6 +11,10 @@ const routes: Routes = [{
     {
       path: 'shipment-list',
       component: ShipmentListComponent,
+    },
+    {
+      path: 'shipment-create',
+      component: ShipmentCreateComponent,
     }
   ]
 }];

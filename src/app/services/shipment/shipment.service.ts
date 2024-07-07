@@ -47,6 +47,7 @@ export class ShipmentService {
           }
         }),
         catchError((error: HttpErrorResponse) => {
+          console.error(error);
           return this.errorNotify.handleStatusError(error.status);
         })
       );

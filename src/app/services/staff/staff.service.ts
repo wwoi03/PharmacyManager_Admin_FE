@@ -42,8 +42,11 @@ export class StaffService {
           if (response.isSuccessed) {
             return response;
           } else {
-
+            this.errorNotify.handleStatusError(response.code);
           }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
         })
       );
   }

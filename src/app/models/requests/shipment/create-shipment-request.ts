@@ -20,6 +20,9 @@ export class CreateShipmentRequest {
         },
         "importDate": {
             required: "Ngày nhập kho là bắt buộc."
-        }
+        },
+        "codeSupplier": {
+            required: "Nhà cung cấp là bắt buộc."
+        },
     }
 }

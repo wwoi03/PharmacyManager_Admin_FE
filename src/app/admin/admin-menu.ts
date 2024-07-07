@@ -1,147 +1,157 @@
-import { NbMenuItem } from '@nebular/theme';
+import { NbMenuItem } from "@nebular/theme";
 
 export const MENU_ITEMS: NbMenuItem[] = [
   // Dashboard
   {
-    title: 'Bảng quản trị',
-    icon: 'home-outline',
-    link: '/admin/dashboard',
+    title: "Bảng quản trị",
+    icon: "home-outline",
+    link: "/admin/dashboard",
     home: true,
   },
   {
-    title: 'Chức năng',
+    title: "Chức năng",
     group: true,
   },
   // Sản phẩm
   {
-    title: 'Sản phẩm',
-    icon: 'shopping-cart-outline',
+    title: "Sản phẩm",
+    icon: "shopping-cart-outline",
     children: [
       {
-        title: 'Danh sách sản phẩm',
-        link: '/admin/product/product-list',
+        title: "Danh sách sản phẩm",
+        link: "/admin/product/product-list",
       },
       {
-        title: 'Thêm sản phẩm',
-        link: '',
+        title: "Thêm sản phẩm",
+        link: "",
       },
     ],
   },
   //Loại bệnh
   {
-    title: 'Quản lý bệnh',
-    icon: 'shake-outline',
-    children:[{
-      title:'Danh sách bệnh',
-      link: '/admin/disease/disease-list',
-    },
-    {
-      title: 'Thêm bệnh mới',
-      link: '/admin/disease/disease-create'
-    }]
+    title: "Quản lý bệnh",
+    icon: "shake-outline",
+    children: [
+      {
+        title: "Danh sách bệnh",
+        link: "/admin/disease/disease-list",
+      },
+      {
+        title: "Thêm bệnh mới",
+        link: "/admin/disease/disease-create",
+      },
+    ],
   },
   //Loại hỗ trợ
   {
-    title: 'Quản lý hỗ trợ',
-    icon: 'heart-outline',
-    children:[{
-      title:'Danh sách hỗ trợ',
-      link: '/admin/support/support-list',
-    },
-    {
-      title: 'Thêm hỗ trợ mới',
-      link: '/admin/support/support-create'
-    }]
+    title: "Quản lý hỗ trợ",
+    icon: "heart-outline",
+    children: [
+      {
+        title: "Danh sách hỗ trợ",
+        link: "/admin/support/support-list",
+      },
+      {
+        title: "Thêm hỗ trợ mới",
+        link: "/admin/support/support-create",
+      },
+    ],
   },
-   //Loại triệu chứng
-   {
-    title: 'Quản lý triệu chứng',
-    icon: 'shield-off-outline',
-    children:[{
-      title:'Danh sách triệu chứng',
-      link: '/admin/symptom/symptom-list',
-    },
-    {
-      title: 'Thêm hỗ triệu chứng',
-      link: '/admin/symptom/symptom-create'
-    }]
+  //Loại triệu chứng
+  {
+    title: "Quản lý triệu chứng",
+    icon: "shield-off-outline",
+    children: [
+      {
+        title: "Danh sách triệu chứng",
+        link: "/admin/symptom/symptom-list",
+      },
+      {
+        title: "Thêm hỗ triệu chứng",
+        link: "/admin/symptom/symptom-create",
+      },
+    ],
   },
   // Kho
   {
-    title: 'Kho',
-    icon: 'archive-outline',
+    title: "Kho",
+    icon: "archive-outline",
     children: [
       {
-        title: 'Danh sách nhập kho',
-        link: '/admin/shipment/shipment-list',
+        title: "Danh sách nhập kho",
+        link: "/admin/shipment/shipment-list",
       },
       {
-        title: 'Thống kê nhập kho',
-        link: '',
+        title: "Nhập kho",
+        link: "/admin/shipment/shipment-create",
+      },
+      {
+        title: "Thống kê nhập kho",
+        link: "",
       },
     ],
   },
   // Nhân viên
   {
-    title: 'Nhân viên',
-    icon: 'people-outline',
+    title: "Nhân viên",
+    icon: "people-outline",
     children: [
       {
-        title: 'Danh sách nhân viên',
-        link: '/admin/staff/staff-list',
+        title: "Danh sách nhân viên",
+        link: "/admin/staff/staff-list",
       },
       {
-        title: 'Thêm nhân viên',
-        link: '/admin/staff/staff-create',
+        title: "Thêm nhân viên",
+        link: "/admin/staff/staff-create",
       },
     ],
   },
   // Quyền hạn
   {
-    title: 'Quyền hạn',
-    icon: 'eye-off-2-outline',
+    title: "Quyền hạn",
+    icon: "eye-off-2-outline",
     children: [
       {
-        title: 'Danh sách quyền hạn',
-        link: '',
+        title: "Danh sách quyền hạn",
+        link: "",
       },
       {
-        title: 'Thêm nhân viên',
-        link: '',
+        title: "Thêm nhân viên",
+        link: "",
       },
     ],
   },
   // Tài khoản
   {
-    title: 'Tài khoản',
-    icon: 'lock-outline',
+    title: "Tài khoản",
+    icon: "lock-outline",
     children: [
       {
-        title: 'Thông tin tài khoản',
-        link: '',
+        title: "Thông tin tài khoản",
+        link: "",
       },
       {
-        title: 'Đăng nhập FAKE',
-        link: '/admin/account/sign-in',
+        title: "Đăng nhập FAKE",
+        link: "/admin/account/sign-in",
       },
       {
-        title: 'Đổi mật khẩu',
-        link: '/auth/reset-password',
+        title: "Đổi mật khẩu",
+        link: "/auth/reset-password",
       },
       {
-        title: 'Quên mật khẩu',
-        link: '/auth/request-password',
+        title: "Quên mật khẩu",
+        link: "/auth/request-password",
       },
     ],
   },
   // Loại sản phẩm
   {
-    title: 'Loại sản phẩm',
-    icon: 'grid-outline',
+    title: "Loại sản phẩm",
+    icon: "grid-outline",
     children: [
       {
-        title: 'Danh sách loại sản phẩm',
-        link: '/admin/category/category-list',
+        title: "Danh sách loại sản phẩm",
+        link: "/admin/category/category-list",
       },
     ],
   },
