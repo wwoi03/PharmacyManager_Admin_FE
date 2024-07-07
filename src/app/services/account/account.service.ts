@@ -17,9 +17,9 @@ export class AccountService {
   ) { }
 
   // Sign In
-  signIn(request: SignInRequest): Observable<ResponseApi<string>> {
+  signIn(request: SignInRequest): Observable<ResponseApi<any>> {
     return this.http
-      .post<ResponseApi<string>>(this.apiUrl + "SignIn", request)
+      .post<ResponseApi<any>>(this.apiUrl + "SignIn", request)
       .pipe(
         tap((response: ResponseApi<string>) => {
           if (response.isSuccessed) {

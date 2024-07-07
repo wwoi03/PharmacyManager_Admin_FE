@@ -8,23 +8,23 @@ import { AuthService } from "../../services/auth/auth.service";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'ngx-sign-in',
-  templateUrl: './sign-in.component.html',
+  selector: "ngx-sign-in",
+  templateUrl: "./sign-in.component.html",
   styleUrls: [
-    './sign-in.component.scss',
-    '../../../assets/assets-login/css/main.css',
-    '../../../assets/assets-login/css/util.css',
-    '../../../assets/assets-login/fonts/font-awesome-4.7.0/css/font-awesome.min.css',
-    '../../../assets/assets-login/vendor/animate/animate.css',
-    '../../../assets/assets-login/vendor/bootstrap/css/bootstrap.min.css',
-    '../../../assets/assets-login/vendor/css-hamburgers/hamburgers.min.css',
-    '../../../assets/assets-login/vendor/select2/select2.min.css'
-  ]
+    "./sign-in.component.scss",
+    "../../../assets/assets-login/css/main.css",
+    "../../../assets/assets-login/css/util.css",
+    "../../../assets/assets-login/fonts/font-awesome-4.7.0/css/font-awesome.min.css",
+    "../../../assets/assets-login/vendor/animate/animate.css",
+    "../../../assets/assets-login/vendor/bootstrap/css/bootstrap.min.css",
+    "../../../assets/assets-login/vendor/css-hamburgers/hamburgers.min.css",
+    "../../../assets/assets-login/vendor/select2/select2.min.css",
+  ],
 })
-
 export class SignInComponent {
   // Variables
   signInRequest: SignInRequest = new SignInRequest();
+  loading = false;
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -56,22 +56,25 @@ export class SignInComponent {
 
   // SignIn
   signIn() {
-    this.accountService.signIn(this.signInRequest).subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.authService.setToken(res.obj);
-          this.toast.successToast("Thành Công", res.message);
+    this.loading = true;
 
-          setTimeout(() => {
-            this.router.navigate(["/admin/dashboard"]);
-          }, 2000);
-          
-        } else if (res.code === 401) {
-          this.toast.warningToast("Thất bại", res.message);
-        } else if (res.code === 403) {
-          this.toast.dangerToast("Thất bại", res.message);
-        }
-      },
-    )
+    this.accountService.signIn(this.signInRequest).subscribe((res) => {
+      if (res.code === 200) {
+        this.authService.setToken(res.obj.token);
+        this.authService.setRoles(res.obj.roles);
+        this.authService.setName(res.obj.name);
+        
+        this.toast.successToast("Thành Công", res.message);
+
+        setTimeout(() => {
+          this.loading = false;
+          this.router.navigate(["/admin/dashboard"]);
+        }, 2000);
+      } else if (res.code === 401) {
+        this.toast.warningToast("Thất bại", res.message);
+      } else if (res.code === 403) {
+        this.toast.dangerToast("Thất bại", res.message);
+      }
+    });
   }
 }

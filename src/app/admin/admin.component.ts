@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { MENU_ITEMS } from './admin-menu';
+import { AdminMenu } from './admin-menu';
+import { NbMenuItem } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-admin',
@@ -14,5 +15,9 @@ import { MENU_ITEMS } from './admin-menu';
 })
 
 export class AdminComponent {
-  menu = MENU_ITEMS;
+  menu: NbMenuItem[] = [];
+
+  constructor(private adminMenu: AdminMenu) {
+    this.menu = this.adminMenu.menuItems;
+  }
 }

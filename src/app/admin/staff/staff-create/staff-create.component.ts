@@ -21,6 +21,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   // Variable
   createStaffRequest: CreateStaffRequest = new CreateStaffRequest();;
   roles: ListRoleResponse[];
+  loading = false;
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -107,6 +108,8 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.loading = true;
+
     // Call API Create Staff
     this.staffService.create(this.createStaffRequest).subscribe(
       (res) => {
@@ -116,6 +119,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
           this.toast.warningToast("Thất bại", res.validationNotify.message);
           this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
+        this.loading = false;
       },
       (err) => {
         //console.error("Lỗi khi thêm nhân", error);
