@@ -63,13 +63,14 @@ export class SignInComponent {
         this.authService.setToken(res.obj.token);
         this.authService.setRoles(res.obj.roles);
         this.authService.setName(res.obj.name);
-        
+
         this.toast.successToast("Thành Công", res.message);
 
         setTimeout(() => {
           this.loading = false;
-          this.router.navigate(["/admin/dashboard"]);
+          window.location.href = '/admin/dashboard';
         }, 2000);
+
       } else if (res.code === 401) {
         this.toast.warningToast("Thất bại", res.message);
       } else if (res.code === 403) {
