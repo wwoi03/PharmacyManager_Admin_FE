@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { DiseaseComponent } from './disease/disease.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,6 +13,18 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'disease',
+      loadChildren: ()=> import('./disease/disease.module').then(m => m.DiseaseModule),
+    },
+    {
+      path: 'support',
+      loadChildren: ()=> import('./support/support.module').then(m => m.SupportModule),
+    },
+    {
+      path: 'symptom',
+      loadChildren: ()=> import('./symptom/symptom.module').then(m => m.SymptomModule),
     },
     {
       path: 'product',

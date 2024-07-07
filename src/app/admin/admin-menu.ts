@@ -27,6 +27,45 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  //Loại bệnh
+  {
+    title: 'Quản lý bệnh',
+    icon: 'shake-outline',
+    children:[{
+      title:'Danh sách bệnh',
+      link: '/admin/disease/disease-list',
+    },
+    {
+      title: 'Thêm bệnh mới',
+      link: '/admin/disease/disease-create'
+    }]
+  },
+  //Loại hỗ trợ
+  {
+    title: 'Quản lý hỗ trợ',
+    icon: 'heart-outline',
+    children:[{
+      title:'Danh sách hỗ trợ',
+      link: '/admin/support/support-list',
+    },
+    {
+      title: 'Thêm hỗ trợ mới',
+      link: '/admin/support/support-create'
+    }]
+  },
+   //Loại triệu chứng
+   {
+    title: 'Quản lý triệu chứng',
+    icon: 'shield-off-outline',
+    children:[{
+      title:'Danh sách triệu chứng',
+      link: '/admin/symptom/symptom-list',
+    },
+    {
+      title: 'Thêm hỗ triệu chứng',
+      link: '/admin/symptom/symptom-create'
+    }]
+  },
   // Kho
   {
     title: 'Kho',
