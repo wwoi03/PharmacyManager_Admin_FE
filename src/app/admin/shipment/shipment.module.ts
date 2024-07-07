@@ -16,6 +16,7 @@ import {
   NbInputModule,
   NbRadioModule,
   NbSelectModule,
+  NbSpinnerModule,
 } from "@nebular/theme";
 
 import { ThemeModule } from "../../@theme/theme.module";
@@ -38,6 +39,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     NbSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    NbSpinnerModule,
 
     CommonModule,
     ShipmentRoutingModule,

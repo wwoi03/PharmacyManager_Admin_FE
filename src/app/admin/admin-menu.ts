@@ -42,9 +42,21 @@ export class AdminMenu {
         ],
         hidden: !roles.includes('PM_PRODUCT_MANAGER'),
       },
+      // Loại sản phẩm
+      {
+        title: "Loại sản phẩm",
+        icon: "grid-outline",
+        children: [
+          {
+            title: "Danh sách loại sản phẩm",
+            link: "/admin/category/category-list",
+          },
+        ],
+        hidden: !roles.includes('PM_PRODUCT_MANAGER'),
+      },
       // Quản lý bệnh
       {
-        title: "Quản lý bệnh",
+        title: "Loại bệnh",
         icon: "shake-outline",
         children: [
           {
@@ -60,7 +72,7 @@ export class AdminMenu {
       },
       // Quản lý hỗ trợ
       {
-        title: "Quản lý hỗ trợ",
+        title: "Hỗ trợ sản phẩm",
         icon: "heart-outline",
         children: [
           {
@@ -76,7 +88,7 @@ export class AdminMenu {
       },
       // Quản lý triệu chứng
       {
-        title: "Quản lý triệu chứng",
+        title: "Triệu chứng bệnh",
         icon: "shield-off-outline",
         children: [
           {
@@ -156,18 +168,6 @@ export class AdminMenu {
             link: "/auth/change-password",
           },
         ],
-      },
-      // Loại sản phẩm
-      {
-        title: "Loại sản phẩm",
-        icon: "grid-outline",
-        children: [
-          {
-            title: "Danh sách loại sản phẩm",
-            link: "/admin/category/category-list",
-          },
-        ],
-        hidden: !roles.includes('PM_PRODUCT_MANAGER'),
       },
     ];
   }

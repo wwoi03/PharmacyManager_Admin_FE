@@ -7,6 +7,7 @@ import { RoleService } from "../../../services/role/role.service";
 import { ListRoleResponse } from "../../../models/responses/role/list-role-response";
 import { NgForm } from "@angular/forms";
 import { ValidationNotify } from "../../../helpers/validation-notify";
+import { LoadingService } from "../../../helpers/loading-service";
 
 @Component({
   selector: "ngx-staff-create",
@@ -19,14 +20,13 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   themeSubscription: any;
 
   // Variable
-  createStaffRequest: CreateStaffRequest = new CreateStaffRequest();;
+  createStaffRequest: CreateStaffRequest = new CreateStaffRequest();
   roles: ListRoleResponse[];
-  loading = false;
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
   validationMessages = {};
-  @ViewChild('staffForm') staffForm: NgForm;
+  @ViewChild("staffForm") staffForm: NgForm;
   validationNotify: ValidationNotify;
 
   // Constructor
@@ -35,6 +35,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     private roleService: RoleService,
     private themeService: NbThemeService,
     private toast: Toast,
+    private loadingService: LoadingService
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -46,13 +47,17 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
   // InitData
   ngOnInit(): void {
     this.loadRoles();
-    this.validationMessages = this.createStaffRequest.validationMessages
-    this.createStaffRequest.gender = 'Nam';
+    this.validationMessages = this.createStaffRequest.validationMessages;
+    this.createStaffRequest.gender = "Nam";
   }
 
   // After Init Data
   ngAfterViewInit(): void {
-    this.validationNotify = new ValidationNotify(this.formErrors, this.validationMessages, this.staffForm);
+    this.validationNotify = new ValidationNotify(
+      this.formErrors,
+      this.validationMessages,
+      this.staffForm
+    );
   }
 
   ngOnDestroy() {
@@ -104,26 +109,35 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     // Valid
     if (this.staffForm.invalid) {
       this.validationNotify.validateForm();
-      this.formErrors =  this.validationNotify.formErrors;
+      this.formErrors = this.validationNotify.formErrors;
       return;
     }
 
-    this.loading = true;
+    this.loadingService.show();
 
     // Call API Create Staff
     this.staffService.create(this.createStaffRequest).subscribe(
       (res) => {
         if (res.code === 200) {
-          this.toast.successToast("Thành công", res.message);
+          setTimeout(() => {
+            this.loadingService.hide();
+            this.toast.successToast("Thành công", res.message);
+          }, 1000);
         } else if (res.code >= 400 && res.code < 500) {
-          this.toast.warningToast("Thất bại", res.validationNotify.message);
-          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
+          setTimeout(() => {
+            this.loadingService.hide();
+            this.toast.warningToast("Thất bại", res.validationNotify.message);
+            this.validationNotify.formErrors[res.validationNotify.obj] =
+              res.validationNotify.message;
+          }, 1000);
         }
-        this.loading = false;
       },
       (err) => {
         //console.error("Lỗi khi thêm nhân", error);
-        this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
+        this.toast.warningToast(
+          "Lỗi hệ thống",
+          "Lỗi hệ thống, vui lòng thử lại sau."
+        );
       }
     );
   }

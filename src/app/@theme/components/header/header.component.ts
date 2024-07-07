@@ -12,6 +12,8 @@ import { map, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { AuthService } from "../../../services/auth/auth.service";
 import { Router } from "@angular/router";
+import { LoadingService } from "../../../helpers/loading-service";
+import { Toast } from "../../../helpers/toast";
 
 @Component({
   selector: "ngx-header",
@@ -54,11 +56,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService,
+    private toast: Toast
   ) {
-    this.menuService.onItemClick()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((event) => this.onMenuItemClick(event.item.title));
+    this.menuService
+      .onItemClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => this.onMenuItemClick(event.item.title));
   }
 
   ngOnInit() {
@@ -113,21 +118,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onMenuItemClick(title: string) {
-    if (title === 'Tài khoản') {
-      // Xử lý khi click vào mục "Tài khoản"
+    if (title === "Tài khoản") {
       this.handleAccountClick();
-    } else if (title === 'Đăng xuất') {
-      // Xử lý khi click vào mục "Đăng xuất"
+    } else if (title === "Đăng xuất") {
       this.handleLogoutClick();
     }
   }
-  
-  handleAccountClick() {
 
-  }
-  
+  handleAccountClick() {}
+
   handleLogoutClick() {
-    this.authService.logout();
-    this.router.navigate(['/admin-public/sign-in']);
+    this.loadingService.show();
+    this.toast.successToast("Thành công", "Đăng xuất tài khoản thành công.")
+    setTimeout(() => {
+      this.loadingService.hide();
+      this.authService.logout();
+      this.router.navigate(["/admin-public/sign-in"]);
+    }, 1000);
   }
 }
