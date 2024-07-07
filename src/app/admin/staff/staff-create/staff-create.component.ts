@@ -8,6 +8,7 @@ import { ListRoleResponse } from "../../../models/responses/role/list-role-respo
 import { NgForm } from "@angular/forms";
 import { ValidationNotify } from "../../../helpers/validation-notify";
 import { LoadingService } from "../../../helpers/loading-service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ngx-staff-create",
@@ -35,7 +36,8 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
     private roleService: RoleService,
     private themeService: NbThemeService,
     private toast: Toast,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: Router,
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -121,6 +123,7 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
         if (res.code === 200) {
           setTimeout(() => {
             this.loadingService.hide();
+            this.router.navigate(['/admin/staff/staff-list']);
             this.toast.successToast("Thành công", res.message);
           }, 1000);
         } else if (res.code >= 400 && res.code < 500) {
