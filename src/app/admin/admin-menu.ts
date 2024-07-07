@@ -34,10 +34,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Danh sách nhập kho',
-        link: '',
+        link: '/admin/shipment/shipment-list',
       },
       {
-        title: 'Nhập kho',
+        title: 'Thống kê nhập kho',
         link: '',
       },
     ],

@@ -30,8 +30,8 @@ const routes: Routes = [{
       loadChildren: () => import('./miscellaneous/miscellaneous.module').then(m => m.MiscellaneousModule),
     },
     {
-      path: 'account',
-      loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
+      path: 'shipment',
+      loadChildren: () => import('./shipment/shipment.module').then(m => m.ShipmentModule),
     },
     {
       path: '',
