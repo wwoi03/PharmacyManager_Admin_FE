@@ -1,99 +1,91 @@
-import { Component, ViewChild } from "@angular/core";
-import { CreateShipmentRequest } from "../../../models/requests/shipment/create-shipment-request";
-import { NgForm } from "@angular/forms";
-import { ValidationNotify } from "../../../helpers/validation-notify";
-import { NbDialogRef } from "@nebular/theme";
-import { ShipmentService } from "../../../services/shipment/shipment.service";
-import { Toast } from "../../../helpers/toast";
-import { Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ValidationNotify } from '../../../helpers/validation-notify';
+import { Toast } from '../../../helpers/toast';
+import { ShipmentService } from '../../../services/shipment/shipment.service';
+import { CreateShipmentRequest } from '../../../models/requests/shipment/create-shipment-request';
+import { SupplierService } from '../../../services/supplier/supplier.service';
 
 @Component({
-  selector: "ngx-shipment-create",
-  templateUrl: "./shipment-create.component.html",
-  styleUrls: ["./shipment-create.component.scss"],
+  selector: 'ngx-shipment-create',
+  templateUrl: './shipment-create.component.html',
+  styleUrls: ['./shipment-create.component.scss']
 })
 export class ShipmentCreateComponent {
   // Variable
-  showParentCategoryField: boolean = false;
-  parentCategoryCode: string;
-  parentCategoryName: string;
+  codeSupplier: string;
+  supplierName: string;
+  showSupplierNameField = false;
   createShipmentRequest: CreateShipmentRequest = new CreateShipmentRequest();
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
   validationMessages = {};
-  @ViewChild("shipmentForm") shipmentForm: NgForm;
+  @ViewChild('shipmentForm') shipmentForm: NgForm;
   validationNotify: ValidationNotify;
 
+  // Constructor
   constructor(
-    protected ref: NbDialogRef<ShipmentCreateComponent>,
     private shipmentService: ShipmentService,
+    private supplierService: SupplierService,
     private toast: Toast,
-    private router: Router
-  ) {}
+  ) {
+  }
 
   // InitData
   ngOnInit(): void {
     this.validationMessages = this.createShipmentRequest.validationMessages;
+    this.createShipmentRequest.status = 'PM_Shipment_Pending'
   }
 
   // After Init Data
   ngAfterViewInit(): void {
-    this.validationNotify = new ValidationNotify(
-      this.formErrors,
-      this.validationMessages,
-      this.shipmentForm
-    );
+    this.validationNotify = new ValidationNotify(this.formErrors, this.validationMessages, this.shipmentForm);
   }
 
-  // Create
+  // Xử lý thêm nhân viên
   createShipment() {
     // Valid
     if (this.shipmentForm.invalid) {
       this.validationNotify.validateForm();
-      this.formErrors = this.validationNotify.formErrors;
+      this.formErrors =  this.validationNotify.formErrors;
       return;
     }
 
-    // Create
-    this.shipmentService.create(this.createShipmentRequest).subscribe((res) => {
-      if (res.code === 200) {
-        this.toast.successToast("Thành công", res.message);
-        this.router.navigate(['/admin/shipment-details/shipment-details-list'])
-      } else if (res.code >= 400 && res.code < 500) {
-        this.toast.warningToast("Thất bại", res.validationNotify.message);
-        this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
-      } 
-    });
+    // Call API Create Staff
+    this.shipmentService.create(this.createShipmentRequest).subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.toast.successToast("Thành công", res.message);
+        } else if (res.code >= 400 && res.code < 500) {
+          this.toast.warningToast("Thất bại", res.validationNotify.message);
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
+        }
+      }
+    );
   }
 
-  // // Xử lý khi nhấn xong code category
-  // onInputCategoryParentFinish(event: any): void {
-  //   this.parentCategoryCode = event.target.value;
+  // Xử lý sự kiện khi nhập nhà cung cấp
+  onInputSupplierFinish(event: any) {
+    this.codeSupplier = event.target.value;
 
-  //   if (this.parentCategoryCode === "" || this.parentCategoryCode === null) {
-  //     this.validationNotify.formErrors['parentCategoryId'] = null;
-  //     this.showParentCategoryField = false;
-  //   }
+    if (this.codeSupplier === "" || this.codeSupplier === null) {
+      this.showSupplierNameField = false;
+    }
 
-  //   this.shipmentService.getCategoryByCode(this.parentCategoryCode).subscribe(
-  //     (res) => {
-  //       if (res.code === 200) {
-  //         this.parentCategoryName = res.obj.name;
-  //         this.createCategoryRequest.parentCategoryId = res.obj.id;
-  //         this.validationNotify.formErrors['parentCategoryId'] = null;
-  //         this.showParentCategoryField = true;
-  //       } else if (res.code === 409) {
-  //         this.createCategoryRequest.parentCategoryId = null;
-  //         this.validationNotify.formErrors['parentCategoryId'] = "Loại sản phẩm không tồn tại.";
-  //         this.showParentCategoryField = false;
-  //       }
-  //     },
-  //   )
-  // }
-
-  // Hủy
-  cancel() {
-    this.ref.close(false);
+    this.supplierService.getSupplierByCode(this.codeSupplier).subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.supplierName = res.obj.name;
+          this.createShipmentRequest.supplierId = res.obj.id;
+          this.validationNotify.formErrors['codeSupplier'] = null;
+          this.showSupplierNameField = true;
+        } else if (res.code === 409) {
+          this.createShipmentRequest.supplierId = null;
+          this.validationNotify.formErrors['codeSupplier'] = "Nhà cung cấp không tồn tại.";
+          this.showSupplierNameField = false;
+        } 
+      }
+    )
   }
 }
