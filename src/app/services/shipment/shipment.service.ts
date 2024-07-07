@@ -6,6 +6,7 @@ import { ResponseApi } from '../../models/response-apis/response-api';
 import { ShipmentResponse } from '../../models/responses/shipment/shipment-response';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { CreateShipmentRequest } from '../../models/requests/shipment/create-shipment-request';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,24 @@ export class ShipmentService {
       .get<ResponseApi<ShipmentResponse[]>>(this.apiUrl + "GetShipmentsByBranch")
       .pipe(
         tap((response: ResponseApi<ShipmentResponse[]>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // Create
+  create(request: CreateShipmentRequest): Observable<ResponseApi<string>> {
+    return this.http
+      .post<ResponseApi<string>>(this.apiUrl + "Create", request)
+      .pipe(
+        tap((response: ResponseApi<string>) => {
           if (response.isSuccessed) {
             return response;
           } else {

@@ -37,10 +37,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/admin/shipment/shipment-list',
       },
       {
-        title: 'Nhập kho',
-        link: '',
-      },
-      {
         title: 'Thống kê nhập kho',
         link: '',
       },
