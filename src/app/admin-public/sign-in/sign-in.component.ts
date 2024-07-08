@@ -70,9 +70,15 @@ export class SignInComponent {
           window.location.href = "/admin/dashboard";
         }, 1000);
       } else if (res.code === 401) {
-        this.toast.warningToast("Thất bại", res.message);
+        setTimeout(() => {
+          this.loading = false;
+          this.toast.warningToast("Thất bại", res.message);
+        }, 1000);
       } else if (res.code === 403) {
-        this.toast.dangerToast("Thất bại", res.message);
+        setTimeout(() => {
+          this.loading = false;
+          this.toast.warningToast("Thất bại", res.message);
+        }, 1000);
       }
     });
   }

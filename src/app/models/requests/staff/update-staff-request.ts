@@ -2,8 +2,8 @@ export class UpdateStaffRequest {
     id: string;
     fullName: string = '';
     userName: string = '';
-    password: string = '';
-    confirmPassword: string = '';
+    password?: string = null;
+    confirmPassword?: string = null;
     phoneNumber: string = '';
     email: string = '';
     gender: string = '';
@@ -23,12 +23,6 @@ export class UpdateStaffRequest {
         email: {
           required: 'Email là bắt buộc.',
           email: 'Email không hợp lệ.'
-        },
-        password: {
-          required: 'Mật khẩu là bắt buộc.'
-        },
-        confirmPassword: {
-          required: 'Mật khẩu xác nhận là bắt buộc.'
         },
         gender: {
           required: 'Giới tính là bắt buộc.'

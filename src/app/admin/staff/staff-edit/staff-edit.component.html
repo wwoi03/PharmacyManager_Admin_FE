@@ -58,8 +58,8 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forPassword" class="label">Mật khẩu<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="updateStaffRequest.password" name="password" type="password" nbInput
+                <label for="forPassword" class="label">Mật khẩu</label>
+                <input [(ngModel)]="updateStaffRequest.password" name="password" type="password" nbInput
                   fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel"
                   (input)="validationNotify.onInputChange('password')">
                 <div class="text-danger-container">
@@ -71,9 +71,8 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận<small
-                    class="text-danger">*</small></label>
-                <input required [(ngModel)]="updateStaffRequest.confirmPassword" name="confirmPassword" type="password"
+                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
+                <input [(ngModel)]="updateStaffRequest.confirmPassword" name="confirmPassword" type="password"
                   nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel"
                   (input)="validationNotify.onInputChange('confirmPassword')">
                 <div class="text-danger-container">
