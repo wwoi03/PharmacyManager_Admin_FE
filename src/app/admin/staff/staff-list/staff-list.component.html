@@ -8,7 +8,7 @@
 
 <nb-card>
     <nb-card-body>
-        <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCustomAction($event)">
+        <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (create)="onCreate($event)" (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCustomAction($event)">
         </ng2-smart-table>
     </nb-card-body>
 </nb-card>

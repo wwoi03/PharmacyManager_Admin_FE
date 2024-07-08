@@ -117,6 +117,11 @@ export class StaffListComponent {
     this.router.navigate(['/admin/staff/staff-create']);
   }
 
+  onEdit(event): void {
+    const staffId: string = event.data.id;
+    this.router.navigate(['/admin/staff/staff-edit', staffId]);
+  }
+
   onDeleteConfirm(event): void {
     if (window.confirm('Bạn có chắc chắn muốn xóa?')) {
       event.confirm.resolve();

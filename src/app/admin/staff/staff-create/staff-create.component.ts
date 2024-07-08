@@ -99,9 +99,6 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
         } else {
           this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
         }
-      },
-      (error) => {
-        this.toast.warningToast("Lỗi hệ thống", "Vui lòng thử lại sau.");
       }
     );
   }
@@ -135,13 +132,6 @@ export class StaffCreateComponent implements OnInit, OnDestroy {
           }, 1000);
         }
       },
-      (err) => {
-        //console.error("Lỗi khi thêm nhân", error);
-        this.toast.warningToast(
-          "Lỗi hệ thống",
-          "Lỗi hệ thống, vui lòng thử lại sau."
-        );
-      }
     );
   }
 }
