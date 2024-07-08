@@ -80,9 +80,9 @@ export class SupportCreateComponent implements OnInit, OnDestroy {
         console.log('Response from server:', res);
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-        } else  {
+        } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
-          this.validationNotify.formErrors[res.obj] = res.message;
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
       (err) => {

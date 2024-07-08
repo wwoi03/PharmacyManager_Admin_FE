@@ -40,11 +40,14 @@ export class SupportDetailsComponent implements OnInit{
       // Gọi service để lấy thông tin chi tiết bệnh
       this.supportService.details(this.supportRequest).subscribe(
         (response) => {
+        if (response.code === 200){
           this.support = response.obj;
-        },
-        (error) => {
-          this.toast.warningToast('Lấy thông tin thất bại', error);
+        } else {
+          this.toast.warningToast('Lấy thông tin thất bại', response.message);
         }
+      }, (error) => {
+        this.toast.warningToast('Lấy thông tin thất bại', error);
+      }
       );
     }
   }

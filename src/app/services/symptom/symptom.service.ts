@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseApi } from '../../models/response-apis/response-api';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { ListSymptomResponse } from '../../models/responses/symptom/list-symptom-response';
 import { DetailsSymptomRequest } from '../../models/requests/symptom/get-details-symptom-request';
 import { SymptomResponse } from '../../models/responses/symptom/symptom-response';
 import { CreateSymptomRequest } from '../../models/requests/symptom/create-symptom-request';
 import { EditSymptomRequest } from '../../models/requests/symptom/edit-symptom-request';
+import { ErrorNotify } from '../../helpers/error-notify';
 
 
 @Injectable({
@@ -17,28 +18,57 @@ import { EditSymptomRequest } from '../../models/requests/symptom/edit-symptom-r
 export class SymptomService {
   private apiURL: string = environment.API_BASE_URL + '/admin/Symptom/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private errorNotify: ErrorNotify) { }
 
   //Lấy danh sách
-  getSymptom(): Observable<ListSymptomResponse[]>{
+  getSymptom(): Observable<ResponseApi<ListSymptomResponse[]>>{
     return this.http.get<ResponseApi<ListSymptomResponse[]>> (this.apiURL + 'GetSymptoms')
     .pipe(
-      map((response: ResponseApi<ListSymptomResponse[]>)=> response.obj)
-    )
+      map((response: ResponseApi<ListSymptomResponse[]>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
   }
 
   //Thêm bệnh
   create(request: CreateSymptomRequest): Observable<ResponseApi<string>>{
     return this.http.post<ResponseApi<string>>(this.apiURL + 'CreateSymptom', request)
-    .pipe( tap((response: ResponseApi<string>)=> response))
+    .pipe( tap((response: ResponseApi<string>) => {
+      if (response.isSuccessed) {
+        return response;
+      } else {
+        this.errorNotify.handleStatusError(response.code);
+      }
+    }),
+    catchError((error: HttpErrorResponse) => {
+      return this.errorNotify.handleStatusError(error.status);
+    })
+  );
   }
 
   //Sửa bệnh
   edit(request: EditSymptomRequest): Observable<ResponseApi<string>>{
     return this.http.put<ResponseApi<string>>(this.apiURL + 'UpdateSymptom', request)
     .pipe(
-      tap((response: ResponseApi<string>) => response)
-    )
+      tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+    
   }
 
   //Chi tiết bệnh
@@ -53,7 +83,16 @@ export class SymptomService {
 
     return this.http.get(this.apiURL + 'DetailsSymptom', {params})
     .pipe(
-      tap((response: ResponseApi<SymptomResponse>)=> response)
-    )
+      map((response: ResponseApi<SymptomResponse>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
   }
 }

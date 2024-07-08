@@ -1,4 +1,4 @@
-export class DiseaseDTO {
+export class DiseaseResponse {
     id : string;
     name : string;
     description? :string;

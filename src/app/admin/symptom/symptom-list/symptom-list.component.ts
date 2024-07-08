@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ListSymptomResponse } from '../../../models/responses/symptom/list-symptom-response';
 import { SymptomService } from '../../../services/symptom/symptom.service';
 import { DialogComponent } from '../../disease/dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
 
 @Component({
   selector: 'ngx-symptom-list',
@@ -62,14 +64,19 @@ export class SymptomListComponent implements OnInit{
   dialogService: NbDialogService;
 
   constructor(private symptomService: SymptomService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast){
     this.source = new LocalDataSource();
   }
 
   loadSymptomData(){
-    this.symptomService.getSymptom().subscribe((data: ListSymptomResponse[])=>{
-      this.listSymptom = data;
-      this.source.load(this.listSymptom);
+    this.symptomService.getSymptom().subscribe((data: ResponseApi<ListSymptomResponse[]>)=>{
+      if(data.code === 200){
+        this.listSymptom = data.obj;
+        this.source.load(this.listSymptom);
+      }
+    },(error) => {
+      this.toast.warningToast('Lấy thông tin thất bại', error);
     });
   }
 
