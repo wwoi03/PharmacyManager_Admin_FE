@@ -1,58 +1,114 @@
-<form (ngSubmit)="createShipment()" #categoryForm="ngForm">
-    <nb-card>
-        <nb-card-header>Thêm danh mục sản phẩm</nb-card-header>
-        <nb-card-body>
-            <div>
-                <!-- Tên -->
-                <div class="form-group">
-                    <label for="forNote" class="label">Ghi chú<small class="text-danger">*</small></label>
-                    <input required [(ngModel)]="createShipmentRequest.note" name="note" type="text" nbInput
-                        fullWidth id="forNote" placeholder="Tên loại sản phẩm" #note="ngModel"
-                        (input)="validationNotify.onInputChange('note')">
-                    <div class="text-danger-container">
-                        <div *ngIf="formErrors['note']" class="text-danger">
-                            {{ formErrors['note'] }}
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Nhập kho</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+
+<form (ngSubmit)="createShipment()" #shipmentForm="ngForm" class="row">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>Thông tin đơn nhập</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <div class="row">
+                        <!-- Code -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="forCodeShipment" class="label">Mã kho<small
+                                        class="text-danger">*</small></label>
+                                <input required [(ngModel)]="createShipmentRequest.codeShipment" name="codeShipment"
+                                    type="text" nbInput fullWidth id="forCodeShipment" placeholder="Mã kho"
+                                    #codeShipment="ngModel" (input)="validationNotify.onInputChange('codeShipment')">
+                                <div class="text-danger-container">
+                                    <div *ngIf="formErrors['codeShipment']" class="text-danger">
+                                        {{ formErrors['codeShipment'] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ngày nhập -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="forImportDate" class="label">Ngày nhập<small
+                                        class="text-danger">*</small></label>
+                                <input required [(ngModel)]="createShipmentRequest.importDate" name="importDate"
+                                    type="date" nbInput fullWidth id="forImportDate" placeholder="Mã kho"
+                                    #importDate="ngModel" (input)="validationNotify.onInputChange('importDate')">
+                                <div class="text-danger-container">
+                                    <div *ngIf="formErrors['importDate']" class="text-danger">
+                                        {{ formErrors['importDate'] }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Code -->
-                <div class="form-group">
-                    <label for="forCode" class="label">Code<small class="text-danger">*</small></label>
-                    <input required [(ngModel)]="createShipmentRequest.codeCategory" name="codeCategory" type="text" nbInput
-                        fullWidth id="forCode" placeholder="Code" #codeCategory="ngModel"
-                        (input)="validationNotify.onInputChange('codeCategory')">
-                    <div class="text-danger-container">
-                        <div *ngIf="formErrors['codeCategory']" class="text-danger">
-                            {{ formErrors['codeCategory'] }}
+                    <!-- Note -->
+                    <div class="form-group">
+                        <label for="forNote" class="label">Ghi chú<small class="text-danger">*</small></label>
+                        <textarea required [(ngModel)]="createShipmentRequest.note" name="note" rows="3" nbInput
+                            fullWidth id="forNote" shape="rectangle" placeholder="Ghi chú" #note="ngModel"
+                            (input)="validationNotify.onInputChange('note')"></textarea>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['note']" class="text-danger">
+                                {{ formErrors['note'] }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Danh mục cha -->
-                <div class="form-group">
-                    <label for="forCategoryParent" class="label">Danh mục cha</label>
-                    <input (input)="onInputCategoryParentFinish($event)" [(ngModel)]="parentCategoryCode" name="parentCategoryCode" type="text" nbInput
-                        fullWidth id="forCategoryParent" placeholder="Danh mục cha" #parentCategoryId="ngModel"
-                        (input)="validationNotify.onInputChange('parentCategoryId')">
-                    <div class="text-danger-container">
-                        <div *ngIf="formErrors['parentCategoryId']" class="text-danger">
-                            {{ formErrors['parentCategoryId'] }}
+                    <div class="row">
+                        <!-- Mã nhà cung cấp -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="forCodeSupplier" class="label">Mã nhà cung cấp<small
+                                        class="text-danger">*</small></label>
+                                <input required [(ngModel)]="codeSupplier" name="codeSupplier" type="text" nbInput
+                                    fullWidth id="forCodeSupplier" placeholder="Mã nhà cung cấp"
+                                    (input)="validationNotify.onInputChange('codeSupplier')"
+                                    (input)="onInputSupplierFinish($event)">
+                                <div class="text-danger-container">
+                                    <div *ngIf="formErrors['codeSupplier']" class="text-danger">
+                                        {{ formErrors['codeSupplier'] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tên nhà cung cấp -->
+                        <div *ngIf="showSupplierNameField" class="col-sm-6">
+                            <div class="form-group">
+                                <label for="forSupplierName" class="label">Tên nhà cung cấp</label>
+                                <input id="forSupplierName" readonly [value]="supplierName" type="text" nbInput
+                                    fullWidth id="">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Tên danh mục cha -->
-                <div *ngIf="showParentCategoryField" class="form-group">
-                    <label for="forCategoryParentName" class="label">Tên loại sản phẩm cha</label>
-                    <input readonly [(ngModel)]="parentCategoryName" name="parentCategoryName" type="text" nbInput
-                        fullWidth id="forCategoryParentName" placeholder="Danh mục cha">
+                    <!-- Trạng thái -->
+                    <div class="form-group">
+                        <label for="forStatus" class="label" style="margin: 0 1.5rem 0 0;">Giới tính<small
+                                class="text-danger">*</small></label>
+
+                        <nb-radio-group (input)="validationNotify.onInputChange('status')" required
+                            [(ngModel)]="createShipmentRequest.status" name="status" id="forStatus" #status="ngModel">
+                            <nb-radio [value]="'PM_Shipment_Pending'">Đã giao</nb-radio>
+                            <nb-radio [value]="'PM_Shipment_Delivered'">Đang chờ xử lý</nb-radio>
+                        </nb-radio-group>
+
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['status']" class="text-danger">
+                                {{ formErrors['status'] }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Thêm mới</button>
                 </div>
-            </div>
-        </nb-card-body>
-        <nb-card-footer>
-            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
-            <button nbButton status="success">Thêm</button>
-        </nb-card-footer>
-    </nb-card>
+            </nb-card-body>
+        </nb-card>
+    </div>
 </form>

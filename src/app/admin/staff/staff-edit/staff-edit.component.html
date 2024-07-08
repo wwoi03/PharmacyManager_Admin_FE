@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-12">
     <nb-card class="d-flex">
-      <nb-card-header>Thêm nhân viên</nb-card-header>
+      <nb-card-header>Chỉnh sửa/chi tiết nhân viên</nb-card-header>
     </nb-card>
   </div>
 </div>
 
-<form (ngSubmit)="createStaff()" #staffForm="ngForm" class="row">
+<form (ngSubmit)="updateStaff()" #staffForm="ngForm" class="row">
   <div class="col-md-6">
     <nb-card>
       <nb-card-header>Thông tin nhân viên</nb-card-header>
@@ -15,7 +15,7 @@
           <!-- Tên -->
           <div class="form-group">
             <label for="forFullName" class="label">Họ và tên<small class="text-danger">*</small></label>
-            <input required [(ngModel)]="createStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
+            <input required [(ngModel)]="updateStaffRequest.fullName" name="fullName" type="text" nbInput fullWidth
               id="forFullname" placeholder="Họ và tên" #fullName="ngModel"
               (input)="validationNotify.onInputChange('fullName')">
             <div class="text-danger-container">
@@ -30,7 +30,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forUsername" class="label">Tên đăng nhập<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.userName" name="userName" type="text" nbInput fullWidth
+                <input required [(ngModel)]="updateStaffRequest.userName" name="userName" type="text" nbInput fullWidth
                   id="forUsername" placeholder="Tên đăng nhập" #userName="ngModel"
                   (input)="validationNotify.onInputChange('userName')">
                 <div class="text-danger-container">
@@ -43,7 +43,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forEmail" class="label">Email<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.email" name="email" type="email" nbInput fullWidth
+                <input required [(ngModel)]="updateStaffRequest.email" name="email" type="email" nbInput fullWidth
                   id="forEmail" placeholder="Email" #email="ngModel" (input)="validationNotify.onInputChange('email')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['email']" class="text-danger">
@@ -58,8 +58,8 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forPassword" class="label">Mật khẩu<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.password" name="password" type="password" nbInput
+                <label for="forPassword" class="label">Mật khẩu</label>
+                <input [(ngModel)]="updateStaffRequest.password" name="password" type="password" nbInput
                   fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel"
                   (input)="validationNotify.onInputChange('password')">
                 <div class="text-danger-container">
@@ -71,9 +71,8 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận<small
-                    class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.confirmPassword" name="confirmPassword" type="password"
+                <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
+                <input [(ngModel)]="updateStaffRequest.confirmPassword" name="confirmPassword" type="password"
                   nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel"
                   (input)="validationNotify.onInputChange('confirmPassword')">
                 <div class="text-danger-container">
@@ -92,7 +91,7 @@
                   class="text-danger">*</small></label>
               <div class="demo-items" style="margin: 0">
                 <nb-radio-group (input)="validationNotify.onInputChange('gender')" required
-                  [(ngModel)]="createStaffRequest.gender" name="gender" class="form-inline" id="forGender"
+                  [(ngModel)]="updateStaffRequest.gender" name="gender" class="form-inline" id="forGender"
                   #gender="ngModel">
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nam'">Nam</nb-radio>
                   <nb-radio style="margin: 0 1.5rem 0 0" [value]="'Nữ'">Nữ</nb-radio>
@@ -112,7 +111,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forPhone" class="label">Số điện thoại<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
+                <input required [(ngModel)]="updateStaffRequest.phoneNumber" name="phoneNumber" type="text" nbInput
                   fullWidth id="forPhone" placeholder="Số điện thoại" #phoneNumber="ngModel"
                   (input)="validationNotify.onInputChange('phoneNumber')">
                 <div class="text-danger-container">
@@ -125,7 +124,7 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forBirthday" class="label">Ngày sinh<small class="text-danger">*</small></label>
-                <input required [(ngModel)]="createStaffRequest.birthday" name="birthday" type="date" nbInput fullWidth
+                <input required [ngModel]="strBirthday" (ngModelChange)="onBirthdayChange($event)" name="birthday" type="date" nbInput fullWidth
                   id="forBirthday" #birthday="ngModel" (input)="validationNotify.onInputChange('birthday')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['birthday']" class="text-danger">
@@ -139,7 +138,7 @@
           <!-- Địa chỉ -->
           <div class="form-group">
             <label for="forAddress" class="label">Địa chỉ<small class="text-danger">*</small></label>
-            <textarea required [(ngModel)]="createStaffRequest.address" name="address" rows="3" nbInput fullWidth
+            <textarea required [(ngModel)]="updateStaffRequest.address" name="address" rows="3" nbInput fullWidth
               id="forAddress" shape="rectangle" placeholder="Địa chỉ" #address="ngModel"
               (input)="validationNotify.onInputChange('address')"></textarea>
             <div class="text-danger-container">
@@ -150,7 +149,7 @@
           </div>
 
           <!-- Submit -->
-          <button type="submit" nbButton status="primary">Thêm mới</button>
+          <button type="submit" nbButton status="primary">Cập nhật</button>
         </div>
       </nb-card-body>
     </nb-card>
@@ -185,7 +184,7 @@
       <nb-card-body class="checkbox-radio">
         <div class="row demo-items">
           <div class="col-6" *ngFor="let item of roles; let index = index">
-            <nb-checkbox [(ngModel)]="createStaffRequest.roles"
+            <nb-checkbox [(ngModel)]="updateStaffRequest.roles" [checked]="isRoleSelected(item.roleNormalizedName)"
               (change)="onRoleChange(item.roleNormalizedName, $event)">{{item.roleName}}</nb-checkbox>
           </div>
         </div>

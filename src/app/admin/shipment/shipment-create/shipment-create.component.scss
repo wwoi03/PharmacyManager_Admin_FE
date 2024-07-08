@@ -1,13 +1,17 @@
-@import '../../../@theme/styles/themes';
+nb-checkbox {
+  margin-bottom: 1rem;
+}
 
-@include nb-install-component() {
-  input {
-    width: 100%;
-  }
+.form-inline [fullWidth] {
+  flex: 1;
+}
 
-  .cancel {
-    margin-right: 1rem;
-  }
+.form-inline > * {
+  margin: 0 1.5rem 1.5rem 0;
+}
+
+nb-card.inline-form-card nb-card-body {
+  padding-bottom: 0;
 }
 
 .text-danger-container {

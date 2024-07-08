@@ -4,8 +4,6 @@ import { ShipmentService } from "../../../services/shipment/shipment.service";
 import { Router } from "@angular/router";
 import { ShipmentResponse } from "../../../models/responses/shipment/shipment-response";
 import { Toast } from "../../../helpers/toast";
-import { NbDialogService } from "@nebular/theme";
-import { ShipmentCreateComponent } from "../shipment-create/shipment-create.component";
 
 @Component({
   selector: "ngx-shipment-list",
@@ -60,26 +58,32 @@ export class ShipmentListComponent {
           }
           return "";
         },
+        width: '15%'
+      },
+      codeShipment: {
+        title: "Mã đơn hàng",
+        type: "string",
+        width: '15%'
       },
       note: {
         title: "Ghi chú",
         type: "string",
+        width: '30%'
       },
       supplierName: {
         title: "Nhà cung cấp",
         type: "string",
+        width: '15%'
       },
       totalProduct: {
         title: "Số sản phẩm",
         type: "number",
-      },
-      totalQuantity: {
-        title: "Tổng số lượng",
-        type: "number",
+        width: '15%'
       },
       status: {
         title: "Trạng thái",
         type: "string",
+        width: '10%'
       },
     },
   };
@@ -89,7 +93,6 @@ export class ShipmentListComponent {
     private shipmentService: ShipmentService,
     private router: Router,
     private toast: Toast,
-    private dialogService: NbDialogService
   ) {
     this.source = new LocalDataSource();
   }
@@ -114,13 +117,6 @@ export class ShipmentListComponent {
   // Thêm đơn nhập kho
   onCreate(event): void {
     //this.router.navigate(['/admin/shipment/shipment-create']);
-    this.dialogService
-      .open(ShipmentCreateComponent)
-      .onClose.subscribe((result: boolean) => {
-        if (result) {
-          this.loadShipmentData();
-        }
-      });
   }
 
   // Xóa đơn nhập kho

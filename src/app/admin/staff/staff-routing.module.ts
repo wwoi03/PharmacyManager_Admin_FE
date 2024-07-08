@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { StaffComponent } from './staff.component';
 import { StaffListComponent } from './staff-list/staff-list.component';
 import { StaffCreateComponent } from './staff-create/staff-create.component';
+import { StaffEditComponent } from './staff-edit/staff-edit.component';
 
 const routes: Routes = [{
   path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
     {
       path: 'staff-create',
       component: StaffCreateComponent,
+    },
+    {
+      path: 'staff-edit/:id',
+      component: StaffEditComponent,
     },
   ],
 }];
@@ -32,4 +37,5 @@ export const routedComponents = [
     StaffComponent,
     StaffListComponent,
     StaffCreateComponent,
+    StaffEditComponent,
 ];

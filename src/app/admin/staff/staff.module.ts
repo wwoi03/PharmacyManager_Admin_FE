@@ -15,6 +15,7 @@ import {
   NbSelectModule,
   NbUserModule,
   NbTooltipModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -36,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule, 
     NbTooltipModule,
+    NbSpinnerModule,
   ],
   declarations: [
     ...routedComponents,

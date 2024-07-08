@@ -4,6 +4,7 @@ import { AdminPublicRoutingModule, routedComponents } from './admin-public-routi
 import { RouterModule } from '@angular/router';
 import { ThemeModule } from '../@theme/theme.module';
 import { FormsModule } from '@angular/forms';
+import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,9 @@ import { FormsModule } from '@angular/forms';
     ThemeModule,
     AdminPublicRoutingModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NbSpinnerModule,
+    NbCardModule
   ]
 })
 export class AdminPublicModule {
