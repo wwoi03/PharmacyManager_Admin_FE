@@ -9,21 +9,42 @@ import { SmartTableData } from '../../../@core/data/smart-table';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent {
+  onCustom(event) {
+    alert(`Custom event '${event.action}' fired on row №: ${event.data.id}`)
+  }
+
   settings = {
+    actions: {
+      edit: false,
+      delete: false,
+      custom: [
+        {
+          name: 'view',
+          title: 'Xem',
+        },
+        {
+          name: 'edit',
+          title: 'Sửa',
+        },
+        {
+          name: 'delete',
+          title: 'Xóa',
+        },
+      ],
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
     },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
+    // edit: {
+    //   editButtonContent: '<i class="nb-edit"></i>',
+    //   cancelButtonContent: '<i class="nb-close"></i>',
+    // },
+    // delete: {
+    //   deleteButtonContent: '<i class="nb-trash"></i>',
+    //   confirmDelete: true,
+    // },
     columns: {
       id: {
         title: 'ID',

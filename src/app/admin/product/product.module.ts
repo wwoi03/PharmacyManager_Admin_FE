@@ -8,10 +8,6 @@ import { ProductRoutingModule, routedComponents } from './product-routing.module
 @NgModule({
   imports: [
     NbCardModule,
-    NbTreeGridModule,
-    NbIconModule,
-    NbInputModule,
-    ThemeModule,
     Ng2SmartTableModule,
     ProductRoutingModule
   ],
