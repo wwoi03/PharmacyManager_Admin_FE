@@ -52,13 +52,16 @@ export class SymptomEditComponent implements OnInit, OnDestroy{
     if (this.symptomRequest) {
       // Gọi service để lấy thông tin chi tiết triệu chứng
       this.symptomService.details(this.symptomRequest).subscribe(
-        (response) => {
+        (response) => { if (response.code === 200){
           this.symptom = response.obj;
           this.editSymptomRequest.id = this.symptom.id;
           this.editSymptomRequest.name = this.symptom.name;
           this.editSymptomRequest.description = this.symptom.description;
           this.editSymptomRequest.codeSymptom = this.symptom.codeSymptom;
-        },
+        } else {
+          this.toast.warningToast('Lấy thông tin thất bại', response.message);
+        }
+      },
         (error) => {
           this.toast.warningToast('Lấy thông tin thất bại', error);
         }
@@ -103,9 +106,9 @@ export class SymptomEditComponent implements OnInit, OnDestroy{
         console.log('Response from server:', res);
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-        } else  {
+        } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
-          this.validationNotify.formErrors[res.obj] = res.message;
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
       (err) => {

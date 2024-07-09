@@ -40,12 +40,15 @@ export class SymptomDetailsComponent implements OnInit{
       // Gọi service để lấy thông tin chi tiết bệnh
       this.symptomService.details(this.symptomRequest).subscribe(
         (response) => {
-          this.symptom = response.obj;
-        },
-        (error) => {
+          if (response.code === 200){
+            this.symptom = response.obj;
+          } else {
+            this.toast.warningToast('Lấy thông tin thất bại', response.message);
+          }
+        }, (error) => {
           this.toast.warningToast('Lấy thông tin thất bại', error);
         }
-      );
+        );
     }
   }
 

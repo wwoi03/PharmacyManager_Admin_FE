@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
 import { SupportService } from '../../../services/support/support.service';
 import { DialogComponent } from '../../disease/dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
 
 @Component({
   selector: 'ngx-support-list',
@@ -62,15 +64,20 @@ export class SupportListComponent implements OnInit{
   dialogService: NbDialogService;
 
   constructor(private supportService: SupportService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast){
     this.source = new LocalDataSource();
   }
 
   loadSupportData(){
-    this.supportService.getSupport().subscribe((data: ListSupportResponse[])=>{
-      this.listSupport = data;
+    this.supportService.getSupport().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{
+      if(data.code === 200){
+      this.listSupport = data.obj;
       this.source.load(this.listSupport);
-    });
+    }
+  },(error) => {
+    this.toast.warningToast('Lấy thông tin thất bại', error);
+  });
   }
 
   ngOnInit(){

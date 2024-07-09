@@ -56,19 +56,20 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
 
    // Xử lý thêm 
    create() {
-    // Lấy form controls
-    const controls = this.diseaseForm.controls;
+    // // Lấy form controls
+    // const controls = this.diseaseForm.controls;
     
-    // Kiểm tra tính hợp lệ của các yếu tố, bỏ qua description
-    let formValid = false;
-    for (const name in controls) {
-      if (name !== 'description' && controls[name].invalid) {
-        formValid = true;
-        break;
-      }
-    }
+    // // Kiểm tra tính hợp lệ của các yếu tố, bỏ qua description
+    // let formValid = false;
+    // for (const name in controls) {
+    //   if (name !== 'description' && controls[name].invalid) {
+    //     formValid = true;
+    //     break;
+    //   }
+    // }
+
     // Valid
-    if (formValid) {
+    if (this.diseaseForm.controls.invalid) {
       this.validationNotify.validateForm();
       this.formErrors =  this.validationNotify.formErrors;
       return;
@@ -77,12 +78,12 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
     // Call API Create 
     this.diseaseService.create(this.createDiseaseRequest).subscribe(
       (res) => {
-        console.log('Response from server:', res);
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-        } else  {
+          //this.ref.close(true);
+         } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
-          this.validationNotify.formErrors[res.obj] = res.message;
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
       (err) => {

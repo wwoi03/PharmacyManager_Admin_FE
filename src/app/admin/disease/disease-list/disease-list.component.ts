@@ -6,6 +6,8 @@ import { DiseaseService } from '../../../services/disease/disease.service';
 import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { DialogComponent } from '../dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
 
 @Component({
   selector: 'ngx-disease-list',
@@ -59,19 +61,24 @@ export class DiseaseListComponent implements OnInit {
   };
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [];
+  listDisease: listDiseaseResponse[] = [] ;
   dialogService: NbDialogService;
 
   constructor(private diseaseService: DiseaseService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast){
     this.source = new LocalDataSource();
   }
 
   loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease = data;
+    this.diseaseService.getDisease().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
+      if(data.code === 200){
+      this.listDisease = data.obj;
       this.source.load(this.listDisease);
-    });
+    }
+  },(error) => {
+    this.toast.warningToast('Lấy thông tin thất bại', error);
+  });
   }
 
   ngOnInit(){
