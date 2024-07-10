@@ -4,9 +4,9 @@ import { NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
 import { SupportService } from '../../../services/support/support.service';
-import { DialogComponent } from '../../disease/dialog/dialog.component';
 import { ResponseApi } from '../../../models/response-apis/response-api';
 import { Toast } from '../../../helpers/toast';
+import { SupportDeleteComponent } from '../support-delete/support-delete.component';
 
 @Component({
   selector: 'ngx-support-list',
@@ -27,21 +27,12 @@ export class SupportListComponent implements OnInit{
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
     },
     columns: {
       name:{
@@ -61,11 +52,12 @@ export class SupportListComponent implements OnInit{
 
   source: LocalDataSource;
   listSupport: ListSupportResponse[] = [];
-  dialogService: NbDialogService;
+  
 
   constructor(private supportService: SupportService, 
     private router: Router,
-    private toast: Toast){
+    private toast: Toast,
+    private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
 
@@ -104,27 +96,25 @@ export class SupportListComponent implements OnInit{
     this.router.navigate(['/admin/support/support-edit', event.data.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
+  onDelete(event): void {
+    const support: ListSupportResponse = event.data;
+    
+    this.dialogService
+      .open(SupportDeleteComponent, {
+        context: {
+          support: support
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadSupportData();
+        }
+      });
   }
 
   onRowSelect(event): void{
     this.router.navigate(['/admin/support/support-details', event.data.id]);
   }
 
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
-  }
+  
 }

@@ -95,4 +95,26 @@ export class SymptomService {
       })
     );
   }
+
+    //xóa triệu chứng
+delete(symptomId: string): Observable<ResponseApi<string>>{
+
+  const url = `${this.apiURL}DeleteSymptom?id=${symptomId}`;
+    // const params = new HttpParams().set("id", symptomId);
+  
+    return this.http.delete<ResponseApi<string>>(url )
+    .pipe(
+      tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
+
 }

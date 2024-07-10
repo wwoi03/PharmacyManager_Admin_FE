@@ -4,10 +4,11 @@ import { NgForm } from '@angular/forms';
 import { ValidationNotify } from '../../../helpers/validation-notify';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiseaseService } from '../../../services/disease/disease.service';
-import { NbThemeService } from '@nebular/theme';
+import { NbDialogService, NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
 import { Console } from 'console';
 import { DiseaseResponse } from '../../../models/responses/disease/disease-response';
+import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.component';
 
 @Component({
   selector: 'ngx-disease-details',
@@ -28,6 +29,7 @@ export class DiseaseDetailsComponent implements OnInit, OnDestroy{
     private themeService: NbThemeService,
     private toast: Toast,
     private router: Router,
+    private dialogService : NbDialogService,
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -46,8 +48,10 @@ export class DiseaseDetailsComponent implements OnInit, OnDestroy{
         (response) => {
           if (response.code === 200){
             this.disease = response.obj;
-          } else {
-            this.toast.warningToast('Lấy thông tin thất bại', response.message);
+          } else if (response.code >= 400 && response.code < 500) {
+            this.toast.warningToast("Thất bại", response.message);
+          } else if (response.code === 500) {
+            this.toast.dangerToast("Lỗi hệ thống", response.message);
           }
         },
         (error) => {
@@ -59,5 +63,20 @@ export class DiseaseDetailsComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
+  }
+
+  onDelete(): void {
+    
+    this.dialogService
+      .open(DiseaseDeleteComponent, {
+        context: {
+          disease: this.disease
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.router.navigate(['/admin/disease/disease-list']);
+        }
+      });
   }
 }

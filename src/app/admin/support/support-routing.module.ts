@@ -5,6 +5,7 @@ import { SupportListComponent } from './support-list/support-list.component';
 import { SupportCreateComponent } from './support-create/support-create.component';
 import { SupportEditComponent } from './support-edit/support-edit.component';
 import { SupportDetailsComponent } from './support-details/support-details.component';
+import { SupportDeleteComponent } from './support-delete/support-delete.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       {path: 'support-create', component: SupportCreateComponent},
       {path: 'support-edit/:id', component: SupportEditComponent },
       {path: 'support-details/:id', component: SupportDetailsComponent},
+      {path: 'support-delete/:id', component: SupportDeleteComponent},
     ]
   }
 ];
@@ -31,5 +33,6 @@ export const routedComponents = [
   SupportCreateComponent,
   SupportEditComponent,
   SupportDetailsComponent,
+  SupportDeleteComponent,
 ];
 

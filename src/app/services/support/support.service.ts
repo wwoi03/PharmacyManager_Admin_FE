@@ -93,4 +93,26 @@ export class SupportService {
       })
     );
   }
+
+  //xóa Hỗ trợ
+delete(supportId: string): Observable<ResponseApi<string>>{
+
+  //const url = `${this.apiURL}DeleteSupport`;
+     const params = new HttpParams().set("id", supportId);
+  
+    return this.http.delete<ResponseApi<string>>(this.apiURL + 'DeleteSupport',{params} )
+    .pipe(
+      tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
+
 }

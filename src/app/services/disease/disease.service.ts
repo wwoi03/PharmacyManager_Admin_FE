@@ -95,4 +95,24 @@ export class DiseaseService {
       })
     );
   }
+
+  //xóa bệnh
+  delete(diseaseId: string): Observable<ResponseApi<string>>{
+
+    const params = new HttpParams().set("id", diseaseId);
+  
+    return this.http.delete<ResponseApi<string>>(this.apiURL + 'DeleteDisease', {params} )
+    .pipe(
+      tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
 }

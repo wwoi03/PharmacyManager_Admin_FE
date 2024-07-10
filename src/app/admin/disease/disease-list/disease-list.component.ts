@@ -5,9 +5,9 @@ import { listDiseaseResponse } from '../../../models/responses/disease/list-dise
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
-import { DialogComponent } from '../dialog/dialog.component';
 import { ResponseApi } from '../../../models/response-apis/response-api';
 import { Toast } from '../../../helpers/toast';
+import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.component';
 
 @Component({
   selector: 'ngx-disease-list',
@@ -28,21 +28,12 @@ export class DiseaseListComponent implements OnInit {
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
     },
     columns: {
       name:{
@@ -62,11 +53,12 @@ export class DiseaseListComponent implements OnInit {
 
   source: LocalDataSource;
   listDisease: listDiseaseResponse[] = [] ;
-  dialogService: NbDialogService;
+  
 
   constructor(private diseaseService: DiseaseService, 
     private router: Router,
-    private toast: Toast){
+    private toast: Toast,
+    private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
 
@@ -121,11 +113,20 @@ export class DiseaseListComponent implements OnInit {
     this.router.navigate(['/admin/disease/disease-details', event.data.id]);
   }
 
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
+  onDelete(event): void {
+    const disease: listDiseaseResponse = event.data;
+    
+    this.dialogService
+      .open(DiseaseDeleteComponent, {
+        context: {
+          disease: disease
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadDiseaseData();
+        }
+      });
   }
+  
 }

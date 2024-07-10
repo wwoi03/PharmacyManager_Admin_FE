@@ -9,7 +9,7 @@
         [source]="source" 
         (create)="onCreate($event)" 
         (edit)="onEdit($event)" 
-        (deleteConfirm)="open()" 
+        (delete) ="onDelete($event)"
         (custom)="onCustomAction($event)"
         (userRowSelect)="onRowSelect($event)">
 

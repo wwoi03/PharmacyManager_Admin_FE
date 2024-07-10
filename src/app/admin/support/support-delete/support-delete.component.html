@@ -1,0 +1,26 @@
+<form (ngSubmit)="delete()" #supportForm="ngForm">
+    <nb-card>
+        <nb-card-header>Xóa thông tin hỗ trợ</nb-card-header>
+        <nb-card-body>
+            <div>
+                <!-- Tên -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên hỗ trợ</label>
+                    <input readonly [(ngModel)]="support.name" name="supportName" type="text" nbInput
+                        fullWidth id="forName" >
+                </div>
+
+                <!-- Code -->
+                <div class="form-group">
+                    <label for="forCode" class="label">Mã hỗ trợ</label>
+                    <input readonly [(ngModel)]="support.codeSupport" name="codeSupport" type="text" nbInput
+                        fullWidth id="forCode">
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button nbButton status="success">Xóa</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

@@ -31,6 +31,6 @@ margin-top: 2rem;
 }
 
 .btn-submit {
-    margin-top: 1rem !important;
-    margin-bottom: 2rem !important;
+    display: inline-flexbox;
+  align-items: flex-end;
 }

@@ -3,8 +3,9 @@ import { DetailsSupportRequest } from '../../../models/requests/support/get-deta
 import { SupportResponse } from '../../../models/responses/support/support-response';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupportService } from '../../../services/support/support.service';
-import { NbThemeService } from '@nebular/theme';
+import { NbDialogService, NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
+import { SupportDeleteComponent } from '../support-delete/support-delete.component';
 
 @Component({
   selector: 'ngx-support-details',
@@ -24,6 +25,7 @@ export class SupportDetailsComponent implements OnInit{
     private themeService: NbThemeService,
     private toast: Toast,
     private router: Router,
+    private dialogService: NbDialogService,
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -54,5 +56,20 @@ export class SupportDetailsComponent implements OnInit{
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
+  }
+
+  onDelete(): void {
+    
+    this.dialogService
+      .open(SupportDeleteComponent, {
+        context: {
+          support: this.support
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.router.navigate(['/admin/support/support-list']);
+        }
+      });
   }
 }

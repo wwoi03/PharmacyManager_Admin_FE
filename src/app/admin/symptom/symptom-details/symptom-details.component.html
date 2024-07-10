@@ -35,6 +35,7 @@
 
             <!-- Submit -->
             <button class="btn-submit" nbButton [routerLink]="['/admin/symptom/symptom-edit', symptom.id]" status="warning">Chỉnh sửa</button>
+            <button class="btn-delete btn-submit" nbButton (click)="onDelete()" status="danger">Xóa</button>
         </nb-card-body>
     </nb-card>
     </div>
