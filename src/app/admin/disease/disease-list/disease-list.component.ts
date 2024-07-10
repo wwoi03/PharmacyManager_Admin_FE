@@ -37,19 +37,19 @@ export class DiseaseListComponent implements OnInit {
     },
     columns: {
       name:{
-        title: 'Tên bệnh',
+        title: 'Tên triệu chứng',
         type: 'string',
       },
       description:{
         title: 'Mô tả',
         type: 'string',
       },
-      codeDisease:{
-        title: 'Mã bệnh',
+      codeOrder:{
+        title: 'Mã triệu chứng',
         type:'string',
       }
-    },
-  };
+    }
+    };
 
   source: LocalDataSource;
   listDisease: listDiseaseResponse[] = [] ;
@@ -63,11 +63,12 @@ export class DiseaseListComponent implements OnInit {
   }
 
   loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
+    this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
       if(data.code === 200){
       this.listDisease = data.obj;
       this.source.load(this.listDisease);
-    }
+    }else {
+      this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
     this.toast.warningToast('Lấy thông tin thất bại', error);
   });

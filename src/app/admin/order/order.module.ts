@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { OrderRoutingModule, routedComponents } from './order-routing.module';
+import { OrderListComponent } from './order-list/order-list.component';
 import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
-import { DiseaseRoutingModule, routedComponents } from './disease-routing.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 
 @NgModule({
+  declarations: [...routedComponents],
   
   imports: [
     NbCardModule,
@@ -21,10 +24,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
 
-    DiseaseRoutingModule,
-  ],
-  
-  declarations: [...routedComponents],
-
+    OrderRoutingModule
+  ]
 })
-export class DiseaseModule { }
+export class OrderModule { }

@@ -22,7 +22,7 @@ export class DiseaseService {
   constructor(private http: HttpClient, private errorNotify : ErrorNotify) { }
 
   //Lấy danh sách
-  getDisease(): Observable<ResponseApi<listDiseaseResponse[]>>{
+  getDiseases(): Observable<ResponseApi<listDiseaseResponse[]>>{
     return this.http.get<ResponseApi<listDiseaseResponse[]>> (this.apiURL + 'GetDiseases')
     .pipe(
       map((response: ResponseApi<listDiseaseResponse[]>) => {
