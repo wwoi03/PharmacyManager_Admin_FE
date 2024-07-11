@@ -14,6 +14,8 @@ export class ErrorNotify {
   constructor(private router: Router, private authService: AuthService, private toast: Toast, private loadingService: LoadingService) {}
 
   public handleStatusError(status: number){
+    this.loadingService.show();
+
     if (status === 403) {
       this.loadingService.hide();
       this.router.navigate(["/admin/miscellaneous/not-found"]);
@@ -29,7 +31,7 @@ export class ErrorNotify {
       setTimeout(() => {
         this.loadingService.hide();
         this.router.navigate(["/admin/miscellaneous/not-found"]);
-      }, 1000);
+      }, 3000);
     }
 
     return throwError(() => new Error("Mày phá đúng không?"));
