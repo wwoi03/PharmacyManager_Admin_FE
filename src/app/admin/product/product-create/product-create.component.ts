@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { CreateProductRequest } from "../../../models/requests/product/create-product-request";
 import { ValidationNotify } from "../../../helpers/validation-notify";
 import { ProductService } from "../../../services/product/product.service";
@@ -63,7 +63,7 @@ export class ProductCreateComponent {
   }
 
   handleEditorKeyup(content: any) {
-    console.log('Editor content:', content);
+    console.log("Editor content:", content);
   }
 
   // Xử lý thêm nhân viên
@@ -97,14 +97,47 @@ export class ProductCreateComponent {
     });
   }
 
+  // // Thêm ảnh
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  //     console.log("File selected:", file);
+  //     // Thực hiện các hành động khác với tệp được chọn ở đây
+  //   }
+  // }
+
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  images: string[] = [
+  ];
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log("File selected:", file);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.images.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  removeImage(index: number): void {
+    this.images.splice(index, 1);
+  }
+
   // Xử lý sự kiện khi nhập nhà cung cấp
   onInputCategoryFinish(event: any) {
     // this.codeSupplier = event.target.value;
-
     // if (this.codeSupplier === "" || this.codeSupplier === null) {
     //   this.showSupplierNameField = false;
     // }
-
     // this.supplierService
     //   .getSupplierByCode(this.codeSupplier)
     //   .subscribe((res) => {

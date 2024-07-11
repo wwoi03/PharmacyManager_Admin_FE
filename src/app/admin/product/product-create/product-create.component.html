@@ -217,26 +217,23 @@
 
                             <nb-card-body>
                                 <div class="row">
-                                    <div class="col-sm-2">
+                                    <div class="picture-container-custom">
+                                        <div class="picture picture-custom picture-custom-add"
+                                            (click)="triggerFileInput()">
+                                            <nb-icon class="icon-add-custom" icon="plus-square-outline"
+                                                pack="eva"></nb-icon>
+                                        </div>
+                                        <input type="file" #fileInput style="display: none;"
+                                            (change)="onFileSelected($event)">
+                                    </div>
+                                    
+                                    <div class="picture-container-custom" *ngFor="let image of images; let i = index">
                                         <div class="picture picture-custom"
-                                            [ngStyle]="{'background-image': 'url(https://www.akveo.com/ngx-admin/assets/images/kitten-material-light.png)'}">
+                                            [ngStyle]="{'background-image': 'url(' + image + ')'}"></div>
+                                        <div class="picture-icon-custom" (click)="removeImage(i)">
+                                            <nb-icon icon="close-outline" pack="eva"></nb-icon>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-2">
-                                        <div class="picture picture-custom"
-                                            [ngStyle]="{'background-image': 'url(https://www.akveo.com/ngx-admin/assets/images/kitten-material-light.png)'}">
-                                        </div>
-                                    </div>
-
-                                    <!-- <div class="col-sm-6">
-                                        <div class="form-group" style="overflow: hidden">
-                                            <label for="forImage" class="label">Chọn hình ảnh<small
-                                                    class="text-danger">*</small></label>
-                                            <input type="file" fullWidth id="forImage" name="image"
-                                                 accept="image/*">
-                                        </div>
-                                    </div> -->
                                 </div>
                             </nb-card-body>
                         </nb-card>
