@@ -79,21 +79,22 @@
 /* Style cho nút dạng text có gạch chân */
 .action-link {
   color: #007bff !important; /* Màu xanh nhạt giống như thẻ <a> */
-  text-decoration: underline !important; /* Thêm gạch chân */
   cursor: pointer; /* Con trỏ chuột dạng pointer */
   background: none; /* Không có nền */
   border: none; /* Không có viền */
   padding: 5px; /* Padding nhỏ để tăng phần click */
-  margin-right: 10px; /* Khoảng cách giữa các nút */
+  margin-right: 2px; /* Khoảng cách giữa các nút */
+  margin-top: 4px;
 }
 
 .action-link:hover {
   color: #0056b3; /* Màu sẫm hơn khi hover */
+  text-decoration: underline !important; /* Thêm gạch chân */
 }
 
 /* CSS */
 .actions-column {
-  width: 220px;
+  width: 180px;
 }
 
 .idColumn {

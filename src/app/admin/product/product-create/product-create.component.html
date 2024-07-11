@@ -4,14 +4,14 @@
             <nb-card>
                 <nb-card-header class="nb-card-header-customer">
                     <span>Thêm sản phẩm</span>
-    
+
                     <!-- Submit -->
                     <button type="submit" nbButton status="primary">Thêm mới</button>
                 </nb-card-header>
             </nb-card>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <nb-card>
@@ -26,7 +26,8 @@
                                             class="text-danger">*</small></label>
                                     <input required [(ngModel)]="createProductRequest.codeMedicine" name="codeMedicine"
                                         type="text" nbInput fullWidth id="forCodeMedicine" placeholder="Mã sản phẩm"
-                                        #codeMedicine="ngModel" (input)="validationNotify.onInputChange('codeMedicine')">
+                                        #codeMedicine="ngModel"
+                                        (input)="validationNotify.onInputChange('codeMedicine')">
                                     <div class="text-danger-container">
                                         <div *ngIf="formErrors['codeMedicine']" class="text-danger">
                                             {{ formErrors['codeMedicine'] }}
@@ -34,15 +35,17 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <!-- Số đăng lý -->
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="forregistrationNumber" class="label">Số đăng ký<small
                                             class="text-danger">*</small></label>
-                                    <input required [(ngModel)]="createProductRequest.registrationNumber" name="registrationNumber"
-                                        type="text" nbInput fullWidth id="forregistrationNumber" placeholder="Số đăng ký"
-                                        #registrationNumber="ngModel" (input)="validationNotify.onInputChange('registrationNumber')">
+                                    <input required [(ngModel)]="createProductRequest.registrationNumber"
+                                        name="registrationNumber" type="text" nbInput fullWidth
+                                        id="forregistrationNumber" placeholder="Số đăng ký"
+                                        #registrationNumber="ngModel"
+                                        (input)="validationNotify.onInputChange('registrationNumber')">
                                     <div class="text-danger-container">
                                         <div *ngIf="formErrors['registrationNumber']" class="text-danger">
                                             {{ formErrors['registrationNumber'] }}
@@ -51,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <!-- Tên sản phẩm -->
                         <div class="form-group">
                             <label for="forname" class="label">Tên sản phẩm<small class="text-danger">*</small></label>
@@ -64,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <!-- Loại sản phẩm -->
                             <div class="col-sm-6">
@@ -82,7 +85,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <!-- Tên loại sản phẩm -->
                             <div *ngIf="showCategoryNameField" class="col-sm-6">
                                 <div class="form-group">
@@ -115,9 +118,10 @@
                                 <div class="form-group">
                                     <label for="forspecifications" class="label">Quy cách<small
                                             class="text-danger">*</small></label>
-                                    <input required [(ngModel)]="createProductRequest.specifications" name="specifications"
-                                        type="text" nbInput fullWidth id="forspecifications" placeholder="Quy cách"
-                                        #specifications="ngModel" (input)="validationNotify.onInputChange('specifications')">
+                                    <input required [(ngModel)]="createProductRequest.specifications"
+                                        name="specifications" type="text" nbInput fullWidth id="forspecifications"
+                                        placeholder="Quy cách" #specifications="ngModel"
+                                        (input)="validationNotify.onInputChange('specifications')">
                                     <div class="text-danger-container">
                                         <div *ngIf="formErrors['specifications']" class="text-danger">
                                             {{ formErrors['specifications'] }}
@@ -125,7 +129,7 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <!-- Dạng bào chế -->
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -147,9 +151,9 @@
                                 <div class="form-group">
                                     <label for="fordosage" class="label">Liều dùng<small
                                             class="text-danger">*</small></label>
-                                    <input required [(ngModel)]="createProductRequest.dosage" name="dosage"
-                                        type="text" nbInput fullWidth id="fordosage" placeholder="Liều dùng"
-                                        #dosage="ngModel" (input)="validationNotify.onInputChange('dosage')">
+                                    <input required [(ngModel)]="createProductRequest.dosage" name="dosage" type="text"
+                                        nbInput fullWidth id="fordosage" placeholder="Liều dùng" #dosage="ngModel"
+                                        (input)="validationNotify.onInputChange('dosage')">
                                     <div class="text-danger-container">
                                         <div *ngIf="formErrors['dosage']" class="text-danger">
                                             {{ formErrors['dosage'] }}
@@ -163,9 +167,10 @@
                                 <div class="form-group">
                                     <label for="forcontraindication" class="label">Chống chỉ định<small
                                             class="text-danger">*</small></label>
-                                    <input required [(ngModel)]="createProductRequest.contraindication" name="contraindication"
-                                        type="text" nbInput fullWidth id="forcontraindication" placeholder="Chống chỉ định"
-                                        #contraindication="ngModel" (input)="validationNotify.onInputChange('contraindication')">
+                                    <input required [(ngModel)]="createProductRequest.contraindication"
+                                        name="contraindication" type="text" nbInput fullWidth id="forcontraindication"
+                                        placeholder="Chống chỉ định" #contraindication="ngModel"
+                                        (input)="validationNotify.onInputChange('contraindication')">
                                     <div class="text-danger-container">
                                         <div *ngIf="formErrors['contraindication']" class="text-danger">
                                             {{ formErrors['contraindication'] }}
@@ -190,14 +195,14 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <!-- Mô tả ngắn -->
                         <div class="form-group">
                             <label for="forshortDescription" class="label">Mô tả ngắn<small
                                     class="text-danger">*</small></label>
-                            <textarea required [(ngModel)]="createProductRequest.shortDescription" name="shortDescription"
-                                rows="3" nbInput fullWidth id="forshortDescription" shape="rectangle"
-                                placeholder="Mô tả ngắn" #shortDescription="ngModel"
+                            <textarea required [(ngModel)]="createProductRequest.shortDescription"
+                                name="shortDescription" rows="3" nbInput fullWidth id="forshortDescription"
+                                shape="rectangle" placeholder="Mô tả ngắn" #shortDescription="ngModel"
                                 (input)="validationNotify.onInputChange('shortDescription')"></textarea>
                             <div class="text-danger-container">
                                 <div *ngIf="formErrors['shortDescription']" class="text-danger">
@@ -205,7 +210,37 @@
                                 </div>
                             </div>
                         </div>
-    
+
+                        <!-- Image -->
+                        <nb-card size="">
+                            <nb-card-header>Ảnh sản phẩm</nb-card-header>
+
+                            <nb-card-body>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="picture picture-custom"
+                                            [ngStyle]="{'background-image': 'url(https://www.akveo.com/ngx-admin/assets/images/kitten-material-light.png)'}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="picture picture-custom"
+                                            [ngStyle]="{'background-image': 'url(https://www.akveo.com/ngx-admin/assets/images/kitten-material-light.png)'}">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-sm-6">
+                                        <div class="form-group" style="overflow: hidden">
+                                            <label for="forImage" class="label">Chọn hình ảnh<small
+                                                    class="text-danger">*</small></label>
+                                            <input type="file" fullWidth id="forImage" name="image"
+                                                 accept="image/*">
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+
                         <!-- Trạng thái -->
                         <!-- <div class="form-group">
                             <label for="forStatus" class="label" style="margin: 0 1.5rem 0 0;">Trạng thái<small
@@ -225,7 +260,7 @@
                         </div> -->
                     </div>
                 </nb-card-body>
-    
+
                 <nb-accordion multi>
                     <nb-accordion-item>
                         <nb-accordion-item-header>
@@ -244,7 +279,7 @@
                             </div>
                         </nb-accordion-item-body>
                     </nb-accordion-item>
-    
+
                     <nb-accordion-item>
                         <nb-accordion-item-header>
                             Công dụng
@@ -262,7 +297,7 @@
                             </div>
                         </nb-accordion-item-body>
                     </nb-accordion-item>
-    
+
                     <nb-accordion-item>
                         <nb-accordion-item-header>
                             Cách dùng
@@ -280,7 +315,7 @@
                             </div>
                         </nb-accordion-item-body>
                     </nb-accordion-item>
-    
+
                     <nb-accordion-item>
                         <nb-accordion-item-header>
                             Tác dụng phụ
@@ -298,7 +333,7 @@
                             </div>
                         </nb-accordion-item-body>
                     </nb-accordion-item>
-    
+
                     <nb-accordion-item>
                         <nb-accordion-item-header>
                             Lưu ý
@@ -316,7 +351,7 @@
                             </div>
                         </nb-accordion-item-body>
                     </nb-accordion-item>
-    
+
                     <nb-accordion-item>
                         <nb-accordion-item-header>
                             Bảo quản

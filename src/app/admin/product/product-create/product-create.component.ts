@@ -68,6 +68,7 @@ export class ProductCreateComponent {
 
   // Xử lý thêm nhân viên
   createProduct() {
+    console.log(this.createProductRequest);
     // Valid
     if (this.productForm.invalid) {
       this.validationNotify.validateForm();
