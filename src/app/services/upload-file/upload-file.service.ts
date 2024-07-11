@@ -14,12 +14,10 @@ export class UploadFileService {
 
   constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
 
+  // save file
   saveFile(file: File): Observable<ResponseApi<string>> {
     let formData = new FormData();
     formData.append("file", file, file.name);
-
-    console.log(`File size: ${file.size} bytes`);
-    console.log("FormData: " + formData);
 
     return this.http
       .post<ResponseApi<string>>(this.apiUrl + "SaveFile", formData)

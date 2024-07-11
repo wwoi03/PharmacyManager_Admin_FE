@@ -14,21 +14,6 @@ import { UploadFileService } from "../../../services/upload-file/upload-file.ser
   styleUrls: ["./product-create.component.scss"],
 })
 export class ProductCreateComponent {
-  // config ngx-tiny-mce
-  config = {
-    height: 500,
-    // menubar: false,
-    // plugins: [
-    //   'advlist autolink lists link image charmap print preview anchor',
-    //   'searchreplace visualblocks code fullscreen',
-    //   'insertdatetime media table paste code help wordcount'
-    // ],
-    // toolbar:
-    //   'undo redo | formatselect | bold italic backcolor | \
-    //   alignleft aligncenter alignright alignjustify | \
-    //   bullist numlist outdent indent | removeformat | help'
-  };
-
   // Variable
   codeCategory: string;
   categoryName: string;
@@ -102,16 +87,6 @@ export class ProductCreateComponent {
       }
     });
   }
-
-  // // Thêm ảnh
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
-  //     const file = input.files[0];
-  //     console.log("File selected:", file);
-  //     // Thực hiện các hành động khác với tệp được chọn ở đây
-  //   }
-  // }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
