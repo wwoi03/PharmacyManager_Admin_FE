@@ -15,6 +15,7 @@ export class ProductService {
 
   constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
 
+  // Lấy danh sách sản phẩm
   getProducts(): Observable<ResponseApi<ListProductResponse[]>> {
     return this.http
       .get<ResponseApi<ListProductResponse[]>>(this.apiUrl + "GetProducts")
