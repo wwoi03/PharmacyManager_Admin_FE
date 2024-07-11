@@ -1,7 +1,221 @@
-@import '../../../@theme/styles/themes';
+@import "../../../@theme/styles/themes";
 
 @include nb-install-component() {
-  nb-card {
-    transform: translate3d(0, 0, 0);
+  button[nbTreeGridRowToggle] {
+    background: transparent;
+    border: none;
+    padding: 0;
   }
+
+  .search-label {
+    display: block;
+  }
+  .search-input {
+    margin-bottom: 1rem;
+  }
+
+  .nb-column-name {
+    width: 100%;
+  }
+
+  ::ng-deep .row-toggle-button {
+    color: nb-theme(text-basic-color);
+  }
+
+  .nb-tree-grid-header-cell,
+  .nb-tree-grid-header-cell button {
+    text-transform: capitalize;
+  }
+
+  @media screen and (min-width: 400px) {
+    .nb-column-name,
+    .nb-column-size {
+      width: 50%;
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    .nb-column-name,
+    .nb-column-size,
+    .nb-column-kind {
+      width: 33.333%;
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    .nb-column-name {
+      width: 31%;
+    }
+    .nb-column-size,
+    .nb-column-kind,
+    .nb-column-items {
+      width: 23%;
+    }
+  }
+}
+
+/* Trong file styles.css hoặc trong <style> tag của component */
+.category-name-column {
+  //width: 50%; /* Hoặc bạn có thể sử dụng px, em tùy ý */
+}
+
+.default-column {
+  //width: 20%; /* Điều chỉnh theo nhu cầu */
+}
+
+/* Thêm vào file styles.css hoặc trong <style> của component */
+.action-icon {
+  font-size: 24px; /* Điều chỉnh kích thước icon */
+  margin-right: 10px; /* Khoảng cách giữa các icon */
+}
+
+.action-icon:hover {
+  cursor: pointer;
+}
+
+.action-cell {
+}
+
+/* Style cho nút dạng text có gạch chân */
+.action-link {
+  color: #007bff !important; /* Màu xanh nhạt giống như thẻ <a> */
+  cursor: pointer; /* Con trỏ chuột dạng pointer */
+  background: none; /* Không có nền */
+  border: none; /* Không có viền */
+  padding: 5px; /* Padding nhỏ để tăng phần click */
+  margin-right: 2px; /* Khoảng cách giữa các nút */
+  margin-top: 4px;
+}
+
+.action-link:hover {
+  color: #0056b3; /* Màu sẫm hơn khi hover */
+  text-decoration: underline !important; /* Thêm gạch chân */
+}
+
+/* CSS */
+.actions-column {
+  width: 180px;
+}
+
+.idColumn {
+  width: 100px; /* Đặt chiều rộng cố định */
+}
+
+.codeMedicineColumn {
+  width: 150px;
+}
+
+.productNameColumn {
+  width: 200px;
+}
+
+.categoryNameColumn {
+  width: 200px;
+}
+
+.brandOriginColumn {
+  width: 150px;
+}
+
+.shortDescriptionColumn {
+  width: 250px;
+}
+
+.imageColumn {
+  width: 180px;
+}
+
+/* tree-grid.component.scss */
+.pagination-controls {
+  margin-top: 16px;
+}
+
+::ng-deep .ngx-pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+::ng-deep .ngx-pagination li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+  width: 48px;
+  height: 40px;
+  margin: 0 !important;
+}
+
+::ng-deep .ngx-pagination li:hover {
+  cursor: pointer;
+}
+
+::ng-deep .ngx-pagination li a {
+  text-decoration: none;
+  color: var(--smart-table-paging-bg-active);
+  padding: 0 !important;
+  width: inherit !important;
+  height: inherit !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+}
+
+::ng-deep .ngx-pagination li a:hover {
+  //background: #fff !important ;
+}
+
+::ng-deep .ngx-pagination .current:hover {
+  cursor: default !important;
+}
+
+::ng-deep .ngx-pagination .current {
+  background-color: #3366FF;
+  color: #fff;
+  display: flex;
+  border: none;
+}
+
+::ng-deep .ngx-pagination .ng-star-inserted {
+  display: flex;
+}
+
+::ng-deep .ngx-pagination .disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+::ng-deep .pagination-previous, ::ng-deep .pagination-next {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+::ng-deep .pagination-previous::before,
+::ng-deep .pagination-next::after {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px;
+  color: var(--smart-table-paging-disabled-text-color) !important;
+}
+
+::ng-deep .nb-tree-grid-row:nth-child(even) {
+  background-color: var(--smart-table-bg-even) !important;
+}
+
+::ng-deep .nb-tree-grid-row:nth-child(odd) {
+  background-color: #ffffff !important; 
+}
+
+table tr th, table tr td {
+  border: 1px solid var(--smart-table-separator) !important;
+}
+
+table ::ng-deep tbody tr:hover {
+  background: var(--smart-table-bg-active) !important;
 }

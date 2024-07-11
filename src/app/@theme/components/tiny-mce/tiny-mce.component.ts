@@ -1,4 +1,4 @@
-import { Component, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input } from '@angular/core';
 import { LocationStrategy } from '@angular/common';
 
 @Component({
@@ -8,6 +8,7 @@ import { LocationStrategy } from '@angular/common';
 export class TinyMCEComponent implements OnDestroy, AfterViewInit {
 
   @Output() editorKeyup = new EventEmitter<any>();
+  @Input() height: number = 320; // Default height
 
   editor: any;
 
@@ -27,7 +28,7 @@ export class TinyMCEComponent implements OnDestroy, AfterViewInit {
           this.editorKeyup.emit(editor.getContent());
         });
       },
-      height: '320',
+      height: this.height,
     });
   }
 
