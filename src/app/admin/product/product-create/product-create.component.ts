@@ -6,6 +6,7 @@ import { Toast } from "../../../helpers/toast";
 import { LoadingService } from "../../../helpers/loading-service";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
+import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 
 @Component({
   selector: "ngx-product-create",
@@ -40,12 +41,17 @@ export class ProductCreateComponent {
   @ViewChild("productForm") productForm: NgForm;
   validationNotify: ValidationNotify;
 
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  images: string[] = [];
+
+
   // Constructor
   constructor(
     private productService: ProductService,
     private toast: Toast,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private uploadFileService: UploadFileService
   ) {}
 
   // InitData
@@ -107,15 +113,21 @@ export class ProductCreateComponent {
   //   }
   // }
 
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  images: string[] = [
-  ];
-
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      console.log("File selected:", file);
+
+      this.uploadFileService.saveFile(file).subscribe(
+        (res) => {
+          if (res.code === 200) {
+            this.toast.successToast("Thành công", res.message);
+          } else {
+            this.toast.warningToast("Thất bại", res.message);
+          }
+        }
+      )
+      
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.images.push(e.target.result);

@@ -223,8 +223,7 @@
                                             <nb-icon class="icon-add-custom" icon="plus-square-outline"
                                                 pack="eva"></nb-icon>
                                         </div>
-                                        <input type="file" #fileInput style="display: none;"
-                                            (change)="onFileSelected($event)">
+                                        <input type="file" accept="image/*" #fileInput style="display: none;" (change)="onFileSelected($event)">
                                     </div>
                                     
                                     <div class="picture-container-custom" *ngFor="let image of images; let i = index">
