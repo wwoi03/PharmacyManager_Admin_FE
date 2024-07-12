@@ -98,18 +98,6 @@ export class DiseaseListComponent implements OnInit {
     this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
-  }
-
   onRowSelect(event): void{
     this.router.navigate(['/admin/disease/disease-details', event.data.id]);
   }

@@ -1,0 +1,22 @@
+<form (ngSubmit)="create()" #diseaseForm="ngForm">
+    <nb-card>
+        <nb-card-header>Thêm quan hệ {{listName}}</nb-card-header>
+        <nb-card-body>
+            <div class="col-12">
+            
+                <nb-card-body>
+                    <ng2-smart-table 
+                    [settings]="settings" 
+                    [source]="source" 
+                    (userRowSelect)="onRowSelect($event)">
+                    </ng2-smart-table>
+                </nb-card-body>
+
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button nbButton status="success">Thêm</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

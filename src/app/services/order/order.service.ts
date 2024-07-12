@@ -11,7 +11,7 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class OrderService {
-  private apiURL: string = environment.API_BASE_URL + '/admin/Disease/';
+  private apiURL: string = environment.API_BASE_URL + '/admin/Order/';
 
   constructor(private http: HttpClient, private errorNotify : ErrorNotify) { }
 

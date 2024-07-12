@@ -7,7 +7,7 @@
 </div>
   
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-7">
     <nb-card>
         <nb-card-header>Thông tin bệnh</nb-card-header>
         <nb-card-body>
@@ -33,10 +33,17 @@
         </div>
         </div>
 
+        
+
+
             <!-- Submit -->
             <button class="btn-submit" nbButton [routerLink]="['/admin/disease/disease-edit', disease.id]" status="warning">Chỉnh sửa</button>
             <button class="btn-delete btn-submit" nbButton (click)="onDelete()" status="danger">Xóa</button>
         </nb-card-body>
     </nb-card>
+    </div>
+   
+    <div class="col-lg-5">
+        <ngx-list-disease-symptom [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
     </div>
 </div>

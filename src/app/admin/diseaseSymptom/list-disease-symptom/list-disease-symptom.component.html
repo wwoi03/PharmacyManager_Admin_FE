@@ -1,0 +1,16 @@
+<nb-card>
+    <nb-card-header>
+        Thông tin {{listName}}
+    </nb-card-header>
+
+    <nb-card-body>
+        <ng2-smart-table 
+        [settings]="settings" 
+        [source]="source" 
+        (create)="onCreate()" 
+        (delete)="onDelete($event)" 
+        (userRowSelect)="onRowSelect($event)">
+
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
