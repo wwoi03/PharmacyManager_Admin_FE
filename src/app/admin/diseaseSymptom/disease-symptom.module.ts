@@ -1,14 +1,39 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { DiseaseSymptomRoutingModule } from './disease-symptom-routing.module';
+import { DiseaseSymptomRoutingModule, routedDiseaseSymptomComponents } from './disease-symptom-routing.module';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { ThemeModule } from '../../@theme/theme.module';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { ListDiseaseSymptomComponent } from './list-disease-symptom/list-disease-symptom.component';
+import { DeleteDiseaseSymptomComponent } from './delete-disease-symptom/delete-disease-symptom.component';
+import { CreateDiseaseSymptomComponent } from './create-disease-symptom/create-disease-symptom.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [ ...routedDiseaseSymptomComponents],
+
   imports: [
-    CommonModule,
+    NbCardModule,
+    NbIconModule,
+    NbInputModule,
+    ThemeModule,
+    Ng2SmartTableModule,
+    FormsModule,
+    NbButtonModule,
+    RouterModule.forChild([]),
+    NbDialogModule.forChild(),
+    
     DiseaseSymptomRoutingModule
+  ],
+  exports:[
+    ListDiseaseSymptomComponent,
+    DeleteDiseaseSymptomComponent,
+    CreateDiseaseSymptomComponent,
   ]
 })
-export class DiseaseSymptomModule { }
+export class DiseaseSymptomModule { 
+}
+
+

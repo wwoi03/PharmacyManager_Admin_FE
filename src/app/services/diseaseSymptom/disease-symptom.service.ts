@@ -12,15 +12,24 @@ import { DiseaseSymptomResponse } from '../../models/responses/diseaseSymptom/di
   providedIn: 'root'
 })
 export class DiseaseSymptomService {
-  private apiURL: string = environment.API_BASE_URL + '/admin/Disease/';
-
+  apiURL: string = environment.API_BASE_URL + '/admin/';
+  url: string;
   constructor(private http: HttpClient, private errorNotify : ErrorNotify) { }
 
-  //Lấy danh sách
-  getDiseaseSymptoms(diseaseId: string): Observable<ResponseApi<DiseaseSymptomResponse[]>>{
-    const params = new HttpParams().set("id", diseaseId);
+  getLink(link: number){
+    if(link == 1){
+      this.url = `${this.apiURL}Disease/`;
+    }
+    else if(link == 2){
+      this.url = `${this.apiURL}Symptom/`;
+    }
+  }
 
-    return this.http.get<ResponseApi<DiseaseSymptomResponse[]>> (this.apiURL + 'GetDiseaseSymptoms', {params})
+  //Lấy danh sách bệnh-triệu chứng
+  getDiseaseSymptoms(Id: string): Observable<ResponseApi<DiseaseSymptomResponse[]>>{
+    const params = new HttpParams().set("id", Id);
+
+    return this.http.get<ResponseApi<DiseaseSymptomResponse[]>> (this.url + 'GetDiseaseSymptoms', {params})
     .pipe(
 
       tap((response: ResponseApi<DiseaseSymptomResponse[]>) => {
@@ -36,9 +45,30 @@ export class DiseaseSymptomService {
     );
   }
 
+
+  // //Lấy danh sách triệu chứng-bệnh
+  // getSymptomDiseases(symptomId: string): Observable<ResponseApi<DiseaseSymptomResponse[]>>{
+  //   const params = new HttpParams().set("id", symptomId);
+
+  //   return this.http.get<ResponseApi<DiseaseSymptomResponse[]>> (this.url + 'GetSymptomDiseases', {params})
+  //   .pipe(
+
+  //     tap((response: ResponseApi<DiseaseSymptomResponse[]>) => {
+  //       if (response.isSuccessed) {
+  //         return response;
+  //       } else {
+  //         this.errorNotify.handleStatusError(response.code);
+  //       }
+  //     }),
+  //     catchError((error: HttpErrorResponse) => {
+  //       return this.errorNotify.handleStatusError(error.status);
+  //     })
+  //   );
+  // }
+
   //Tạo
   create(request: CreateDiseaseSymptomRequest): Observable<ResponseApi<string>>{
-    return this.http.post<ResponseApi<string>>(this.apiURL + 'CreateDiseaseSymptom', request)
+    return this.http.post<ResponseApi<string>>(this.url + 'CreateDiseaseSymptom', request)
     .pipe(   tap((response: ResponseApi<string>) => {
       if (response.isSuccessed) {
         return response;
@@ -57,7 +87,7 @@ export class DiseaseSymptomService {
     .set("symptomId", symptomId)
     .set("diseaseId", diseaseId);
   
-    return this.http.delete<ResponseApi<string>>(this.apiURL + 'DeleteDiseaseSymptom', {params} )
+    return this.http.delete<ResponseApi<string>>(this.url + 'DeleteDiseaseSymptom', {params} )
     .pipe(
       tap((response: ResponseApi<string>) => {
         if (response.isSuccessed) {

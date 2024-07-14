@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { routedComponents, SymptomRoutingModule } from './symptom-routing.module';
+import { DiseaseSymptomModule } from '../diseaseSymptom/disease-symptom.module';
 
 @NgModule({
   declarations: [
-    ...routedComponents,
+    ...routedComponents
   ],
   imports: [
     NbCardModule,
@@ -21,6 +22,7 @@ import { routedComponents, SymptomRoutingModule } from './symptom-routing.module
     NbButtonModule,
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
+    DiseaseSymptomModule,
 
     SymptomRoutingModule,
   ]

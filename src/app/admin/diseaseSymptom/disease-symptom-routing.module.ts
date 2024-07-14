@@ -4,7 +4,11 @@ import { ListDiseaseSymptomComponent } from './list-disease-symptom/list-disease
 import { DeleteDiseaseSymptomComponent } from './delete-disease-symptom/delete-disease-symptom.component';
 import { CreateDiseaseSymptomComponent } from './create-disease-symptom/create-disease-symptom.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'list', component: ListDiseaseSymptomComponent },
+  { path: 'delete', component: DeleteDiseaseSymptomComponent },
+  { path: 'create', component: CreateDiseaseSymptomComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

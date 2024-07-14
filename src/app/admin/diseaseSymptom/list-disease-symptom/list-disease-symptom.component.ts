@@ -16,6 +16,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./list-disease-symptom.component.scss']
 })
 export class ListDiseaseSymptomComponent {
+
+  @Input() listName: string = 'quan hệ';
+  @Input() id: string | undefined;
+  @Input() link: number = 1;
+
   @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
 
 
@@ -34,11 +39,11 @@ export class ListDiseaseSymptomComponent {
       deleteButtonContent: '<i class="nb-trash"></i>',
     },
     columns: {
-        symptomName:{
-        title: 'Tên triệu chứng',
+        name1:{
+        title: `Tên ${this.listName}`,
         type: 'string',},
-        codeSymptom:{
-          title: 'Mã triệu chứng',
+        code1:{
+          title: `Mã ${this.listName}`,
           type:'string',
         }
       
@@ -46,11 +51,11 @@ export class ListDiseaseSymptomComponent {
     };
 
   source: LocalDataSource;
-  listDisease: DiseaseSymptomResponse[] = [] ;
+  listDiseaseSymptom: DiseaseSymptomResponse[] = [] ;
   diseaseSymptom: DiseaseSymptomResponse = new  DiseaseSymptomResponse();
+  Data: any;
   
-  @Input() listName: string = '';
-  @Input() id: string | undefined;
+  
 
   constructor(private diseaseSymptomService: DiseaseSymptomService, 
     private router: Router,
@@ -60,24 +65,47 @@ export class ListDiseaseSymptomComponent {
   }
 
   loadDiseaseSymptomData(){
+    this.diseaseSymptomService.getLink(this.link);
+
     this.diseaseSymptomService.getDiseaseSymptoms(this.id).subscribe((data: ResponseApi<DiseaseSymptomResponse[]>)=>{
       if(data.code === 200){
-      this.listDisease = data.obj;
+      this.listDiseaseSymptom = data.obj;
 
-    let symptomData = this.listDisease.map(item => ({
-      symptomId: item.symptom.id,
-      symptomName: item.symptom.name,
-      codeSymptom: item.symptom.codeSymptom,
-      symptom: item.symptom,
+    //Kiểm tra đường dẫn
+    if(this.link == 1){
+      this.Data = this.listDiseaseSymptom.map(item => ({
+        id1: item.symptom.id,
+        name1: item.symptom.name,
+        code1: item.symptom.codeSymptom,
+  
+        id2: item.disease.id,
 
-      diseaseId: item.disease.id,
-      disease: item.disease,
-      // diseaseName: item.disease.name,
-      // codeDisease: item.disease.codeDisease,
+        disease: item.disease,
+        symptom: item.symptom,
+        // diseaseName: item.disease.name,
+        // codeDisease: item.disease.codeDisease,
+  
+      }));
+    }
+    
+    else if(this.link == 2){
+      this.Data = this.listDiseaseSymptom.map(item => ({
+        id1: item.disease.id,
+        name1: item.disease.name,
+        code1: item.disease.codeDisease,
+  
+        id2: item.symptom.id,
 
-    }));
+        disease: item.disease,
+        symptom: item.symptom,
+        // diseaseName: item.disease.name,
+        // codeDisease: item.disease.codeDisease,
+  
+      }));
+    }
 
-      this.source.load(symptomData);
+      this.source.load(this.Data);
+
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -94,6 +122,7 @@ export class ListDiseaseSymptomComponent {
     this.dialogService
       .open(CreateDiseaseSymptomComponent, {
         context: {
+          link: this.link,
           id: this.id,
           listName: this.listName
         }
@@ -107,18 +136,24 @@ export class ListDiseaseSymptomComponent {
   }
 
   onRowSelect(event): void{
-    this.router.navigate(['/admin/symptom/symptom-details', event.data.symptomId]);
+    if(this.link == 1){
+      this.router.navigate(['/admin/symptom/symptom-details', event.data.id1]);
+    }
+    else if(this.link == 2){
+      this.router.navigate(['/admin/disease/disease-details', event.data.id1]);
+    }
   }
 
   onDelete(event): void {
-    this.diseaseSymptom.diseaseId = event.data.diseaseId;
+    this.diseaseSymptom.diseaseId = event.data.disease.id;
     this.diseaseSymptom.disease = event.data.disease;
-    this.diseaseSymptom.symptomId = event.data.symptomId;
+    this.diseaseSymptom.symptomId = event.data.symptom.id;
     this.diseaseSymptom.symptom = event.data.symptom;
     
     this.dialogService
       .open(DeleteDiseaseSymptomComponent, {
         context: {
+          link: this.link,
           diseaseSymptom: this.diseaseSymptom,
           listName: this.listName
         }

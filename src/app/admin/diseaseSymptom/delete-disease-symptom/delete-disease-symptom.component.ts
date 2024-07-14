@@ -12,6 +12,7 @@ import { DiseaseSymptomResponse } from '../../../models/responses/diseaseSymptom
 export class DeleteDiseaseSymptomComponent {
   diseaseSymptom: DiseaseSymptomResponse;
   listName: string;
+  link: number;
   
   constructor(
     protected ref: NbDialogRef<DeleteDiseaseSymptomComponent>,
@@ -21,7 +22,8 @@ export class DeleteDiseaseSymptomComponent {
 
   // Delete
   delete() {
-    
+    this.diseaseSymptomService.getLink(this.link);
+
     this.diseaseSymptomService.delete(this.diseaseSymptom.diseaseId, this.diseaseSymptom.symptomId).subscribe(
       (res) => {
         if (res.code === 200) {

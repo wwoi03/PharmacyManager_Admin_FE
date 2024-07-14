@@ -6,7 +6,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { DiseaseRoutingModule, routedComponents } from './disease-routing.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { routedDiseaseSymptomComponents } from '../diseaseSymptom/disease-symptom-routing.module';
+import { DiseaseSymptomModule } from '../diseaseSymptom/disease-symptom.module';
 
 
 @NgModule({
@@ -21,11 +21,12 @@ import { routedDiseaseSymptomComponents } from '../diseaseSymptom/disease-sympto
     NbButtonModule,
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
+    DiseaseSymptomModule,
 
     DiseaseRoutingModule,
   ],
   
-  declarations: [...routedComponents, ...routedDiseaseSymptomComponents],
+  declarations: [...routedComponents],
 
 })
 export class DiseaseModule { }

@@ -50,6 +50,11 @@ const routes: Routes = [{
       path: 'shipment',
       loadChildren: () => import('./shipment/shipment.module').then(m => m.ShipmentModule),
     },
+    //phụ
+    {
+      path: 'disease-symptom',
+      loadChildren: () => import('./diseaseSymptom/disease-symptom.module').then(m => m.DiseaseSymptomModule),
+    },
     {
       path: '',
       redirectTo: 'dashboard',
