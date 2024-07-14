@@ -11,6 +11,7 @@ import { catchError, tap } from "rxjs/operators";
 })
 export class UploadFileService {
   private apiUrl: string = environment.API_BASE_URL + "/admin/upload/";
+  private apiUrlPhoto: string = "http://localhost:5281" + "/Photos/";
 
   constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
 
@@ -33,5 +34,10 @@ export class UploadFileService {
           return this.errorNotify.handleStatusError(error.status);
         })
       );
+  }
+
+  // Load Image
+  loadImage(fileName: string) {
+    return this.apiUrlPhoto + fileName;
   }
 }

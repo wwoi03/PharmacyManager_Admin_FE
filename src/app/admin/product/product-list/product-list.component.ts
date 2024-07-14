@@ -11,6 +11,7 @@ import { ListProductResponse } from "../../../models/responses/product/list-prod
 import { ProductService } from "../../../services/product/product.service";
 import { Toast } from "../../../helpers/toast";
 import { Router } from "@angular/router";
+import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 
 interface TreeNode<T> {
   data: T;
@@ -52,7 +53,8 @@ export class ProductListComponent {
     private productService: ProductService,
     private toast: Toast,
     private dialogService: NbDialogService,
-    private router: Router
+    private router: Router,
+    public uploadFileService: UploadFileService,
   ) {}
 
   // InitData

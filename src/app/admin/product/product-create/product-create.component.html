@@ -90,7 +90,7 @@
                             <div *ngIf="showCategoryNameField" class="col-sm-6">
                                 <div class="form-group">
                                     <label for="forcategoryName" class="label">Tên loại sản phẩm</label>
-                                    <input id="forcategoryName" readonly [value]="categoryName" type="text" nbInput
+                                    <input id="forcategoryName" readonly [(ngModel)]="categoryName" name="categoryName" type="text" nbInput
                                         fullWidth id="">
                                 </div>
                             </div>
@@ -236,24 +236,6 @@
                                 </div>
                             </nb-card-body>
                         </nb-card>
-
-                        <!-- Trạng thái -->
-                        <!-- <div class="form-group">
-                            <label for="forStatus" class="label" style="margin: 0 1.5rem 0 0;">Trạng thái<small
-                                    class="text-danger">*</small></label>
-    
-                            <nb-radio-group (input)="validationNotify.onInputChange('status')" required
-                                [(ngModel)]="createProductRequest.status" name="status" id="forStatus" #status="ngModel">
-                                <nb-radio [value]="'PM_Shipment_Pending'">Đã giao</nb-radio>
-                                <nb-radio [value]="'PM_Shipment_Delivered'">Đang chờ xử lý</nb-radio>
-                            </nb-radio-group>
-    
-                            <div class="text-danger-container">
-                                <div *ngIf="formErrors['status']" class="text-danger">
-                                    {{ formErrors['status'] }}
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </nb-card-body>
 
