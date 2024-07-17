@@ -16,44 +16,15 @@ import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.compone
 })
 export class DiseaseListComponent implements OnInit {
 
-  @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
-  
-  settings = {
-    mode: 'external',
-    actions: {
-      columnTitle: 'Actions',
-      add: true,
-      edit: true,
-      delete:true,
-    },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-    },
-    columns: {
-      name:{
-        title: 'Tên triệu chứng',
-        type: 'string',
-      },
-      description:{
-        title: 'Mô tả',
-        type: 'string',
-      },
-      codeOrder:{
-        title: 'Mã triệu chứng',
-        type:'string',
-      }
-    }
-    };
+  searchTerm: string = '';
+  sortSelected: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  defaultColumns = ["name" ,"codeDisease"];
+  allColumns = [...this.defaultColumns, 'actions'];
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [] ;
-  
+  filteredList: listDiseaseResponse[] = [] ;
 
   constructor(private diseaseService: DiseaseService, 
     private router: Router,
@@ -62,11 +33,54 @@ export class DiseaseListComponent implements OnInit {
     this.source = new LocalDataSource();
   }
 
+  filterList() {
+    if (!this.searchTerm) {
+      this.loadDiseaseData();
+    } else {
+      this.filteredList = this.filteredList.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.codeDisease.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.applySort();
+  }
+
+  sortColumn(column: string) {
+    if (this.sortSelected === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortSelected = column;
+      this.sortDirection = 'asc';
+    }
+    this.applySort();
+  }
+
+  applySort() {
+    if (this.sortDirection === 'asc') {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
+    } else {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
+    }
+    this.source.load(this.filteredList);
+  }
+
+  getColumnTitle(column: string): string {
+    switch (column) {
+      case 'name':
+        return 'Tên loại bệnh';
+      case 'codeDisease':
+        return 'Mã bệnh';
+      case 'actions':
+        return 'Quản lý';
+      default:
+        return '';
+    }
+  }
+
   loadDiseaseData(){
     this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
       if(data.code === 200){
-      this.listDisease = data.obj;
-      this.source.load(this.listDisease);
+      this.filteredList = data.obj;
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -75,35 +89,23 @@ export class DiseaseListComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.loadDiseaseData();
+    this.filterList();
   }
 
-  onCustomAction(event) {
-    switch (event.action) {
-      case 'addRecord':
-        this.addRecord(event.data);
-        break;
-    }
-  }
-
-  public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
-  }
-
-  onCreate(event): void {
+  onCreate(): void {
     this.router.navigate(['/admin/disease/disease-create']);
   }
 
-  onEdit(event): void{
-    this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
+  onEdit(row): void{
+    this.router.navigate(['/admin/disease/disease-edit', row.id]);
   }
   
-  onRowSelect(event): void{
-    this.router.navigate(['/admin/disease/disease-details', event.data.id]);
+  onViewDetails(row): void{
+    this.router.navigate(['/admin/disease/disease-details', row.id]);
   }
 
-  onDelete(event): void {
-    const disease: listDiseaseResponse = event.data;
+  onDelete(row): void {
+    const disease: listDiseaseResponse = row;
     
     this.dialogService
       .open(DiseaseDeleteComponent, {

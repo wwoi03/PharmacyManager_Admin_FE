@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { NbAccordionModule, NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule } from '@angular/forms';
@@ -17,12 +17,13 @@ import { DiseaseSymptomModule } from '../diseaseSymptom/disease-symptom.module';
     NbIconModule,
     NbInputModule,
     ThemeModule,
-    Ng2SmartTableModule,
     FormsModule,
     NbButtonModule,
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
     DiseaseSymptomModule,
+    NbListModule,
+    NbAccordionModule,
 
     SymptomRoutingModule,
   ]

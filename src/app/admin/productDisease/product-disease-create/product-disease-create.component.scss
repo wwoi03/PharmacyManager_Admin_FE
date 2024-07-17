@@ -1,0 +1,34 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  input {
+    width: 100%;
+  }
+
+  .cancel {
+    margin-right: 1rem;
+  }
+
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.text-danger-container {
+  min-height: 20px;
+  margin-top: 5px;
+}
+
+.text-danger {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.form-group {
+  margin-bottom: 0.2rem !important;
+}
+
+.btn-delete {
+  float: right;
+}

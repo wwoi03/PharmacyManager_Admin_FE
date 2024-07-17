@@ -132,7 +132,6 @@ export class ListDiseaseSymptomComponent {
           this.loadDiseaseSymptomData();
         }
       });
-  
   }
 
   onRowSelect(event): void{
