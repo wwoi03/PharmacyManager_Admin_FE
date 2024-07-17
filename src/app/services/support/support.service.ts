@@ -21,7 +21,7 @@ export class SupportService {
   constructor(private http: HttpClient, private errorNotify: ErrorNotify) { }
 
   //Lấy danh sách
-  getSupport(): Observable<ResponseApi<ListSupportResponse[]>>{
+  getSupports(): Observable<ResponseApi<ListSupportResponse[]>>{
     return this.http.get<ResponseApi<ListSupportResponse[]>> (this.apiURL + 'GetSupports')
     .pipe( map((response: ResponseApi<ListSupportResponse[]>) => {
       if (response.isSuccessed) {

@@ -1,21 +1,20 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { DiseaseSymptomService } from '../../../services/diseaseSymptom/disease-symptom.service';
+import { ProductSupportResponse } from '../../../models/responses/productSupport/productSupport-response';
+import { ProductSupportService } from '../../../services/productSupport/product-support.service';
 import { Router } from '@angular/router';
 import { Toast } from '../../../helpers/toast';
 import { NbDialogService } from '@nebular/theme';
 import { ResponseApi } from '../../../models/response-apis/response-api';
-import { DeleteDiseaseSymptomComponent } from '../delete-disease-symptom/delete-disease-symptom.component';
-import { DiseaseSymptomResponse, Symptom } from '../../../models/responses/diseaseSymptom/diseaseSympton-response';
-import { CreateDiseaseSymptomComponent } from '../create-disease-symptom/create-disease-symptom.component';
-import { Subscription } from 'rxjs';
+import { DeleteProductSupportComponent } from '../delete-product-support/delete-product-support.component';
+import { CreateProductSupportComponent } from '../create-product-support/create-product-support.component';
 
 @Component({
-  selector: 'ngx-list-disease-symptom',
-  templateUrl: './list-disease-symptom.component.html',
-  styleUrls: ['./list-disease-symptom.component.scss']
+  selector: 'ngx-list-product-support',
+  templateUrl: './list-product-support.component.html',
+  styleUrls: ['./list-product-support.component.scss']
 })
-export class ListDiseaseSymptomComponent {
+export class ListProductSupportComponent {
 
   @Input() listName: string = 'quan hệ';
   @Input() id: string | undefined;
@@ -29,9 +28,9 @@ export class ListDiseaseSymptomComponent {
   allColumns = [...this.defaultColumns, 'actions'];
 
   source: LocalDataSource;
-  filteredList: DiseaseSymptomResponse[] = [] ;
+  filteredList: ProductSupportResponse[] = [] ;
 
-  diseaseSymptom: DiseaseSymptomResponse = new  DiseaseSymptomResponse();
+  productSupport: ProductSupportResponse = new  ProductSupportResponse();
   Data: any;
   
   
@@ -48,7 +47,7 @@ export class ListDiseaseSymptomComponent {
     }
   }
 
-  constructor(private diseaseSymptomService: DiseaseSymptomService, 
+  constructor(private productSupportService: ProductSupportService, 
     private router: Router,
     private toast: Toast,
     private dialogService: NbDialogService,){
@@ -57,7 +56,7 @@ export class ListDiseaseSymptomComponent {
 
   filterList() {
     if (!this.searchTerm) {
-      this.loadDiseaseSymptomData();
+      this.loadProductSupportData();
     } else {
       this.Data = this.Data.filter(item =>
         item.name1.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -87,42 +86,39 @@ export class ListDiseaseSymptomComponent {
   }
 
 
-  loadDiseaseSymptomData(){
-    this.diseaseSymptomService.getLink(this.link);
+  loadProductSupportData(){
+    this.productSupportService.getLink(this.link);
 
-    this.diseaseSymptomService.getDiseaseSymptoms(this.id).subscribe((data: ResponseApi<DiseaseSymptomResponse[]>)=>{
+    this.productSupportService.getProductSupports(this.id).subscribe((data: ResponseApi<ProductSupportResponse[]>)=>{
       if(data.code === 200){
       this.filteredList = data.obj;
 
     //Kiểm tra đường dẫn
     if(this.link == 1){
       this.Data = this.filteredList.map(item => ({
-        id1: item.symptom.id,
-        name1: item.symptom.name,
-        code1: item.symptom.codeSymptom,
-  
-        id2: item.disease.id,
 
-        disease: item.disease,
-        symptom: item.symptom,
-        // diseaseName: item.disease.name,
-        // codeDisease: item.disease.codeDisease,
+        id1: item.product.id,
+        name1: item.product.name,
+        code1: item.product.codeMedicine,
+  
+        id2: item.support.id,
+
+        support: item.support,
+        product: item.product,
   
       }));
     }
     
     else if(this.link == 2){
       this.Data = this.filteredList.map(item => ({
-        id1: item.disease.id,
-        name1: item.disease.name,
-        code1: item.disease.codeDisease,
+        id1: item.support.id,
+        name1: item.support.name,
+        code1: item.support.codeSupport,
   
-        id2: item.symptom.id,
+        id2: item.product.id,
 
-        disease: item.disease,
-        symptom: item.symptom,
-        // diseaseName: item.disease.name,
-        // codeDisease: item.disease.codeDisease,
+        support: item.support,
+        product: item.product,
   
       }));
     }
@@ -140,7 +136,7 @@ export class ListDiseaseSymptomComponent {
   onCreate(): void {
     
     this.dialogService
-      .open(CreateDiseaseSymptomComponent, {
+      .open(CreateProductSupportComponent, {
         context: {
           link: this.link,
           id: this.id,
@@ -149,37 +145,37 @@ export class ListDiseaseSymptomComponent {
       })
       .onClose.subscribe((isSubmit: boolean) => {
         if (isSubmit) {
-          this.loadDiseaseSymptomData();
+          this.loadProductSupportData();
         }
       });
   }
 
   onViewDetails(event): void{
     if(this.link == 1){
-      this.router.navigate(['/admin/symptom/symptom-details', event.id1]);
+      this.router.navigate(['/admin/product/product-details', event.id1]);
     }
     else if(this.link == 2){
-      this.router.navigate(['/admin/disease/disease-details', event.id1]);
+      this.router.navigate(['/admin/support/support-details', event.id1]);
     }
   }
 
   onDelete(event): void {
-    this.diseaseSymptom.diseaseId = event.disease.id;
-    this.diseaseSymptom.disease = event.disease;
-    this.diseaseSymptom.symptomId = event.symptom.id;
-    this.diseaseSymptom.symptom = event.symptom;
+    this.productSupport.supportId = event.support.id;
+    this.productSupport.support = event.support;
+    this.productSupport.productId = event.product.id;
+    this.productSupport.product = event.product;
     
     this.dialogService
-      .open(DeleteDiseaseSymptomComponent, {
+      .open(DeleteProductSupportComponent, {
         context: {
           link: this.link,
-          diseaseSymptom: this.diseaseSymptom,
+          productSupport: this.productSupport,
           listName: this.listName
         }
       })
       .onClose.subscribe((isSubmit: boolean) => {
         if (isSubmit) {
-          this.loadDiseaseSymptomData();
+          this.loadProductSupportData();
         }
       });
   }

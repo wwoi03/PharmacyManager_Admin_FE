@@ -8,10 +8,6 @@
   .cancel {
     margin-right: 1rem;
   }
-
-  nb-card {
-    transform: translate3d(0, 0, 0);
-  }
 }
 
 .text-danger-container {
@@ -31,8 +27,4 @@
 
 .btn-delete {
   float: right;
-}
-
-.selected {
-  background-color: lightblue;
 }

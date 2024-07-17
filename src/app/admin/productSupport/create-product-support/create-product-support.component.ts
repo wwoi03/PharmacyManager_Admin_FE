@@ -1,22 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
-import { DiseaseSymptomService } from '../../../services/diseaseSymptom/disease-symptom.service';
-import { Toast } from '../../../helpers/toast';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ListSymptomResponse } from '../../../models/responses/symptom/list-symptom-response';
-import { ResponseApi } from '../../../models/response-apis/response-api';
-import { CreateDiseaseSymptomRequest } from '../../../models/requests/diseaseSymptom/create-disease-symptom-request';
-import { SymptomService } from '../../../services/symptom/symptom.service';
+import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
+import { Product } from '../../../models/responses/productSupport/productSupport-response';
 import { Subscription } from 'rxjs';
-import { DiseaseService } from '../../../services/disease/disease.service';
-import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
+import { CreateProductSupportRequest } from '../../../models/requests/productSupport/create-product-support-request';
+import { NbDialogRef } from '@nebular/theme';
+import { ProductSupportService } from '../../../services/productSupport/product-support.service';
+import { SupportService } from '../../../services/support/support.service';
+import { Toast } from '../../../helpers/toast';
+import { ResponseApi } from '../../../models/response-apis/response-api';
 
 @Component({
-  selector: 'ngx-create-disease-symptom',
-  templateUrl: './create-disease-symptom.component.html',
-  styleUrls: ['./create-disease-symptom.component.scss']
+  selector: 'ngx-create-product-support',
+  templateUrl: './create-product-support.component.html',
+  styleUrls: ['./create-product-support.component.scss']
 })
-export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
+export class CreateProductSupportComponent implements OnInit, OnDestroy{
 
   id: any;
   listName: string = '';
@@ -31,12 +30,12 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   source: LocalDataSource;
 
-  listSymptom: ListSymptomResponse[] = [];
-  listDisease: listDiseaseResponse[]= [];
+  listProduct: Product[] = [];
+  listSupport: ListSupportResponse[]= [];
   Data: any;
   
   private subscription: Subscription;
-  diseaseSymptom = new CreateDiseaseSymptomRequest();
+  productSupport = new CreateProductSupportRequest();
 
   
   getColumnTitle(column: string): string {
@@ -51,10 +50,10 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
   }
 
   constructor(
-    protected ref: NbDialogRef<CreateDiseaseSymptomComponent>,
-    private diseaseSymptomService: DiseaseSymptomService,
-    private symptomService: SymptomService,
-    private diseaseService: DiseaseService,
+    protected ref: NbDialogRef<CreateProductSupportComponent>,
+    private productSupportService: ProductSupportService,
+    //private productService: ProductService,
+    private supportService: SupportService,
     private toast: Toast
   ) {
     this.source = new LocalDataSource();
@@ -62,10 +61,10 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   getLink(){
     if(this.link == 1){
-      this.loadSymptomData();
+      //this.loadProductData();
     }
     else if(this.link == 2){
-      this.loadDiseaseData();
+      this.loadSupportData();
     }
   }
 
@@ -100,8 +99,10 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     this.source.load(this.Data);
   }
 
+
+  //|| this.productService
   ngOnDestroy(): void {
-    if(this.diseaseService || this.symptomService){
+    if(this.supportService ){
       this.subscription.unsubscribe;
     }
   }
@@ -110,31 +111,31 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     this.filterList();
   }
 
-  loadSymptomData() {
-    this.subscription = this.symptomService.getSymptom().subscribe((data: ResponseApi<ListSymptomResponse[]>)=>{
-      if(data.code === 200){
-        this.listSymptom = data.obj;
+  // loadProductData() {
+  //   this.subscription = this.productService.getProduct().subscribe((data: ResponseApi<Product[]>)=>{
+  //     if(data.code === 200){
+  //       this.listProduct = data.obj;
         
-        this.Data = this.listSymptom.map(item => ({
-          id: item.id,
-          name: item.name,
-          code: item.codeSymptom,
-        }));
-      }
-    },(error) => {
-      this.toast.warningToast('Lấy thông tin thất bại', error);
-    });
-  }
+  //       this.Data = this.listProduct.map(item => ({
+  //         id: item.id,
+  //         name: item.name,
+  //         code: item.codeMedicine,
+  //       }));
+  //     }
+  //   },(error) => {
+  //     this.toast.warningToast('Lấy thông tin thất bại', error);
+  //   });
+  // }
   
-  loadDiseaseData() {
-    this.subscription = this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
+  loadSupportData() {
+    this.subscription = this.supportService.getSupports().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{
       if(data.code === 200){
-        this.listDisease = data.obj;
+        this.listSupport = data.obj;
 
-        this.Data = this.listDisease.map(item => ({
+        this.Data = this.listSupport.map(item => ({
           id: item.id,
           name: item.name,
-          code: item.codeDisease,
+          code: item.codeSupport,
         }));
       }
     },(error) => {
@@ -144,9 +145,9 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   // Create
   create() {
-    this.diseaseSymptomService.getLink(this.link);
+    this.productSupportService.getLink(this.link);
 
-    this.diseaseSymptomService.create(this.diseaseSymptom).subscribe(
+    this.productSupportService.create(this.productSupport).subscribe(
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
@@ -167,12 +168,12 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   onRowSelect(event){
     if(this.link == 1){
-      this.diseaseSymptom.diseaseId = this.id;
-      this.diseaseSymptom.symptomId = event.id;
+      this.productSupport.supportId = this.id;
+      this.productSupport.productId = event.id;
     }
     else if(this.link == 2){
-      this.diseaseSymptom.symptomId = this.id;
-      this.diseaseSymptom.diseaseId = event.id;
+      this.productSupport.productId = this.id;
+      this.productSupport.supportId = event.id;
     }
     
   }

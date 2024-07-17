@@ -1,22 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
-import { DiseaseSymptomService } from '../../../services/diseaseSymptom/disease-symptom.service';
-import { Toast } from '../../../helpers/toast';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ListSymptomResponse } from '../../../models/responses/symptom/list-symptom-response';
-import { ResponseApi } from '../../../models/response-apis/response-api';
-import { CreateDiseaseSymptomRequest } from '../../../models/requests/diseaseSymptom/create-disease-symptom-request';
-import { SymptomService } from '../../../services/symptom/symptom.service';
-import { Subscription } from 'rxjs';
-import { DiseaseService } from '../../../services/disease/disease.service';
 import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
+import { Product } from '../../../models/responses/productDisease/productDisease-response';
+import { Subscription } from 'rxjs';
+import { CreateProductDiseaseRequest } from '../../../models/requests/productDisease/create-product-disease-request';
+import { NbDialogRef } from '@nebular/theme';
+import { ProductDiseaseService } from '../../../services/productDisease/product-disease.service';
+import { DiseaseService } from '../../../services/disease/disease.service';
+import { Toast } from '../../../helpers/toast';
+import { ResponseApi } from '../../../models/response-apis/response-api';
 
 @Component({
-  selector: 'ngx-create-disease-symptom',
-  templateUrl: './create-disease-symptom.component.html',
-  styleUrls: ['./create-disease-symptom.component.scss']
+  selector: 'ngx-create-product-disease',
+  templateUrl: './create-product-disease.component.html',
+  styleUrls: ['./create-product-disease.component.scss']
 })
-export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
+export class CreateProductDiseaseComponent implements OnInit, OnDestroy{
 
   id: any;
   listName: string = '';
@@ -31,12 +30,12 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   source: LocalDataSource;
 
-  listSymptom: ListSymptomResponse[] = [];
+  listProduct: Product[] = [];
   listDisease: listDiseaseResponse[]= [];
   Data: any;
   
   private subscription: Subscription;
-  diseaseSymptom = new CreateDiseaseSymptomRequest();
+  productDisease = new CreateProductDiseaseRequest();
 
   
   getColumnTitle(column: string): string {
@@ -51,9 +50,9 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
   }
 
   constructor(
-    protected ref: NbDialogRef<CreateDiseaseSymptomComponent>,
-    private diseaseSymptomService: DiseaseSymptomService,
-    private symptomService: SymptomService,
+    protected ref: NbDialogRef<CreateProductDiseaseComponent>,
+    private productDiseaseService: ProductDiseaseService,
+    //private productService: ProductService,
     private diseaseService: DiseaseService,
     private toast: Toast
   ) {
@@ -62,7 +61,7 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   getLink(){
     if(this.link == 1){
-      this.loadSymptomData();
+      //this.loadProductData();
     }
     else if(this.link == 2){
       this.loadDiseaseData();
@@ -100,8 +99,10 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     this.source.load(this.Data);
   }
 
+
+  //|| this.productService
   ngOnDestroy(): void {
-    if(this.diseaseService || this.symptomService){
+    if(this.diseaseService ){
       this.subscription.unsubscribe;
     }
   }
@@ -110,21 +111,21 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     this.filterList();
   }
 
-  loadSymptomData() {
-    this.subscription = this.symptomService.getSymptom().subscribe((data: ResponseApi<ListSymptomResponse[]>)=>{
-      if(data.code === 200){
-        this.listSymptom = data.obj;
+  // loadProductData() {
+  //   this.subscription = this.productService.getProduct().subscribe((data: ResponseApi<Product[]>)=>{
+  //     if(data.code === 200){
+  //       this.listProduct = data.obj;
         
-        this.Data = this.listSymptom.map(item => ({
-          id: item.id,
-          name: item.name,
-          code: item.codeSymptom,
-        }));
-      }
-    },(error) => {
-      this.toast.warningToast('Lấy thông tin thất bại', error);
-    });
-  }
+  //       this.Data = this.listProduct.map(item => ({
+  //         id: item.id,
+  //         name: item.name,
+  //         code: item.codeMedicine,
+  //       }));
+  //     }
+  //   },(error) => {
+  //     this.toast.warningToast('Lấy thông tin thất bại', error);
+  //   });
+  // }
   
   loadDiseaseData() {
     this.subscription = this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
@@ -144,9 +145,9 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   // Create
   create() {
-    this.diseaseSymptomService.getLink(this.link);
+    this.productDiseaseService.getLink(this.link);
 
-    this.diseaseSymptomService.create(this.diseaseSymptom).subscribe(
+    this.productDiseaseService.create(this.productDisease).subscribe(
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
@@ -167,12 +168,12 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   onRowSelect(event){
     if(this.link == 1){
-      this.diseaseSymptom.diseaseId = this.id;
-      this.diseaseSymptom.symptomId = event.id;
+      this.productDisease.diseaseId = this.id;
+      this.productDisease.productId = event.id;
     }
     else if(this.link == 2){
-      this.diseaseSymptom.symptomId = this.id;
-      this.diseaseSymptom.diseaseId = event.id;
+      this.productDisease.productId = this.id;
+      this.productDisease.diseaseId = event.id;
     }
     
   }

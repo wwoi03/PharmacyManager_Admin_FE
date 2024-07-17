@@ -1,8 +1,8 @@
-export class ProductDiseaseResponse{
+export class ProductSupportResponse{
     productId: string;
     product: Product;
-    diseaseId: string;
-    disease: Disease;
+    supportId: string;
+    support: Support;
 }
 
 export class Product{
@@ -30,9 +30,9 @@ export class Product{
     image: string;
 }
 
-export class Disease{
+export class Support{
     id: string;
     name: string;
     description?: string; 
-    codeDisease: string;
+    codeSupport: string;
 }

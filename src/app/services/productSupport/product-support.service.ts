@@ -4,14 +4,14 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { ErrorNotify } from '../../helpers/error-notify';
 import { Observable } from 'rxjs';
 import { ResponseApi } from '../../models/response-apis/response-api';
-import { catchError, map, tap } from 'rxjs/operators';
-import { CreateProductDiseaseRequest } from '../../models/requests/productDisease/create-product-disease-request';
-import { ProductDiseaseResponse } from '../../models/responses/productDisease/productDisease-response';
+import { ProductSupportResponse } from '../../models/responses/productSupport/productSupport-response';
+import { catchError, tap } from 'rxjs/operators';
+import { CreateProductSupportRequest } from '../../models/requests/productSupport/create-product-support-request';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductDiseaseService {
+export class ProductSupportService {
   private apiURL: string = environment.API_BASE_URL + '/admin/';
   url: string;
 
@@ -20,7 +20,7 @@ export class ProductDiseaseService {
   
   getLink(link: number){
     if(link == 1){
-      this.url = `${this.apiURL}Disease/`;
+      this.url = `${this.apiURL}Support/`;
     }
     else if(link == 2){
       this.url = `${this.apiURL}Product/`;
@@ -28,12 +28,12 @@ export class ProductDiseaseService {
   }
 
   //Lấy danh sách
-  getProductDiseases(diseaseId: string): Observable<ResponseApi<ProductDiseaseResponse[]>>{
-    const params = new HttpParams().set("id", diseaseId);
+  getProductSupports(Id: string): Observable<ResponseApi<ProductSupportResponse[]>>{
+    const params = new HttpParams().set("id", Id);
 
-    return this.http.get<ResponseApi<ProductDiseaseResponse[]>> (this.url + 'GetProductDiseases', {params})
+    return this.http.get<ResponseApi<ProductSupportResponse[]>> (this.url + 'GetProductSupports', {params})
     .pipe(
-      tap((response: ResponseApi<ProductDiseaseResponse[]>) => {
+      tap((response: ResponseApi<ProductSupportResponse[]>) => {
         if (response.isSuccessed) {
           return response;
         } else {
@@ -47,8 +47,8 @@ export class ProductDiseaseService {
   }
 
    //Tạo
-   create(request: CreateProductDiseaseRequest): Observable<ResponseApi<string>>{
-    return this.http.post<ResponseApi<string>>(this.url + 'CreateProductDisease', request)
+   create(request: CreateProductSupportRequest): Observable<ResponseApi<string>>{
+    return this.http.post<ResponseApi<string>>(this.url + 'CreateProductSupport', request)
     .pipe(   tap((response: ResponseApi<string>) => {
       if (response.isSuccessed) {
         return response;
@@ -62,12 +62,12 @@ export class ProductDiseaseService {
   );
   }
   //Xóa
-  delete(diseaseId: string, productId: string): Observable<ResponseApi<string>>{
+  delete(supportId: string, productId: string): Observable<ResponseApi<string>>{
     const params = new HttpParams()
     .set("productId", productId)
-    .set("diseaseId", diseaseId);
+    .set("supportId", supportId);
   
-    return this.http.delete<ResponseApi<string>>(this.url + 'DeleteProductDisease', {params} )
+    return this.http.delete<ResponseApi<string>>(this.url + 'DeleteProductSupport', {params} )
     .pipe(
       tap((response: ResponseApi<string>) => {
         if (response.isSuccessed) {

@@ -76,7 +76,7 @@ export class SupportListComponent implements OnInit{
   }
 
   loadSupportData(){
-    this.supportService.getSupport().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{
+    this.supportService.getSupports().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{
       if(data.code === 200){
       this.filteredList = data.obj;
     }

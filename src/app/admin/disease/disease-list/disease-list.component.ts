@@ -26,6 +26,20 @@ export class DiseaseListComponent implements OnInit {
   source: LocalDataSource;
   filteredList: listDiseaseResponse[] = [] ;
 
+  
+  getColumnTitle(column: string): string {
+    switch (column) {
+      case 'name':
+        return 'Tên loại bệnh';
+      case 'codeDisease':
+        return 'Mã bệnh';
+      case 'actions':
+        return 'Quản lý';
+      default:
+        return '';
+    }
+  }
+  
   constructor(private diseaseService: DiseaseService, 
     private router: Router,
     private toast: Toast,
@@ -42,7 +56,7 @@ export class DiseaseListComponent implements OnInit {
         item.codeDisease.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.applySort();
+    this.sortColumn("name");
   }
 
   sortColumn(column: string) {
@@ -64,18 +78,6 @@ export class DiseaseListComponent implements OnInit {
     this.source.load(this.filteredList);
   }
 
-  getColumnTitle(column: string): string {
-    switch (column) {
-      case 'name':
-        return 'Tên loại bệnh';
-      case 'codeDisease':
-        return 'Mã bệnh';
-      case 'actions':
-        return 'Quản lý';
-      default:
-        return '';
-    }
-  }
 
   loadDiseaseData(){
     this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
