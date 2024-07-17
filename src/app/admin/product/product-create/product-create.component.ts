@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 import { CategoryService } from "../../../services/category/category.service";
+import { SelectCategoryResponse } from "../../../models/responses/category/select-category-response";
 
 @Component({
   selector: "ngx-product-create",
@@ -16,13 +17,11 @@ import { CategoryService } from "../../../services/category/category.service";
 })
 export class ProductCreateComponent {
   // Variable
-  codeCategory: string;
-  categoryName: string;
-  showCategoryNameField = false;
   createProductRequest: CreateProductRequest = new CreateProductRequest();
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   images: string[] = [];
   imagesFile: File[] = [];
+  categories: SelectCategoryResponse[] = [];
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -43,6 +42,7 @@ export class ProductCreateComponent {
   // InitData
   ngOnInit(): void {
     this.validationMessages = this.createProductRequest.validationMessages;
+    this.loadCategories();
   }
 
   // After Init Data
@@ -52,6 +52,17 @@ export class ProductCreateComponent {
       this.validationMessages,
       this.productForm
     );
+  }
+
+  // load category
+  loadCategories() {
+    this.categoryService.getCategoriesSelect().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.categories = res.obj;
+        }
+      }
+    )
   }
 
   handleEditorKeyup(content: any) {
@@ -70,26 +81,6 @@ export class ProductCreateComponent {
 
     this.loadingService.show();
 
-    // for (let i = 0; i < this.imagesFile.length; i++) {
-    //   // Thêm ảnh
-    //   this.uploadFileService.saveFile(this.imagesFile[i]).subscribe(
-    //     (res) => {
-    //       if (res.code === 200) {
-    //         if (i == 0) {
-    //           this.createProductRequest.image = res.obj;
-    //           console.log(this.createProductRequest.image);
-    //         } else {
-    //           this.createProductRequest.images.push(res.obj);
-    //           console.log(this.createProductRequest.images);
-    //         }
-    //       } else {
-    //         this.toast.warningToast("Thất bại", res.message);
-    //       }
-    //     }
-    //   )
-    // }
-
-    
     await this.uploadImages();
 
     console.log(this.createProductRequest);
@@ -132,10 +123,6 @@ export class ProductCreateComponent {
       );
   
       await Promise.all(uploadPromises);
-  
-      // Tiếp tục các bước tiếp theo sau khi tất cả ảnh đã được tải lên thành công
-      console.log('Tất cả ảnh đã được tải lên thành công');
-      // Tiếp tục các bước khác như tạo sản phẩm...
     } catch (error) {
       console.error('Có lỗi xảy ra khi tải lên ảnh:', error);
     }
@@ -147,16 +134,6 @@ export class ProductCreateComponent {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       this.imagesFile.push(file);
-
-      // this.uploadFileService.saveFile(file).subscribe(
-      //   (res) => {
-      //     if (res.code === 200) {
-      //       this.toast.successToast("Thành công", res.message);
-      //     } else {
-      //       this.toast.warningToast("Thất bại", res.message);
-      //     }
-      //   }
-      // )
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -175,27 +152,12 @@ export class ProductCreateComponent {
     this.imagesFile.splice(index, 1);
   }
 
-  // Xử lý sự kiện khi nhập nhà cung cấp
-  onInputCategoryFinish(event: any) {
-    this.codeCategory = event.target.value;
+  customSearchFn(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return item.name.toLowerCase().includes(term) || item.codeCategory.toString().includes(term);
+  }
 
-    if (this.codeCategory === "" || this.codeCategory === null) {
-      this.showCategoryNameField = false;
-    }
-
-    this.categoryService.getCategoryByCode(this.codeCategory).subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.categoryName = res.obj.name;
-          this.createProductRequest.categoryId = res.obj.id;
-          this.validationNotify.formErrors['codeCategory'] = null;
-          this.showCategoryNameField = true;
-        } else if (res.code === 409) {
-          this.createProductRequest.categoryId = null;
-          this.validationNotify.formErrors['codeCategory'] = "Loại sản phẩm không tồn tại.";
-          this.showCategoryNameField = false;
-        } 
-      },
-    )
+  onCategoryChange(event) {
+   this.createProductRequest.categoryId = event.id;
   }
 }

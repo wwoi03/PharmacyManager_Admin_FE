@@ -8,6 +8,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbListModule,
+  NbTabsetModule,
   NbTreeGridModule,
 } from "@nebular/theme";
 import { Ng2SmartTableModule } from "ng2-smart-table";
@@ -40,6 +41,7 @@ import { CommonModule } from "@angular/common";
     NbListModule,
     NbAccordionModule,
     NgxPaginationModule,
+    NbTabsetModule,
 
     NgSelectModule, 
     NgOptionHighlightModule, 
