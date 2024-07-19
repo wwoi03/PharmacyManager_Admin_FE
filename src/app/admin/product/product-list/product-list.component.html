@@ -40,7 +40,14 @@
           [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
           {{ getColumnTitle(column) }}
         </th>
-        <td class="default-column" nbTreeGridCell *nbTreeGridCellDef="let row">{{ row.data[column] }}</td>
+        <td class="default-column" nbTreeGridCell *nbTreeGridCellDef="let row">
+          <ng-container *ngIf="column === 'image'; else defaultCell">
+            <img [src]="uploadFileService.loadImage(row.data[column])" alt="Product Image" width="150" height="150">
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ row.data[column] }}
+          </ng-template>
+        </td>
       </ng-container>
     </table>
   </nb-card-body>

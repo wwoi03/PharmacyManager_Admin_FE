@@ -119,6 +119,12 @@ export class ShipmentListComponent {
     //this.router.navigate(['/admin/shipment/shipment-create']);
   }
 
+  // Eidt
+  onEdit(event): void {
+    const shipmentId: string = event.data.id;
+    this.router.navigate(['/admin/shipment-details/shipment-details-list', shipmentId]);
+  }
+
   // Xóa đơn nhập kho
   onDeleteConfirm(event): void {
     if (window.confirm("Bạn có chắc chắn muốn xóa?")) {

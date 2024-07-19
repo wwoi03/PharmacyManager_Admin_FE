@@ -7,6 +7,7 @@ import { ListProductResponse } from '../../models/responses/product/list-product
 import { ResponseApi } from '../../models/response-apis/response-api';
 import { catchError, tap } from 'rxjs/operators';
 import { CreateProductRequest } from '../../models/requests/product/create-product-request';
+import { SelectProductResponse } from '../../models/responses/product/select-product-response';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,23 @@ export class ProductService {
           return this.errorNotify.handleStatusError(error.status);
         })
       );
+  }
+
+  // Product Select
+  getProductsSelect(): Observable<ResponseApi<SelectProductResponse[]>> {
+    return this.http
+      .get<ResponseApi<SelectProductResponse[]>>(this.apiUrl + "GetProductsSelect")
+      .pipe(
+        tap((response: ResponseApi<SelectProductResponse[]>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+    );
   }
 }

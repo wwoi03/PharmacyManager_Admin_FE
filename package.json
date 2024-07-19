@@ -45,6 +45,8 @@
     "@nebular/eva-icons": "11.0.1",
     "@nebular/security": "11.0.1",
     "@nebular/theme": "11.0.1",
+    "@ng-select/ng-option-highlight": "0.0.6",
+    "@ng-select/ng-select": "^10.0.4",
     "@swimlane/ngx-charts": "^14.0.0",
     "angular2-chartjs": "0.4.1",
     "bootstrap": "4.3.1",
