@@ -4,6 +4,8 @@ import { ShipmentDetailsComponent } from './shipment-details.component';
 import { ShipmentDetailsCreateComponent } from './shipment-details-create/shipment-details-create.component';
 import { ShipmentDetailsListComponent } from './shipment-details-list/shipment-details-list.component';
 import { ShipmentEditComponent } from './shipment-edit/shipment-edit.component';
+import { ProductCreateComponent } from './product-create/product-create.component';
+import { ShipmentDetailsUnitListComponent } from './shipment-details-unit-list/shipment-details-unit-list.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,6 +14,10 @@ const routes: Routes = [{
     {
       path: 'shipment-details-list/:id',
       component: ShipmentDetailsListComponent,
+    },
+    {
+      path: 'shipment-details-create/:id',
+      component: ShipmentDetailsCreateComponent,
     }
   ]
 }];
@@ -27,4 +33,6 @@ export const routedComponents = [
   ShipmentDetailsCreateComponent,
   ShipmentDetailsListComponent,
   ShipmentEditComponent,
+  ProductCreateComponent,
+  ShipmentDetailsUnitListComponent,
 ];

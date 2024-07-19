@@ -4,6 +4,7 @@ import { ShipmentDetailsService } from "../../../services/shipment-details/shipm
 import { ActivatedRoute, Router } from "@angular/router";
 import { ListShipmentDetailsResponse } from "../../../models/responses/shipment-details/list-shipment-details-response";
 import { Toast } from "../../../helpers/toast";
+import { NbDialogService } from "@nebular/theme";
 
 @Component({
   selector: "ngx-shipment-details-list",
@@ -111,7 +112,8 @@ export class ShipmentDetailsListComponent {
     private shipmentDetailsService: ShipmentDetailsService,
     private route: ActivatedRoute,
     private router: Router,
-    private toast: Toast
+    private toast: Toast,
+    private dialogService: NbDialogService,
   ) {}
 
   // Init Data
@@ -130,13 +132,14 @@ export class ShipmentDetailsListComponent {
         if (res.code === 200) {
           this.listShipmentDetailsResponse = res.obj;
           this.source.load(this.listShipmentDetailsResponse);
+          console.log(this.source);
         } 
       });
   }
 
   // Create
   onCreate(event): void {
-    //this.router.navigate(['/admin/shipment/shipment-create']);
+    this.router.navigate(['/admin/shipment-details/shipment-details-create', this.shipmentId]);
   }
 
   // Eidt

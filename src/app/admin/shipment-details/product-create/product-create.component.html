@@ -1,0 +1,287 @@
+<form (ngSubmit)="createProduct()" #productForm="ngForm">
+    <div class="row">
+        <div class="col-md-12">
+            <nb-card>
+                <nb-card-header class="nb-card-header-customer">
+                    <span>Thêm sản phẩm</span>
+
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Thêm mới</button>
+                </nb-card-header>
+                <nb-card-body>
+                    <div>
+                        <div class="row">
+                            <!-- Code -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="forCodeMedicine" class="label">Mã sản phẩm<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.codeMedicine" name="codeMedicine"
+                                        type="text" nbInput fullWidth id="forCodeMedicine" placeholder="Mã sản phẩm"
+                                        #codeMedicine="ngModel"
+                                        (input)="validationNotify.onInputChange('codeMedicine')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['codeMedicine']" class="text-danger">
+                                            {{ formErrors['codeMedicine'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Số đăng lý -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="forregistrationNumber" class="label">Số đăng ký<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.registrationNumber"
+                                        name="registrationNumber" type="text" nbInput fullWidth
+                                        id="forregistrationNumber" placeholder="Số đăng ký"
+                                        #registrationNumber="ngModel"
+                                        (input)="validationNotify.onInputChange('registrationNumber')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['registrationNumber']" class="text-danger">
+                                            {{ formErrors['registrationNumber'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tên sản phẩm -->
+                        <div class="form-group">
+                            <label for="forname" class="label">Tên sản phẩm<small class="text-danger">*</small></label>
+                            <textarea required [(ngModel)]="createProductRequest.name" name="name" rows="3" nbInput
+                                fullWidth id="forname" shape="rectangle" placeholder="Tên sản phẩm" #name="ngModel"
+                                (input)="validationNotify.onInputChange('name')"></textarea>
+                            <div class="text-danger-container">
+                                <div *ngIf="formErrors['name']" class="text-danger">
+                                    {{ formErrors['name'] }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Loại sản phẩm -->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="forcodeCategory" class="label">Loại sản phẩm<small
+                                            class="text-danger">*</small></label>
+                                    <ng-select [items]="categories" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="createProductRequest.categoryId" name="categoryId"
+                                        [searchFn]="customSearchFn" placeholder="Tìm kiếm theo tên, mã loại sản phảm">
+                                    </ng-select>
+                                    <div class="text-danger-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Xuất xứ -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="forbrandOrigin" class="label">Xuất xứ<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.brandOrigin" name="brandOrigin"
+                                        type="text" nbInput fullWidth id="forbrandOrigin" placeholder="Xuất xứ"
+                                        #brandOrigin="ngModel" (input)="validationNotify.onInputChange('brandOrigin')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['brandOrigin']" class="text-danger">
+                                            {{ formErrors['brandOrigin'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- QUy cách -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="forspecifications" class="label">Quy cách<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.specifications"
+                                        name="specifications" type="text" nbInput fullWidth id="forspecifications"
+                                        placeholder="Quy cách" #specifications="ngModel"
+                                        (input)="validationNotify.onInputChange('specifications')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['specifications']" class="text-danger">
+                                            {{ formErrors['specifications'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dạng bào chế -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="fordosageForms" class="label">Dạng bào chế<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.dosageForms" name="dosageForms"
+                                        type="text" nbInput fullWidth id="fordosageForms" placeholder="Dạng bào chế"
+                                        #dosageForms="ngModel" (input)="validationNotify.onInputChange('dosageForms')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['dosageForms']" class="text-danger">
+                                            {{ formErrors['dosageForms'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Liều dùng -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="fordosage" class="label">Liều dùng<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.dosage" name="dosage" type="text"
+                                        nbInput fullWidth id="fordosage" placeholder="Liều dùng" #dosage="ngModel"
+                                        (input)="validationNotify.onInputChange('dosage')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['dosage']" class="text-danger">
+                                            {{ formErrors['dosage'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chống chỉ định -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="forcontraindication" class="label">Chống chỉ định<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.contraindication"
+                                        name="contraindication" type="text" nbInput fullWidth id="forcontraindication"
+                                        placeholder="Chống chỉ định" #contraindication="ngModel"
+                                        (input)="validationNotify.onInputChange('contraindication')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['contraindication']" class="text-danger">
+                                            {{ formErrors['contraindication'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tuổi sử dụng -->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="forageOfUse" class="label">Độ tuổi sử dụng<small
+                                            class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createProductRequest.ageOfUse" name="ageOfUse"
+                                        type="text" nbInput fullWidth id="forageOfUse" placeholder="Độ tuổi sử dụng"
+                                        #ageOfUse="ngModel" (input)="validationNotify.onInputChange('ageOfUse')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['ageOfUse']" class="text-danger">
+                                            {{ formErrors['ageOfUse'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mô tả ngắn -->
+                        <div class="form-group">
+                            <label for="forshortDescription" class="label">Mô tả ngắn<small
+                                    class="text-danger">*</small></label>
+                            <textarea required [(ngModel)]="createProductRequest.shortDescription"
+                                name="shortDescription" rows="3" nbInput fullWidth id="forshortDescription"
+                                shape="rectangle" placeholder="Mô tả ngắn" #shortDescription="ngModel"
+                                (input)="validationNotify.onInputChange('shortDescription')"></textarea>
+                            <div class="text-danger-container">
+                                <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                    {{ formErrors['shortDescription'] }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image -->
+                        <nb-card size="">
+                            <nb-card-header>Ảnh sản phẩm</nb-card-header>
+
+                            <nb-card-body>
+                                <div class="row">
+                                    <div class="picture-container-custom">
+                                        <div class="picture picture-custom picture-custom-add"
+                                            (click)="triggerFileInput()">
+                                            <nb-icon class="icon-add-custom" icon="plus-square-outline"
+                                                pack="eva"></nb-icon>
+                                        </div>
+                                        <input type="file" accept="image/*" #fileInput style="display: none;"
+                                            (change)="onFileSelected($event)">
+                                    </div>
+
+                                    <div class="picture-container-custom" *ngFor="let image of images; let i = index">
+                                        <div class="picture picture-custom"
+                                            [ngStyle]="{'background-image': 'url(' + image + ')'}"></div>
+                                        <div class="picture-icon-custom" (click)="removeImage(i)">
+                                            <nb-icon icon="close-outline" pack="eva"></nb-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                </nb-card-body>
+
+                <nb-tabset>
+                    <!-- Mô tả chi tiết -->
+                    <nb-tab tabTitle="Mô tả chi tiết">
+                        <ngx-tiny-mce [height]="200"
+                            (editorKeyup)="createProductRequest.description = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <!-- Công dụng -->
+                    <nb-tab tabTitle="Công dụng">
+                        <ngx-tiny-mce [height]="200" (editorKeyup)="createProductRequest.uses = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <!-- Cách dùng -->
+                    <nb-tab tabTitle="Cách dùng">
+                        <ngx-tiny-mce [height]="200"
+                            (editorKeyup)="createProductRequest.howToUse = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <!-- Tác dụng phụ -->
+                    <nb-tab tabTitle="Tác dụng phụ">
+                        <ngx-tiny-mce [height]="200"
+                            (editorKeyup)="createProductRequest.sideEffects = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <!-- Lưu ý -->
+                    <nb-tab tabTitle="Lưu ý">
+                        <ngx-tiny-mce [height]="200"
+                            (editorKeyup)="createProductRequest.warning = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <!-- Bảo quản -->
+                    <nb-tab tabTitle="Bảo quản">
+                        <ngx-tiny-mce [height]="200"
+                            (editorKeyup)="createProductRequest.preserve = $event"></ngx-tiny-mce>
+                        <div class="text-danger-container">
+                            <div *ngIf="formErrors['shortDescription']" class="text-danger">
+                                {{ formErrors['shortDescription'] }}
+                            </div>
+                        </div>
+                    </nb-tab>
+                </nb-tabset>
+            </nb-card>
+        </div>
+    </div>
+</form>

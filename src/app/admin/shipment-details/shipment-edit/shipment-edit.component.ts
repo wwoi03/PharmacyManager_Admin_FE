@@ -12,6 +12,7 @@ import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
 import { DetailsShipmentResponse } from "../../../models/responses/shipment/details-shipment-response";
 import { Util } from "../../../helpers/util";
+import { NbDialogService } from "@nebular/theme";
 
 @Component({
   selector: "ngx-shipment-edit",
@@ -41,7 +42,8 @@ export class ShipmentEditComponent {
     private toast: Toast,
     private loadingService: LoadingService,
     private router: Router,
-    private util: Util
+    private util: Util,
+    private dialogService: NbDialogService, 
   ) {}
 
   // InitData
@@ -104,10 +106,8 @@ export class ShipmentEditComponent {
       return;
     }
 
-    console.log(this.updateShipmentRequest)
-
     this.loadingService.show();
-
+    
     // Call API Create Staff
     this.shipmentService.update(this.updateShipmentRequest).subscribe((res) => {
       if (res.code === 200) {
@@ -123,6 +123,17 @@ export class ShipmentEditComponent {
         }, 1000);
       }
     });
+  }
+
+  // Confirm Update
+  confirmUpdateShipment() {
+    // this.dialogService
+    //   .open()
+    //   .onClose.subscribe((result: boolean) => {
+    //     if (result) {
+    //       this.loadShipmentDetails();
+    //     }
+    //   });
   }
 
   // Custom search supplier select

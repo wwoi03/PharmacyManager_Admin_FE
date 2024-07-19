@@ -7,6 +7,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
+import { ThemeModule } from '../../@theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
     NbListModule,
     NbTabsetModule,
     NgSelectModule, 
-    NgOptionHighlightModule, 
+    NgOptionHighlightModule,
+    ThemeModule,
   ]
 })
 export class ShipmentDetailsModule { }
