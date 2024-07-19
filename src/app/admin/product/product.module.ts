@@ -21,10 +21,8 @@ import {
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FsIconComponent } from "./product-list/product-list.component";
 import { NgxPaginationModule } from "ngx-pagination";
-import { BrowserModule } from "@angular/platform-browser";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { CommonModule } from "@angular/common";
 
 @NgModule({
   imports: [

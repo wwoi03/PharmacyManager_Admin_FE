@@ -1,12 +1,15 @@
 <div class="row">
     <div class="col-md-12">
         <nb-card class="d-flex">
-            <nb-card-header>Danh sách nhập kho</nb-card-header>
+            <nb-card-header>Chi tiết đơn nhập kho</nb-card-header>
         </nb-card>
     </div>
 </div>
 
+<ngx-shipment-edit [shipmentId]="shipmentId" *ngIf="shipmentId"></ngx-shipment-edit>
+
 <nb-card>
+    <nb-card-header>Danh sách chi tiết đơn nhập</nb-card-header>
     <nb-card-body>
         <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (edit)="onEdit($event)" (deleteConfirm)="onDeleteConfirm($event)">
         </ng2-smart-table>

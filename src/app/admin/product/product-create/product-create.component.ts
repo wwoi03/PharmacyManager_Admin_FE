@@ -156,8 +156,4 @@ export class ProductCreateComponent {
     term = term.toLowerCase();
     return item.name.toLowerCase().includes(term) || item.codeCategory.toString().includes(term);
   }
-
-  onCategoryChange(event) {
-   this.createProductRequest.categoryId = event.id;
-  }
 }

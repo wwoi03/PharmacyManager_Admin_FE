@@ -47,6 +47,10 @@ const routes: Routes = [{
       loadChildren: () => import('./shipment/shipment.module').then(m => m.ShipmentModule),
     },
     {
+      path: 'shipment-details',
+      loadChildren: () => import('./shipment-details/shipment-details.module').then(m => m.ShipmentDetailsModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
