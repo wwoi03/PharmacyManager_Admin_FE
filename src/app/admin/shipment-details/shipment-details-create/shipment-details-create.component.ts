@@ -7,6 +7,11 @@ import { SelectProductResponse } from "../../../models/responses/product/select-
 import { ProductService } from "../../../services/product/product.service";
 import { delay } from "rxjs/operators";
 import { NbRadioGroupComponent } from "@nebular/theme";
+import { LoadingService } from "../../../helpers/loading-service";
+import { ShipmentDetailsService } from "../../../services/shipment-details/shipment-details.service";
+import { Toast } from "../../../helpers/toast";
+import { ShipmentDetailsUnitResponse } from "../../../models/responses/shipment-details-unit/shipment-details-unit-response";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "ngx-shipment-details-create",
@@ -17,10 +22,11 @@ export class ShipmentDetailsCreateComponent {
   // variables
   newProductId: string;
   showCreateProduct: boolean = false;
-  createShipmentDetailsRequest: CreateShipmentDetailsRequest = new CreateShipmentDetailsRequest();
+  createShipmentDetailsRequest: CreateShipmentDetailsRequest =
+    new CreateShipmentDetailsRequest();
   products$: Observable<SelectProductResponse[]> | undefined;
 
-  @ViewChild('radioProduct') radioProduct: NbRadioGroupComponent;
+  @ViewChild("radioProduct") radioProduct: NbRadioGroupComponent;
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -29,13 +35,23 @@ export class ShipmentDetailsCreateComponent {
   validationNotify: ValidationNotify;
 
   // constructor
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private loadingService: LoadingService,
+    private shipmentDetailsService: ShipmentDetailsService,
+    private toast: Toast,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   // InitData
   ngOnInit(): void {
-    this.loadProducts();
-    this.validationMessages =
-      this.createShipmentDetailsRequest.validationMessages;
+    this.route.params.subscribe((params) => {
+      this.createShipmentDetailsRequest.shipmentId = params["id"];
+      this.loadProducts();
+      this.validationMessages =
+        this.createShipmentDetailsRequest.validationMessages;
+    });
   }
 
   // After Init Data
@@ -74,7 +90,37 @@ export class ShipmentDetailsCreateComponent {
     }
   }
 
-  createShipmentDetails() {}
+  createShipmentDetails() {
+    console.log(this.createShipmentDetailsRequest);
+
+    // Valid
+    if (this.shipmentForm.invalid) {
+      this.validationNotify.validateForm();
+      this.formErrors = this.validationNotify.formErrors;
+      return;
+    }
+
+    this.loadingService.show();
+
+    // Call API Create Staff
+    this.shipmentDetailsService
+      .create(this.createShipmentDetailsRequest)
+      .subscribe((res) => {
+        if (res.code === 200) {
+          setTimeout(() => {
+            this.loadingService.hide();
+            this.toast.successToast("Thành công", res.message);
+          }, 1000);
+        } else if (res.code >= 400 && res.code < 500) {
+          setTimeout(() => {
+            this.loadingService.hide();
+            this.toast.warningToast("Thất bại", res.validationNotify.message);
+            this.validationNotify.formErrors[res.validationNotify.obj] =
+              res.validationNotify.message;
+          }, 1000);
+        }
+      });
+  }
 
   // Custom search supplier select
   customSearchFn(term: string, item: any): boolean {
@@ -86,10 +132,19 @@ export class ShipmentDetailsCreateComponent {
   }
 
   // Xử lý sự kiện từ component con
-  onActionTriggered(newProductId: any): void {
-    this.radioProduct.value = 'hideProduct';
+  onProductTriggered(newProductId: any): void {
+    this.radioProduct.value = "hideProduct";
     this.showCreateProduct = false;
     this.loadProducts();
     this.createShipmentDetailsRequest.productId = newProductId;
+  }
+
+  // Xử lý sự kiện từ component con
+  onShipmentDetailsUnitTriggered(
+    shipmentDetailsUnitResponse: ShipmentDetailsUnitResponse[]
+  ): void {
+    this.createShipmentDetailsRequest.shipmentDetailsUnits =
+      shipmentDetailsUnitResponse;
+    console.log(this.createShipmentDetailsRequest.shipmentDetailsUnits);
   }
 }

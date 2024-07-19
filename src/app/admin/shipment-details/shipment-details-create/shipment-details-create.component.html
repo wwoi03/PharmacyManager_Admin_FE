@@ -28,8 +28,8 @@
                     <!-- Note -->
                     <div class="form-group">
                         <label for="forNote" class="label">Ghi chú</label>
-                        <textarea required [(ngModel)]="createShipmentDetailsRequest.note" name="note" rows="3" nbInput
-                            fullWidth id="forNote" shape="rectangle" placeholder="Ghi chú" #note="ngModel"
+                        <textarea [(ngModel)]="createShipmentDetailsRequest.note" name="note" rows="3" nbInput fullWidth
+                            id="forNote" shape="rectangle" placeholder="Ghi chú" #note="ngModel"
                             (input)="validationNotify.onInputChange('note')"></textarea>
                         <div class="text-danger-container">
                             <div *ngIf="formErrors['note']" class="text-danger">
@@ -44,8 +44,9 @@
                             <label for="forGender" class="label" style="margin: 0 1.5rem 0 0;">Sản phẩm<small
                                     class="text-danger">*</small>:</label>
                             <div class="demo-items" style="margin: 0">
-                                <nb-radio-group #radioProduct value="hideProduct" (valueChange)="onProductChange($event)" required
-                                    name="radioProduct" class="form-inline" id="forGender">
+                                <nb-radio-group #radioProduct value="hideProduct"
+                                    (valueChange)="onProductChange($event)" required name="radioProduct"
+                                    class="form-inline" id="forGender">
                                     <nb-radio style="margin: 0 1.5rem 0 0" [value]="'hideProduct'">Đã có sản
                                         phẩm</nb-radio>
                                     <nb-radio style="margin: 0 1.5rem 0 0" [value]="'showProduct'">Sản phẩm
@@ -55,7 +56,8 @@
                         </div>
 
                         <!-- Chưa có sản phẩm -->
-                        <ngx-product-create [newProductId]="newProductId" (actionTriggered)="onActionTriggered($event)" *ngIf="showCreateProduct"></ngx-product-create>
+                        <ngx-product-create [newProductId]="newProductId" (actionTriggered)="onProductTriggered($event)"
+                            *ngIf="showCreateProduct"></ngx-product-create>
 
                         <!-- Đã có sản phẩm -->
                         <ng-select fullWidth *ngIf="!showCreateProduct" [items]="products$ | async" bindLabel="name"
@@ -64,9 +66,6 @@
                         </ng-select>
 
                         <div class="text-danger-container">
-                            <div *ngIf="formErrors['gender']" class="text-danger">
-                                {{ formErrors['gender'] }}
-                            </div>
                         </div>
                     </div>
 
@@ -121,12 +120,12 @@
                             </div>
                         </div>
 
-                        <ngx-shipment-details-unit-list [productId]="createShipmentDetailsRequest.productId" *ngIf="createShipmentDetailsRequest.productId"></ngx-shipment-details-unit-list>
+                        <ngx-shipment-details-unit-list (actionTriggered)="onShipmentDetailsUnitTriggered($event)"
+                            [productId]="createShipmentDetailsRequest.productId"
+                            *ngIf="createShipmentDetailsRequest.productId"></ngx-shipment-details-unit-list>
 
                         <div class="text-danger-container">
-                            <div *ngIf="formErrors['gender']" class="text-danger">
-                                {{ formErrors['gender'] }}
-                            </div>
+
                         </div>
                     </div>
 
@@ -168,10 +167,9 @@
 
                     <!-- Thông tin bổ sung -->
                     <div class="form-group">
-                        <label for="forNote" class="label">Thông tin bổ sung sản phẩm<small
-                                class="text-danger">*</small></label>
-                        <textarea required [(ngModel)]="createShipmentDetailsRequest.additionalInfo"
-                            name="additionalInfo" rows="3" nbInput fullWidth id="forNote" shape="rectangle"
+                        <label for="forNote" class="label">Thông tin bổ sung sản phẩm</label>
+                        <textarea [(ngModel)]="createShipmentDetailsRequest.additionalInfo" name="additionalInfo"
+                            rows="3" nbInput fullWidth id="forNote" shape="rectangle"
                             placeholder="Thông tin bổ sung sản phẩm" #additionalInfo="ngModel"
                             (input)="validationNotify.onInputChange('additionalInfo')"></textarea>
                         <div class="text-danger-container">

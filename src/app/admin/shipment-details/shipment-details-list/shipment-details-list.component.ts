@@ -13,7 +13,7 @@ import { NbDialogService } from "@nebular/theme";
 })
 export class ShipmentDetailsListComponent {
   // Variable
-  source: LocalDataSource;
+  source: LocalDataSource = new LocalDataSource();;
   shipmentId: string;
   listShipmentDetailsResponse: ListShipmentDetailsResponse[] = [];
 

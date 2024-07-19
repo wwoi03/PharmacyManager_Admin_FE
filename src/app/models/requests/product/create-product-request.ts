@@ -23,38 +23,35 @@ export class CreateProductRequest {
   productDiseases?: string[];
 
   validationMessages = {
-    name: {
+    "name": {
       required: "Tên sản phẩm là bắt buộc.",
     },
-    codeMedicine: {
+    "codeMedicine": {
       required: "Mã sản phẩm là bắt buộc.",
     },
-    // specifications: {
-    //   required: "Quy cách là bắt buộc.",
-    // },
-    // dosage: {
-    //   required: "Liều lượng là bắt buộc.",
-    // },
-    // contraindication: {
-    //   required: "Chống chỉ định là bắt buộc.",
-    // },
-    // dosageForms: {
-    //   required: "Dạng bào chế là bắt buộc.",
-    // },
-    // registrationNumber: {
-    //   required: "Số đăng ký là bắt buộc.",
-    // },
-    // brandOrigin: {
-    //   required: "Thương hiệu là bắt buộc.",
-    // },
-    // ageOfUse: {
-    //   required: "Độ tuổi sử dụng là bắt buộc.",
-    // },
-    // categoryId: {
-    //   required: "Loại sản phẩm là bắt buộc.",
-    // },
-    // image: {
-    //   required: "Hình ảnh là bắt buộc.",
-    // },
+    "specifications": {
+      required: "Quy cách là bắt buộc.",
+    },
+    "dosage": {
+      required: "Liều lượng là bắt buộc.",
+    },
+    "contraindication": {
+      required: "Chống chỉ định là bắt buộc.",
+    },
+    "dosageForms": {
+      required: "Dạng bào chế là bắt buộc.",
+    },
+    "registrationNumber": {
+      required: "Số đăng ký là bắt buộc.",
+    },
+    "brandOrigin": {
+      required: "Thương hiệu là bắt buộc.",
+    },
+    "ageOfUse": {
+      required: "Độ tuổi sử dụng là bắt buộc.",
+    },
+    "shortDescription": {
+      required: "Mô tả ngắn là bắt buộc.",
+    },
   };
 }

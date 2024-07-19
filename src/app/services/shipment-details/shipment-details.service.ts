@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { ResponseApi } from "../../models/response-apis/response-api";
 import { catchError, tap } from "rxjs/operators";
 import { ListShipmentDetailsResponse } from "../../models/responses/shipment-details/list-shipment-details-response";
+import { CreateShipmentDetailsRequest } from "../../models/requests/shipment-details/create-shipment-details-request";
 
 @Injectable({
   providedIn: "root",
@@ -32,6 +33,25 @@ export class ShipmentDetailsService {
           }
         }),
         catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // Create
+  create(request: CreateShipmentDetailsRequest): Observable<ResponseApi<string>> {
+    return this.http
+      .post<ResponseApi<string>>(this.apiUrl + "Create", request)
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
           return this.errorNotify.handleStatusError(error.status);
         })
       );

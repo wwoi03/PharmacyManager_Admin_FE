@@ -31,13 +31,17 @@ export class ValidationNotify {
       if (control && control.invalid) {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] = messages[key];
+          console.log(key + ": " + field);
+          if (messages[key] != undefined) {
+            this.formErrors[field] = messages[key];
+          }
         }
       }
     }
   }
 
   public onInputChange(field: string): void {
+    console.log("field: " + field)
     const control = this.dataForm.form.get(field);
 
     if (control && control.dirty && control.valid) {

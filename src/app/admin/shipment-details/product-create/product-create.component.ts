@@ -78,7 +78,6 @@ export class ProductCreateComponent {
 
   // Xử lý thêm nhân viên
   async createProduct() {
-
     // Valid
     if (this.productForm.invalid) {
       this.validationNotify.validateForm();
