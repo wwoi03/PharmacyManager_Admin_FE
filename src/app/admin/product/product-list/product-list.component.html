@@ -27,10 +27,12 @@
       <!-- Cột Hành Động -->
       <ng-container [nbTreeGridColumnDef]="'actions'">
         <th class="actions-column" nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Actions</th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row" class="action-cell">
-          <a class="action-link" (click)="onViewDetails(row)">Xem</a>
-          <a class="action-link" (click)="onEdit(row)">Sửa</a>
-          <a class="action-link" (click)="onDelete(row)">Xóa</a>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <div class="action-cell row">
+              <a class="action-link" (click)="onViewDetails(row)">Xem</a>
+              <a class="action-link" (click)="onEdit(row)">Sửa</a>
+              <a class="action-link" (click)="onDelete(row)">Xóa</a>
+          </div>
         </td>
       </ng-container>
 
