@@ -95,6 +95,7 @@ export class ShipmentEditComponent {
     this.updateShipmentRequest.codeShipment = this.detailsShipmentResponse.codeShipment;
     this.updateShipmentRequest.status = this.detailsShipmentResponse.status;
     this.updateShipmentRequest.supplierId = this.detailsShipmentResponse.supplierId;
+    this.updateShipmentRequest.branchId = this.detailsShipmentResponse.branchId;
   }
 
   // Xử lý thêm nhân viên
@@ -123,17 +124,6 @@ export class ShipmentEditComponent {
         }, 1000);
       }
     });
-  }
-
-  // Confirm Update
-  confirmUpdateShipment() {
-    // this.dialogService
-    //   .open()
-    //   .onClose.subscribe((result: boolean) => {
-    //     if (result) {
-    //       this.loadShipmentDetails();
-    //     }
-    //   });
   }
 
   // Custom search supplier select

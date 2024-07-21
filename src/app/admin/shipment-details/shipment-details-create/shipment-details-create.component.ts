@@ -22,8 +22,7 @@ export class ShipmentDetailsCreateComponent {
   // variables
   newProductId: string;
   showCreateProduct: boolean = false;
-  createShipmentDetailsRequest: CreateShipmentDetailsRequest =
-    new CreateShipmentDetailsRequest();
+  createShipmentDetailsRequest: CreateShipmentDetailsRequest = new CreateShipmentDetailsRequest();
   products$: Observable<SelectProductResponse[]> | undefined;
 
   @ViewChild("radioProduct") radioProduct: NbRadioGroupComponent;
@@ -110,6 +109,7 @@ export class ShipmentDetailsCreateComponent {
           setTimeout(() => {
             this.loadingService.hide();
             this.toast.successToast("Thành công", res.message);
+            this.router.navigate(['/admin/shipment-details/shipment-details-list', this.createShipmentDetailsRequest.shipmentId]);
           }, 1000);
         } else if (res.code >= 400 && res.code < 500) {
           setTimeout(() => {

@@ -59,31 +59,15 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <!-- Mã nhà cung cấp -->
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="forCodeSupplier" class="label">Mã nhà cung cấp<small
-                                        class="text-danger">*</small></label>
-                                <input required [(ngModel)]="codeSupplier" name="codeSupplier" type="text" nbInput
-                                    fullWidth id="forCodeSupplier" placeholder="Mã nhà cung cấp"
-                                    (input)="validationNotify.onInputChange('codeSupplier')"
-                                    (input)="onInputSupplierFinish($event)">
-                                <div class="text-danger-container">
-                                    <div *ngIf="formErrors['codeSupplier']" class="text-danger">
-                                        {{ formErrors['codeSupplier'] }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tên nhà cung cấp -->
-                        <div *ngIf="showSupplierNameField" class="col-sm-6">
-                            <div class="form-group">
-                                <label for="forSupplierName" class="label">Tên nhà cung cấp</label>
-                                <input id="forSupplierName" readonly [value]="supplierName" type="text" nbInput
-                                    fullWidth id="">
-                            </div>
+                    <!-- Nhà cung cấp -->
+                    <div class="form-group">
+                        <label for="forcodeCategory" class="label">Loại sản phẩm<small
+                                class="text-danger">*</small></label>
+                        <ng-select [items]="suppliers$ | async" bindLabel="name" autofocus bindValue="id"
+                            [(ngModel)]="createShipmentRequest.supplierId" name="supplierId" [searchFn]="customSearchFn"
+                            placeholder="Tìm kiếm theo tên, mã nhà cung cấp">
+                        </ng-select>
+                        <div class="text-danger-container">
                         </div>
                     </div>
 

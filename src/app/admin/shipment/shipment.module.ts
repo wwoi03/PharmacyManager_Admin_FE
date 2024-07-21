@@ -22,6 +22,8 @@ import {
 import { ThemeModule } from "../../@theme/theme.module";
 import { Ng2SmartTableModule } from "ng2-smart-table";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [...routedComponents],
@@ -40,6 +42,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     ReactiveFormsModule,
     NbSpinnerModule,
+    NgSelectModule,
+    NgOptionHighlightModule,
 
     CommonModule,
     ShipmentRoutingModule,
