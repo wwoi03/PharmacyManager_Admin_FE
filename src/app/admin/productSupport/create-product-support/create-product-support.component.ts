@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
-import { Product } from '../../../models/responses/productSupport/productSupport-response';
 import { Subscription } from 'rxjs';
 import { CreateProductSupportRequest } from '../../../models/requests/productSupport/create-product-support-request';
 import { NbDialogRef } from '@nebular/theme';
@@ -9,12 +8,21 @@ import { ProductSupportService } from '../../../services/productSupport/product-
 import { SupportService } from '../../../services/support/support.service';
 import { Toast } from '../../../helpers/toast';
 import { ResponseApi } from '../../../models/response-apis/response-api';
+import { ProductService } from '../../../services/product/product.service';
+import { ListProductResponse } from '../../../models/responses/product/list-product-response';
+
+class Data{
+  id:string;
+  name:string;
+  code:string;
+}
 
 @Component({
   selector: 'ngx-create-product-support',
   templateUrl: './create-product-support.component.html',
   styleUrls: ['./create-product-support.component.scss']
 })
+
 export class CreateProductSupportComponent implements OnInit, OnDestroy{
 
   id: any;
@@ -30,9 +38,9 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
 
   source: LocalDataSource;
 
-  listProduct: Product[] = [];
+  listProduct: ListProductResponse[] = [];
   listSupport: ListSupportResponse[]= [];
-  Data: any;
+  Data: Data[] = [];
   
   private subscription: Subscription;
   productSupport = new CreateProductSupportRequest();
@@ -52,7 +60,7 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
   constructor(
     protected ref: NbDialogRef<CreateProductSupportComponent>,
     private productSupportService: ProductSupportService,
-    //private productService: ProductService,
+    private productService: ProductService,
     private supportService: SupportService,
     private toast: Toast
   ) {
@@ -61,10 +69,10 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
 
   getLink(){
     if(this.link == 1){
-      //this.loadProductData();
+      this.loadSupportData();
     }
     else if(this.link == 2){
-      this.loadSupportData();
+      this.loadProductData();
     }
   }
 
@@ -100,9 +108,8 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
   }
 
 
-  //|| this.productService
   ngOnDestroy(): void {
-    if(this.supportService ){
+  if(this.supportService || this.productService){
       this.subscription.unsubscribe;
     }
   }
@@ -111,21 +118,21 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
     this.filterList();
   }
 
-  // loadProductData() {
-  //   this.subscription = this.productService.getProduct().subscribe((data: ResponseApi<Product[]>)=>{
-  //     if(data.code === 200){
-  //       this.listProduct = data.obj;
+  loadProductData() {
+    this.subscription = this.productService.getProducts().subscribe((data: ResponseApi<ListProductResponse[]>)=>{
+      if(data.code === 200){
+        this.listProduct = data.obj;
         
-  //       this.Data = this.listProduct.map(item => ({
-  //         id: item.id,
-  //         name: item.name,
-  //         code: item.codeMedicine,
-  //       }));
-  //     }
-  //   },(error) => {
-  //     this.toast.warningToast('Lấy thông tin thất bại', error);
-  //   });
-  // }
+        this.Data = this.listProduct.map(item => ({
+          id: item.id,
+          name: item.productName,
+          code: item.codeMedicine,
+        }));
+      }
+    },(error) => {
+      this.toast.warningToast('Lấy thông tin thất bại', error);
+    });
+  }
   
   loadSupportData() {
     this.subscription = this.supportService.getSupports().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{

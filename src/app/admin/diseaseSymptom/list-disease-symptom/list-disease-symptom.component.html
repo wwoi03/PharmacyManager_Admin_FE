@@ -1,5 +1,5 @@
 
-<nb-card class="list-card" size="medium">
+<nb-card  size={{size}}>
     <nb-card-body>
         <div class="d-flex justify-content-between " style="position: sticky; top: 0; z-index: 1; flex: 1; background-color: white;">
             <div style=" flex: 1;">
@@ -14,13 +14,13 @@
         </div>
         
         <table class="table table-striped">
-            <thead style="position: sticky; top: 2rem; z-index: 1; flex: 1; background-color: white;">
+            <thead >
                 <th *ngFor="let column of allColumns" (click)="sortColumn(column)">
                     {{ getColumnTitle(column) }}
                   </th>
             </thead>
             <tbody>
-              <tr *ngFor="let row of Data">
+              <tr *ngFor="let row of source['data']">
                 <td>{{ row.name1 }}</td>
                 <td>{{ row.code1 }}</td>
                 <td class="action-cell">
@@ -32,4 +32,11 @@
           </table>
 
     </nb-card-body>
+
+      <div class="pagination-controls">
+        <div *ngFor="let item of countItem | paginate: { itemsPerPage: pageSize, currentPage: p }"></div>
+        <pagination-controls (pageChange)="changePage($event)" previousLabel="" nextLabel="">
+        </pagination-controls>
+      </div>
+    
 </nb-card>

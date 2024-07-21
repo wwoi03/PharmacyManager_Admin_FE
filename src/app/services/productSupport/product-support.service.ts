@@ -20,10 +20,11 @@ export class ProductSupportService {
   
   getLink(link: number){
     if(link == 1){
-      this.url = `${this.apiURL}Support/`;
+      this.url = `${this.apiURL}Product/`;
     }
     else if(link == 2){
-      this.url = `${this.apiURL}Product/`;
+      this.url = `${this.apiURL}Support/`;
+
     }
   }
 

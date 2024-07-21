@@ -20,16 +20,16 @@ export class ProductDiseaseService {
   
   getLink(link: number){
     if(link == 1){
-      this.url = `${this.apiURL}Disease/`;
+      this.url = `${this.apiURL}Product/`;
     }
     else if(link == 2){
-      this.url = `${this.apiURL}Product/`;
+      this.url = `${this.apiURL}Disease/`;
     }
   }
 
   //Lấy danh sách
-  getProductDiseases(diseaseId: string): Observable<ResponseApi<ProductDiseaseResponse[]>>{
-    const params = new HttpParams().set("id", diseaseId);
+  getProductDiseases(Id: string): Observable<ResponseApi<ProductDiseaseResponse[]>>{
+    const params = new HttpParams().set("id", Id);
 
     return this.http.get<ResponseApi<ProductDiseaseResponse[]>> (this.url + 'GetProductDiseases', {params})
     .pipe(

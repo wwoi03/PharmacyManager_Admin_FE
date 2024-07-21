@@ -5,6 +5,7 @@ import { NbAccordionModule, NbButtonModule, NbCardModule, NbDialogModule, NbIcon
 import { ThemeModule } from '../../@theme/theme.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ProductSupportModule } from '../productSupport/product-support.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { RouterModule } from '@angular/router';
     NbDialogModule.forChild(),
     NbListModule,
     NbAccordionModule,
-
+    
+    ProductSupportModule,
     SupportRoutingModule,
   ]
 })

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ListDiseaseSymptomComponent } from './list-disease-symptom/list-disease-symptom.component';
 import { DeleteDiseaseSymptomComponent } from './delete-disease-symptom/delete-disease-symptom.component';
 import { CreateDiseaseSymptomComponent } from './create-disease-symptom/create-disease-symptom.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CreateDiseaseSymptomComponent } from './create-disease-symptom/create-d
     NbButtonModule,
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
+    NgxPaginationModule,
     
     DiseaseSymptomRoutingModule
   ],

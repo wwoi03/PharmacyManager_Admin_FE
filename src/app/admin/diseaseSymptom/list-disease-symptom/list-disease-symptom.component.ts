@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DiseaseSymptomService } from '../../../services/diseaseSymptom/disease-symptom.service';
 import { Router } from '@angular/router';
@@ -15,11 +15,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './list-disease-symptom.component.html',
   styleUrls: ['./list-disease-symptom.component.scss']
 })
-export class ListDiseaseSymptomComponent {
+export class ListDiseaseSymptomComponent implements OnInit {
 
   @Input() listName: string = 'quan hệ';
   @Input() id: string | undefined;
   @Input() link: number = 1;
+
 
   searchTerm: string = '';
   sortSelected: string = '';
@@ -27,13 +28,18 @@ export class ListDiseaseSymptomComponent {
 
   defaultColumns = ["name1" ,"code1"];
   allColumns = [...this.defaultColumns, 'actions'];
+  size: string = 'medium';
+  countItem = [];
 
-  source: LocalDataSource;
+  p: number = 1;
+  pageSize: number = 4;
+  totalItems: number;
+
   filteredList: DiseaseSymptomResponse[] = [] ;
 
   diseaseSymptom: DiseaseSymptomResponse = new  DiseaseSymptomResponse();
   Data: any;
-  
+  source: LocalDataSource;
   
   getColumnTitle(column: string): string {
     switch (column) {
@@ -53,18 +59,16 @@ export class ListDiseaseSymptomComponent {
     private toast: Toast,
     private dialogService: NbDialogService,){
       this.source = new LocalDataSource();
-  }
+    }
 
   filterList() {
-    if (!this.searchTerm) {
-      this.loadDiseaseSymptomData();
-    } else {
+    if (this.searchTerm) {
       this.Data = this.Data.filter(item =>
         item.name1.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         item.code1.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.sortColumn("name");
+    this.applySort();
   }
 
   sortColumn(column: string) {
@@ -78,12 +82,13 @@ export class ListDiseaseSymptomComponent {
   }
 
   applySort() {
+    this.updateDataSource();
     if (this.sortDirection === 'asc') {
       this.Data.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
     } else {
       this.Data.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
     }
-    this.source.load(this.Data);
+    this.updateDataSource();
   }
 
 
@@ -105,8 +110,6 @@ export class ListDiseaseSymptomComponent {
 
         disease: item.disease,
         symptom: item.symptom,
-        // diseaseName: item.disease.name,
-        // codeDisease: item.disease.codeDisease,
   
       }));
     }
@@ -121,11 +124,13 @@ export class ListDiseaseSymptomComponent {
 
         disease: item.disease,
         symptom: item.symptom,
-        // diseaseName: item.disease.name,
-        // codeDisease: item.disease.codeDisease,
   
       }));
     }
+    
+    //Số lượng phần tử
+    this.countItem = Array.from({ length: this.Data.length }, (_, index) => index + 1);
+    this.filterList();
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -133,8 +138,20 @@ export class ListDiseaseSymptomComponent {
   });
   }
 
+  checkSize(){
+    if(this.link == 1){
+      this.size = 'small';
+      this.pageSize = 4;
+    }
+    else if (this.link == 2){
+      this.pageSize = 10;
+      this.size = 'medium';
+    }
+  }
+
   ngOnInit(){
-    this.filterList();
+    this.checkSize();
+    this.loadDiseaseSymptomData();
   }
 
   onCreate(): void {
@@ -184,4 +201,17 @@ export class ListDiseaseSymptomComponent {
       });
   }
   
+
+  changePage(page: number) {
+    this.p = page;
+    this.updateDataSource();
+  }
+
+  updateDataSource() {
+    const startIndex = ((this.p-1) * this.pageSize);
+    const endIndex = startIndex + this.pageSize;
+    const page = this.Data.slice(startIndex, endIndex);
+    this.source.load(page);
+  }
+
 }

@@ -8,7 +8,7 @@
   
 <div class="row">
     <div class="col-lg-7">
-    <nb-card>
+    <nb-card size="large">
         <nb-card-header>Thông tin bệnh</nb-card-header>
         <nb-card-body>
         <div class="row">
@@ -28,7 +28,7 @@
         <!-- Mô tả -->
         <div class="form-group col-lg-12">
             <label for="forDescription" class="label">Mô tả bệnh</label>
-            <textarea [(ngModel)]="disease.description" name="description" rows="3" nbInput fullWidth
+            <textarea [(ngModel)]="disease.description" name="description" rows="12" nbInput fullWidth
             id="forDescription" shape="rectangle" #description="ngModel" readonly></textarea>
         </div>
         </div>
@@ -45,5 +45,9 @@
    
     <div class="col-lg-5">
         <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
+    
+
+        <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" [id]="disease.id"></ngx-list-product-disease>
     </div>
+
 </div>

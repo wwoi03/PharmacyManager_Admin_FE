@@ -55,15 +55,13 @@ export class ListProductSupportComponent {
   }
 
   filterList() {
-    if (!this.searchTerm) {
-      this.loadProductSupportData();
-    } else {
+    if (this.searchTerm) {
       this.Data = this.Data.filter(item =>
         item.name1.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         item.code1.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.sortColumn("name");
+    this.applySort();
   }
 
   sortColumn(column: string) {
@@ -122,6 +120,8 @@ export class ListProductSupportComponent {
   
       }));
     }
+
+    this.filterList();
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -130,7 +130,7 @@ export class ListProductSupportComponent {
   }
 
   ngOnInit(){
-    this.filterList();
+    this.loadProductSupportData();
   }
 
   onCreate(): void {

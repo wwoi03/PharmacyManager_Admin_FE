@@ -39,7 +39,7 @@
             <!-- Mô tả -->
             <div class="form-group col-lg-12">
               <label for="forDescription" class="label">Mô tả triệu chứng</label>
-              <textarea required [(ngModel)]="createSymptomRequest.description" name="description" rows="3" nbInput fullWidth
+              <textarea required [(ngModel)]="createSymptomRequest.description" name="description" rows="8" nbInput fullWidth
                 id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
             </div>
           </div>
@@ -51,4 +51,10 @@
           </nb-card-body>
         </nb-card>
       </div>
+
+      <!-- <div class="col-lg-5">
+        <ngx-list-disease-symptom [link]="2" [listName]="'loại bệnh'" [id]="symptom.id"></ngx-list-disease-symptom>
+    </div> -->
+
+
   </form>

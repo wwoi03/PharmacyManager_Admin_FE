@@ -6,7 +6,7 @@ export class ProductDiseaseResponse{
 }
 
 export class Product{
-    id: string;
+  id: string;
     name: string;
     codeMedicine: string;
     specifications?: string;
@@ -23,11 +23,11 @@ export class Product{
     registrationNumber?: string;
     brandOrigin?: string;
     ageOfUse?: string;
-    view: number;
-    cartView: number;
     categoryId?: string;
-    //category: Category;
     image: string;
+    images: string[];
+    productSupports?: string[]; 
+    productDiseases?: string[];
 }
 
 export class Disease{

@@ -8,7 +8,7 @@
   
   
   <form (ngSubmit)="edit()" #diseaseForm="ngForm" class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-7">
         <nb-card>
           <nb-card-header>Thông tin loại bệnh</nb-card-header>
           <nb-card-body>
@@ -39,7 +39,7 @@
             <!-- Mô tả -->
             <div class="form-group col-lg-12">
               <label for="forDescription" class="label">Mô tả bệnh</label>
-              <textarea required [(ngModel)]="editDiseaseRequest.description" name="description" rows="3" nbInput fullWidth
+              <textarea required [(ngModel)]="editDiseaseRequest.description" name="description" rows="12" nbInput fullWidth
                 id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
             </div>
           </div>
@@ -51,4 +51,13 @@
           </nb-card-body>
         </nb-card>
       </div>
+
+      
+      <div class="col-lg-5">
+        <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
+    
+    
+        <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" [id]="disease.id"></ngx-list-product-disease>
+    </div>
   </form>
+

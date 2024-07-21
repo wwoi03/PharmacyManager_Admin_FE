@@ -122,6 +122,9 @@ export class ListProductDiseaseComponent {
   
       }));
     }
+
+    //Sắp xếp sau khi tải xong
+    this.filterList();
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -130,7 +133,7 @@ export class ListProductDiseaseComponent {
   }
 
   ngOnInit(){
-    this.filterList();
+    this.loadProductDiseaseData();
   }
 
   onCreate(): void {

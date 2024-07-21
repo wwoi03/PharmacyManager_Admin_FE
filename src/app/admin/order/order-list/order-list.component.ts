@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ListOrderResponse } from '../../../models/responses/order/list-order-response';
+import { OrderResponse } from '../../../models/responses/order/list-order-response';
 import { OrderService } from '../../../services/order/order.service';
 import { Router } from '@angular/router';
 import { Toast } from '../../../helpers/toast';
@@ -66,7 +66,7 @@ export class OrderListComponent implements OnInit {
   };
 
   source: LocalDataSource;
-  listOrder: ListOrderResponse[] = [];
+  listOrder: OrderResponse[] = [];
   
 
   constructor(private orderService: OrderService, 
@@ -77,7 +77,7 @@ export class OrderListComponent implements OnInit {
   }
 
   loadOrderData(){
-    this.orderService.getOrders().subscribe((data: ResponseApi<ListOrderResponse[]>)=>{
+    this.orderService.getOrders().subscribe((data: ResponseApi<OrderResponse[]>)=>{
       if(data.code === 200){
         this.listOrder = data.obj;
         this.source.load(this.listOrder);
@@ -101,7 +101,7 @@ export class OrderListComponent implements OnInit {
   }
   
 
-  onRowSelect(event): void{
+  onViewDetails(event): void{
     this.router.navigate(['/admin/order/order-details', event.data.id]);
   }
 
