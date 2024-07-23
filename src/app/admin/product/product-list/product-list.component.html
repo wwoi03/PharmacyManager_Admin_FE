@@ -27,10 +27,12 @@
       <!-- Cột Hành Động -->
       <ng-container [nbTreeGridColumnDef]="'actions'">
         <th class="actions-column" nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Actions</th>
-        <td nbTreeGridCell *nbTreeGridCellDef="let row" class="action-cell">
-          <a class="action-link" (click)="onViewDetails(row)">Xem</a>
-          <a class="action-link" (click)="onEdit(row)">Sửa</a>
-          <a class="action-link" (click)="onDelete(row)">Xóa</a>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <div class="action-cell row">
+              <a class="action-link" (click)="onViewDetails(row)">Xem</a>
+              <a class="action-link" (click)="onEdit(row)">Sửa</a>
+              <a class="action-link" (click)="onDelete(row)">Xóa</a>
+          </div>
         </td>
       </ng-container>
 
@@ -40,7 +42,14 @@
           [nbSortHeader]="getSortDirection(column)" *nbTreeGridHeaderCellDef>
           {{ getColumnTitle(column) }}
         </th>
-        <td class="default-column" nbTreeGridCell *nbTreeGridCellDef="let row">{{ row.data[column] }}</td>
+        <td class="default-column" nbTreeGridCell *nbTreeGridCellDef="let row">
+          <ng-container *ngIf="column === 'image'; else defaultCell">
+            <img [src]="uploadFileService.loadImage(row.data[column])" alt="Product Image" width="150" height="150">
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ row.data[column] }}
+          </ng-template>
+        </td>
       </ng-container>
     </table>
   </nb-card-body>

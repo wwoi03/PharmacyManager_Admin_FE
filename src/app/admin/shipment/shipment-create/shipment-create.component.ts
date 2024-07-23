@@ -7,6 +7,9 @@ import { CreateShipmentRequest } from "../../../models/requests/shipment/create-
 import { SupplierService } from "../../../services/supplier/supplier.service";
 import { LoadingService } from "../../../helpers/loading-service";
 import { Router } from "@angular/router";
+import { SelectSupplierResponse } from "../../../models/responses/supplier/select-supplier-response";
+import { Observable, of } from "rxjs";
+import { delay } from "rxjs/operators";
 
 @Component({
   selector: "ngx-shipment-create",
@@ -15,10 +18,8 @@ import { Router } from "@angular/router";
 })
 export class ShipmentCreateComponent {
   // Variable
-  codeSupplier: string;
-  supplierName: string;
-  showSupplierNameField = false;
   createShipmentRequest: CreateShipmentRequest = new CreateShipmentRequest();
+  suppliers$: Observable<SelectSupplierResponse[]> | undefined;
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -38,6 +39,7 @@ export class ShipmentCreateComponent {
   // InitData
   ngOnInit(): void {
     this.validationMessages = this.createShipmentRequest.validationMessages;
+    this.loadSupplier();
     this.createShipmentRequest.status = "PM_Shipment_Pending";
   }
 
@@ -48,6 +50,15 @@ export class ShipmentCreateComponent {
       this.validationMessages,
       this.shipmentForm
     );
+  }
+
+  // Load supplier
+  loadSupplier() {
+    this.supplierService.getSuppliersSelect().subscribe((res) => {
+      if (res.code === 200) {
+        this.suppliers$ = of(res.obj).pipe(delay(500));
+      }
+    });
   }
 
   // Xử lý thêm nhân viên
@@ -66,8 +77,9 @@ export class ShipmentCreateComponent {
       if (res.code === 200) {
         setTimeout(() => {
           this.loadingService.hide();
+          const shipmentId = res.obj;
           this.toast.successToast("Thành công", res.message);
-          this.router.navigate(['/admin/shipment/shipment-list']);
+          this.router.navigate(['/admin/shipment-details/shipment-details-list', shipmentId]);
         }, 1000);
       } else if (res.code >= 400 && res.code < 500) {
         setTimeout(() => {
@@ -80,28 +92,11 @@ export class ShipmentCreateComponent {
     });
   }
 
-  // Xử lý sự kiện khi nhập nhà cung cấp
-  onInputSupplierFinish(event: any) {
-    this.codeSupplier = event.target.value;
-
-    if (this.codeSupplier === "" || this.codeSupplier === null) {
-      this.showSupplierNameField = false;
-    }
-
-    this.supplierService
-      .getSupplierByCode(this.codeSupplier)
-      .subscribe((res) => {
-        if (res.code === 200) {
-          this.supplierName = res.obj.name;
-          this.createShipmentRequest.supplierId = res.obj.id;
-          this.validationNotify.formErrors["codeSupplier"] = null;
-          this.showSupplierNameField = true;
-        } else if (res.code === 409) {
-          this.createShipmentRequest.supplierId = null;
-          this.validationNotify.formErrors["codeSupplier"] =
-            "Nhà cung cấp không tồn tại.";
-          this.showSupplierNameField = false;
-        }
-      });
+  // Custom search supplier select
+  customSearchFn(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(term) || item.codeSupplier.toString().includes(term)
+    );
   }
 }

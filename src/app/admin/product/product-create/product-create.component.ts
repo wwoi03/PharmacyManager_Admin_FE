@@ -7,6 +7,8 @@ import { LoadingService } from "../../../helpers/loading-service";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
+import { CategoryService } from "../../../services/category/category.service";
+import { SelectCategoryResponse } from "../../../models/responses/category/select-category-response";
 
 @Component({
   selector: "ngx-product-create",
@@ -15,10 +17,11 @@ import { UploadFileService } from "../../../services/upload-file/upload-file.ser
 })
 export class ProductCreateComponent {
   // Variable
-  codeCategory: string;
-  categoryName: string;
-  showCategoryNameField = false;
   createProductRequest: CreateProductRequest = new CreateProductRequest();
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  images: string[] = [];
+  imagesFile: File[] = [];
+  categories: SelectCategoryResponse[] = [];
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -26,22 +29,20 @@ export class ProductCreateComponent {
   @ViewChild("productForm") productForm: NgForm;
   validationNotify: ValidationNotify;
 
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  images: string[] = [];
-
-
   // Constructor
   constructor(
     private productService: ProductService,
     private toast: Toast,
     private loadingService: LoadingService,
     private router: Router,
-    private uploadFileService: UploadFileService
+    private uploadFileService: UploadFileService,
+    private categoryService: CategoryService,
   ) {}
 
   // InitData
   ngOnInit(): void {
     this.validationMessages = this.createProductRequest.validationMessages;
+    this.loadCategories();
   }
 
   // After Init Data
@@ -53,13 +54,24 @@ export class ProductCreateComponent {
     );
   }
 
+  // load category
+  loadCategories() {
+    this.categoryService.getCategoriesSelect().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.categories = res.obj;
+        }
+      }
+    )
+  }
+
   handleEditorKeyup(content: any) {
     console.log("Editor content:", content);
   }
 
   // Xử lý thêm nhân viên
-  createProduct() {
-    console.log(this.createProductRequest);
+  async createProduct() {
+
     // Valid
     if (this.productForm.invalid) {
       this.validationNotify.validateForm();
@@ -69,13 +81,17 @@ export class ProductCreateComponent {
 
     this.loadingService.show();
 
+    await this.uploadImages();
+
+    console.log(this.createProductRequest);
+
     // Call API Create Staff
     this.productService.create(this.createProductRequest).subscribe((res) => {
       if (res.code === 200) {
         setTimeout(() => {
           this.loadingService.hide();
           this.toast.successToast("Thành công", res.message);
-          //this.router.navigate(['/admin/shipment/shipment-list']);
+          this.router.navigate(['/admin/product/product-list']);
         }, 1000);
       } else if (res.code >= 400 && res.code < 500) {
         setTimeout(() => {
@@ -88,21 +104,37 @@ export class ProductCreateComponent {
     });
   }
 
+  async uploadImages() {
+    try {
+      const uploadPromises = this.imagesFile.map((file, index) => 
+        this.uploadFileService.saveFile(file).toPromise().then((res) => {
+          if (res.code === 200) {
+            if (index === 0) {
+              this.createProductRequest.image = res.obj;
+              console.log(this.createProductRequest.image);
+            } else {
+              this.createProductRequest.images.push(res.obj);
+              console.log(this.createProductRequest.images);
+            }
+          } else {
+            this.toast.warningToast("Thất bại", res.message);
+          }
+        })
+      );
+  
+      await Promise.all(uploadPromises);
+    } catch (error) {
+      console.error('Có lỗi xảy ra khi tải lên ảnh:', error);
+    }
+  }
+
+  
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      this.imagesFile.push(file);
 
-      this.uploadFileService.saveFile(file).subscribe(
-        (res) => {
-          if (res.code === 200) {
-            this.toast.successToast("Thành công", res.message);
-          } else {
-            this.toast.warningToast("Thất bại", res.message);
-          }
-        }
-      )
-      
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.images.push(e.target.result);
@@ -117,28 +149,11 @@ export class ProductCreateComponent {
 
   removeImage(index: number): void {
     this.images.splice(index, 1);
+    this.imagesFile.splice(index, 1);
   }
 
-  // Xử lý sự kiện khi nhập nhà cung cấp
-  onInputCategoryFinish(event: any) {
-    // this.codeSupplier = event.target.value;
-    // if (this.codeSupplier === "" || this.codeSupplier === null) {
-    //   this.showSupplierNameField = false;
-    // }
-    // this.supplierService
-    //   .getSupplierByCode(this.codeSupplier)
-    //   .subscribe((res) => {
-    //     if (res.code === 200) {
-    //       this.supplierName = res.obj.name;
-    //       this.createProductRequest.supplierId = res.obj.id;
-    //       this.validationNotify.formErrors["codeSupplier"] = null;
-    //       this.showSupplierNameField = true;
-    //     } else if (res.code === 409) {
-    //       this.createProductRequest.supplierId = null;
-    //       this.validationNotify.formErrors["codeSupplier"] =
-    //         "Nhà cung cấp không tồn tại.";
-    //       this.showSupplierNameField = false;
-    //     }
-    //   });
+  customSearchFn(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return item.name.toLowerCase().includes(term) || item.codeCategory.toString().includes(term);
   }
 }

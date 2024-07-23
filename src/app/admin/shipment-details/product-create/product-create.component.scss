@@ -1,0 +1,112 @@
+nb-checkbox {
+    margin-bottom: 1rem;
+  }
+  
+  .form-inline [fullWidth] {
+    flex: 1;
+  }
+  
+  .form-inline > * {
+    margin: 0 1.5rem 1.5rem 0;
+  }
+  
+  nb-card.inline-form-card nb-card-body {
+    padding-bottom: 0;
+  }
+  
+  .text-danger-container {
+    min-height: 20px;
+    margin-top: 5px;
+  }
+  
+  .text-danger {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .form-group {
+    margin-bottom: 0.2rem !important;
+  }
+  
+  .nb-card-header-customer {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 24px;
+  }
+  
+  .picture-custom {
+    background-position: center;
+    background-size: cover;
+    height: 160px;
+    width: 160px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  // .picture-container-custom:first-child {
+  //   position: relative;
+  //   margin-left: 12px;
+  //   margin-bottom: 8px;
+  //   margin-top: 8px;
+  // }
+  
+  // .picture-container-custom:last-child {
+  //   position: relative;
+  //   margin-left: 12px;
+  //   margin-bottom: 8px;
+  //   margin-top: 8px;
+  // }
+  
+  .picture-container-custom {
+    position: relative;
+    margin: 8px 16px 16px 8px;
+  }
+  
+  .picture-icon-custom {
+    position: absolute;
+    top: -13px;
+    right: -13px;
+    background: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .picture-icon-custom i {
+    font-size: 22px;
+  }
+  
+  .picture-icon-custom:hover {
+    cursor: pointer;
+    transform: scale(1.2); /* Hiệu ứng phóng to khi hover */
+    color: #ff0000; /* Thay đổi màu sắc khi hover */
+  }
+  
+  .picture-custom-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px; /* Bo tròn góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Tạo hiệu ứng đổ bóng */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .picture-custom-add:hover {
+    background-color: rgba(0, 0, 0, 0.6); /* Thay đổi màu nền khi hover với độ trong suốt 60% */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+    cursor: pointer;
+  }
+  
+  .icon-add-custom {
+    color: white; /* Màu sắc của biểu tượng */
+    font-size: 100px;
+    transition: transform 0.3s ease;
+  }

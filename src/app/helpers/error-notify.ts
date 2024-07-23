@@ -34,6 +34,8 @@ export class ErrorNotify {
       }, 3000);
     }
 
+    this.loadingService.hide();
+
     return throwError(() => new Error("Mày phá đúng không?"));
   }
 }

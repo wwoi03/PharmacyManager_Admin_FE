@@ -13,6 +13,7 @@ import { CreateCategoryRequest } from "../../models/requests/category/create-cat
 import { ErrorNotify } from "../../helpers/error-notify";
 import { DetailsCategoryResponse } from "../../models/responses/category/details-category-response";
 import { UpdateCategoryRequest } from "../../models/requests/category/update-category-request";
+import { SelectCategoryResponse } from "../../models/responses/category/select-category-response";
 
 @Injectable({
   providedIn: "root",
@@ -126,6 +127,26 @@ export class CategoryService {
       .put<ResponseApi<string>>(this.apiUrl + "Update", request)
       .pipe(
         tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // Lấy danh sách loại sản phẩm
+  getCategoriesSelect(): Observable<ResponseApi<SelectCategoryResponse[]>> {
+    return this.http
+      .get<ResponseApi<SelectCategoryResponse[]>>(
+        this.apiUrl + "GetCategoriesSelect"
+      )
+      .pipe(
+        tap((response: ResponseApi<SelectCategoryResponse[]>) => {
           if (response.isSuccessed) {
             return response;
           } else {
