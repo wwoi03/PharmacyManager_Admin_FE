@@ -4,7 +4,9 @@ import { NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { ListSymptomResponse } from '../../../models/responses/symptom/list-symptom-response';
 import { SymptomService } from '../../../services/symptom/symptom.service';
-import { DialogComponent } from '../../disease/dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
+import { SymptomDeleteComponent } from '../symptom-delete/symptom-delete.component';
 
 @Component({
   selector: 'ngx-symptom-list',
@@ -13,111 +15,110 @@ import { DialogComponent } from '../../disease/dialog/dialog.component';
 })
 export class SymptomListComponent implements OnInit{
 
-  @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
-  
-  settings = {
-    mode: 'external',
-    actions: {
-      columnTitle: 'Actions',
-      add: true,
-      edit: true,
-      delete:true,
-    },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
-    },
-    columns: {
-      name:{
-        title: 'Tên triệu chứng',
-        type: 'string',
-      },
-      description:{
-        title: 'Mô tả',
-        type: 'string',
-      },
-      codeSymptom:{
-        title: 'Mã triệu chứng',
-        type:'string',
-      }
-    },
-  };
+  searchTerm: string = '';
+  sortSelected: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  defaultColumns = ["name" ,"codeSymptom"];
+  allColumns = [...this.defaultColumns, 'actions'];
 
   source: LocalDataSource;
-  listSymptom: ListSymptomResponse[] = [];
-  dialogService: NbDialogService;
+  filteredList: ListSymptomResponse[] = [] ;
+  
+  getColumnTitle(column: string): string {
+    switch (column) {
+      case 'name':
+        return 'Tên triệu chứng';
+      case 'codeSymptom':
+        return 'Mã triệu chứng';
+      case 'actions':
+        return 'Quản lý';
+      default:
+        return '';
+    }
+  }
+
 
   constructor(private symptomService: SymptomService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast,
+    private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
 
+  filterList() {
+    if (!this.searchTerm) {
+      this.loadSymptomData();
+    } else {
+      this.filteredList = this.filteredList.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.codeSymptom.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.applySort();
+  }
+
+  sortColumn(column: string) {
+    if (this.sortSelected === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortSelected = column;
+      this.sortDirection = 'asc';
+    }
+    this.applySort();
+  }
+
+  applySort() {
+    if (this.sortDirection === 'asc') {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
+    } else {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
+    }
+    this.source.load(this.filteredList);
+  }
+
   loadSymptomData(){
-    this.symptomService.getSymptom().subscribe((data: ListSymptomResponse[])=>{
-      this.listSymptom = data;
-      this.source.load(this.listSymptom);
+    this.symptomService.getSymptom().subscribe((data: ResponseApi<ListSymptomResponse[]>)=>{
+      if(data.code === 200){
+        this.filteredList = data.obj;
+      }
+    },(error) => {
+      this.toast.warningToast('Lấy thông tin thất bại', error);
     });
   }
 
   ngOnInit(){
-    this.loadSymptomData();
+    this.filterList();
   }
 
-  onCustomAction(event) {
-    switch (event.action) {
-      case 'addRecord':
-        this.addRecord(event.data);
-        break;
-    }
-  }
-
-  public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
-  }
-
-  onCreate(event): void {
+  onCreate(): void {
     this.router.navigate(['/admin/symptom/symptom-create']);
   }
 
   onEdit(event): void{
-    this.router.navigate(['/admin/symptom/symptom-edit', event.data.id]);
+    this.router.navigate(['/admin/symptom/symptom-edit', event.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
+
+  onViewDetails(event): void{
+    this.router.navigate(['/admin/symptom/symptom-details', event.id]);
   }
 
-  onRowSelect(event): void{
-    this.router.navigate(['/admin/symptom/symptom-details', event.data.id]);
+  onDelete(event): void {
+    const symptom: ListSymptomResponse = event;
+    
+    this.dialogService
+      .open(SymptomDeleteComponent, {
+        context: {
+          symptom: symptom
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadSymptomData();
+        }
+      });
   }
 
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
-  }
+  
 }

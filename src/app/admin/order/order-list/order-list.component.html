@@ -1,0 +1,18 @@
+<nb-card>
+    <nb-card-header>
+        Danh sách đơn hàng
+    </nb-card-header>
+
+    <nb-card-body>
+        <ng2-smart-table 
+        [settings]="settings" 
+        [source]="source" 
+         
+        (edit)="onEdit($event)" 
+        >
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
+<!-- (create)="onCreate($event)"
+(userRowSelect)="onViewDetails($event)" -->
+<!-- (delete) ="onDelete($event)" -->

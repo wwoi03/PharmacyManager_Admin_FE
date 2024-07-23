@@ -1,0 +1,41 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  input {
+    width: 100%;
+  }
+
+  .cancel {
+    margin-right: 1rem;
+  }
+}
+
+.text-danger-container {
+  min-height: 20px;
+  margin-top: 5px;
+}
+
+.text-danger {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.action-cell {
+  
+}
+
+/* Style cho nút dạng text có gạch chân */
+.action-link {
+  color: #007bff !important; /* Màu xanh nhạt giống như thẻ <a> */
+  text-decoration: underline !important; /* Thêm gạch chân */
+  cursor: pointer; /* Con trỏ chuột dạng pointer */
+  background: none; /* Không có nền */
+  border: none; /* Không có viền */
+  margin-left: 10px; /* Khoảng cách giữa các nút */
+}
+
+.action-link:hover {
+  color: #0056b3; /* Màu sẫm hơn khi hover */
+}
+

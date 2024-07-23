@@ -53,13 +53,16 @@ export class SupportEditComponent implements OnInit, OnDestroy{
       // Gọi service để lấy thông tin chi tiết hỗ trợ
       this.supportService.details(this.supportRequest).subscribe(
         (response) => {
-          this.support = response.obj;
-          this.editSupportRequest.id = this.support.id;
-          this.editSupportRequest.name = this.support.name;
-          this.editSupportRequest.description = this.support.description;
-          this.editSupportRequest.codeSupport = this.support.codeSupport;
-        },
-        (error) => {
+          if (response.code === 200){
+            this.support = response.obj;
+            this.editSupportRequest.id = this.support.id;
+            this.editSupportRequest.name = this.support.name;
+            this.editSupportRequest.description = this.support.description;
+            this.editSupportRequest.codeSupport = this.support.codeSupport;
+          } else {
+            this.toast.warningToast('Lấy thông tin thất bại', response.message);
+          }
+        },(error) => {
           this.toast.warningToast('Lấy thông tin thất bại', error);
         }
       );
@@ -103,9 +106,9 @@ export class SupportEditComponent implements OnInit, OnDestroy{
         console.log('Response from server:', res);
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-        } else  {
+        } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
-          this.validationNotify.formErrors[res.obj] = res.message;
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
       (err) => {

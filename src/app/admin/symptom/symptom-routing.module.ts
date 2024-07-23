@@ -5,6 +5,7 @@ import { SymptomListComponent } from './symptom-list/symptom-list.component';
 import { SymptomCreateComponent } from './symptom-create/symptom-create.component';
 import { SymptomEditComponent } from './symptom-edit/symptom-edit.component';
 import { SymptomDetailsComponent } from './symptom-details/symptom-details.component';
+import { SymptomDeleteComponent } from './symptom-delete/symptom-delete.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       {path: 'symptom-create', component: SymptomCreateComponent},
       {path: 'symptom-edit/:id', component: SymptomEditComponent },
       {path: 'symptom-details/:id', component: SymptomDetailsComponent},
+      {path: 'symptom-delete/:id', component: SymptomDeleteComponent},
     ]
   }
 ];
@@ -31,5 +33,6 @@ export const routedComponents = [
   SymptomCreateComponent,
   SymptomEditComponent,
   SymptomDetailsComponent,
+  SymptomDeleteComponent,
 ];
 

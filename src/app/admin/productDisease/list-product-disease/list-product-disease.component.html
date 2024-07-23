@@ -1,0 +1,35 @@
+
+<nb-card class="list-card" size="small">
+    <nb-card-body>
+        <div class="d-flex justify-content-between " style="position: sticky; top: 0; z-index: 1; flex: 1; background-color: white;">
+            <div style=" flex: 1;">
+                <label class="search-label" for="search"></label>
+                <input fullWidth nbInput [(ngModel)] ="searchTerm" id="search" class="search-input"
+                    placeholder="Tên {{listName}}, mã {{listName}}" (input)="filterList()" >
+            </div>
+
+            <div style="flex: 1; text-align: end;">
+                <button nbButton status="primary" (click)="onCreate()">Thêm mới</button>
+            </div>
+        </div>
+        
+        <table class="table table-striped">
+            <thead style="position: sticky; top: 2rem; z-index: 1; flex: 1; background-color: white;">
+                <th *ngFor="let column of allColumns" (click)="sortColumn(column)">
+                    {{ getColumnTitle(column) }}
+                  </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of Data">
+                <td>{{ row.name1 }}</td>
+                <td>{{ row.code1 }}</td>
+                <td class="action-cell">
+                  <a class="action-link" (click)="onViewDetails(row)">Chi tiết</a>
+                  <a class="action-link" (click)="onDelete(row)">Xóa</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+    </nb-card-body>
+</nb-card>

@@ -27,6 +27,10 @@ const routes: Routes = [{
       loadChildren: ()=> import('./symptom/symptom.module').then(m => m.SymptomModule),
     },
     {
+      path: 'order',
+      loadChildren: ()=> import('./order/order.module').then(m => m.OrderModule),
+    },
+    {
       path: 'product',
       loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
     },
@@ -45,6 +49,11 @@ const routes: Routes = [{
     {
       path: 'shipment',
       loadChildren: () => import('./shipment/shipment.module').then(m => m.ShipmentModule),
+    },
+    //phụ
+    {
+      path: 'disease-symptom',
+      loadChildren: () => import('./diseaseSymptom/disease-symptom.module').then(m => m.DiseaseSymptomModule),
     },
     {
       path: 'shipment-details',

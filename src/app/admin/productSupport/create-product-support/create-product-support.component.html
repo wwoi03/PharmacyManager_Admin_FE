@@ -1,0 +1,34 @@
+<form (ngSubmit)="create()" #diseaseForm="ngForm">
+    <nb-card class="list-card" size="medium">
+        <nb-card-header>Thêm quan hệ {{listName}}</nb-card-header>
+        <nb-card-body>
+            <div class="d-flex justify-content-between " style="position: sticky; top: 0; z-index: 1; flex: 1; background-color: white;">
+                <div style=" flex: 1;">
+                    <label class="search-label" for="search"></label>
+                    <input fullWidth nbInput [(ngModel)] ="searchTerm" id="search" class="search-input"
+                        placeholder="Tên {{listName}}, mã {{listName}}" (input)="filterList()" >
+                </div>
+            </div>
+            
+            <table class="table table-striped">
+                <thead style="position: sticky; top: 2rem; z-index: 1; flex: 1; background-color: white;">
+                    <th *ngFor="let column of allColumns" (click)="sortColumn(column)">
+                        {{ getColumnTitle(column) }}
+                      </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of Data" (click)="onRowSelect(row)" [class.selected]="row === selectedRow">
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.code }}</td>
+                  </tr>
+                </tbody>
+              </table>
+    
+        </nb-card-body>
+
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button class="btn-delete" nbButton status="success">Thêm</button>
+        </nb-card-footer>
+    </nb-card>
+</form>
