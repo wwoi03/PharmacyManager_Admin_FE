@@ -5,7 +5,9 @@ import { listDiseaseResponse } from '../../../models/responses/disease/list-dise
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
-import { DialogComponent } from '../dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
+import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.component';
 
 @Component({
   selector: 'ngx-disease-list',
@@ -14,111 +16,110 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class DiseaseListComponent implements OnInit {
 
-  @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
-  
-  settings = {
-    mode: 'external',
-    actions: {
-      columnTitle: 'Actions',
-      add: true,
-      edit: true,
-      delete:true,
-    },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
-    },
-    columns: {
-      name:{
-        title: 'Tên bệnh',
-        type: 'string',
-      },
-      description:{
-        title: 'Mô tả',
-        type: 'string',
-      },
-      codeDisease:{
-        title: 'Mã bệnh',
-        type:'string',
-      }
-    },
-  };
+  searchTerm: string = '';
+  sortSelected: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  defaultColumns = ["name" ,"codeDisease"];
+  allColumns = [...this.defaultColumns, 'actions'];
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [];
-  dialogService: NbDialogService;
+  filteredList: listDiseaseResponse[] = [] ;
 
+  
+  getColumnTitle(column: string): string {
+    switch (column) {
+      case 'name':
+        return 'Tên loại bệnh';
+      case 'codeDisease':
+        return 'Mã bệnh';
+      case 'actions':
+        return 'Quản lý';
+      default:
+        return '';
+    }
+  }
+  
   constructor(private diseaseService: DiseaseService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast,
+    private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
 
+  filterList() {
+    if (!this.searchTerm) {
+      this.loadDiseaseData();
+    } else {
+      this.filteredList = this.filteredList.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.codeDisease.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.sortColumn("name");
+  }
+
+  sortColumn(column: string) {
+    if (this.sortSelected === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortSelected = column;
+      this.sortDirection = 'asc';
+    }
+    this.applySort();
+  }
+
+  applySort() {
+    if (this.sortDirection === 'asc') {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
+    } else {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
+    }
+    this.source.load(this.filteredList);
+  }
+
+
   loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease = data;
-      this.source.load(this.listDisease);
-    });
+    this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
+      if(data.code === 200){
+      this.filteredList = data.obj;
+    }else {
+      this.toast.warningToast("Lỗi hệ thống", data.message);}
+  },(error) => {
+    this.toast.warningToast('Lấy thông tin thất bại', error);
+  });
   }
 
   ngOnInit(){
-    this.loadDiseaseData();
+    this.filterList();
   }
 
-  onCustomAction(event) {
-    switch (event.action) {
-      case 'addRecord':
-        this.addRecord(event.data);
-        break;
-    }
-  }
-
-  public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
-  }
-
-  onCreate(event): void {
+  onCreate(): void {
     this.router.navigate(['/admin/disease/disease-create']);
   }
 
-  onEdit(event): void{
-    this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
+  onEdit(row): void{
+    this.router.navigate(['/admin/disease/disease-edit', row.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
+  onViewDetails(row): void{
+    this.router.navigate(['/admin/disease/disease-details', row.id]);
   }
 
-  onRowSelect(event): void{
-    this.router.navigate(['/admin/disease/disease-details', event.data.id]);
+  onDelete(row): void {
+    const disease: listDiseaseResponse = row;
+    
+    this.dialogService
+      .open(DiseaseDeleteComponent, {
+        context: {
+          disease: disease
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadDiseaseData();
+        }
+      });
   }
-
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
-  }
+  
 }

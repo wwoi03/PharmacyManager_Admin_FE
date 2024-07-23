@@ -6,8 +6,8 @@ import { DiseaseService } from '../../../services/disease/disease.service';
 import { NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DiseaseDTO } from '../../../models/DTOs/Disease/DiseaseDTO';
 import { DetailsDiseaseRequest } from '../../../models/requests/disease/get-details-disease-request';
+import { DiseaseResponse } from '../../../models/responses/disease/disease-response';
 
 @Component({
   selector: 'ngx-disease-edit',
@@ -19,7 +19,7 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
   currentTheme: string;
   themeSubscription: any;
   diseaseRequest: DetailsDiseaseRequest = new DetailsDiseaseRequest();
-  disease: DiseaseDTO;
+  disease: DiseaseResponse;
 
   //Tạo biến
   editDiseaseRequest: EditDiseaseRequest = new EditDiseaseRequest();
@@ -53,11 +53,15 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
       // Gọi service để lấy thông tin chi tiết bệnh
       this.diseaseService.details(this.diseaseRequest).subscribe(
         (response) => {
-          this.disease = response.obj;
-          this.editDiseaseRequest.id = this.disease.id;
-          this.editDiseaseRequest.name = this.disease.name;
-          this.editDiseaseRequest.description = this.disease.description;
-          this.editDiseaseRequest.codeDisease = this.disease.codeDisease;
+          if (response.code === 200){
+            this.disease = response.obj;
+            this.editDiseaseRequest.id = this.disease.id;
+            this.editDiseaseRequest.name = this.disease.name;
+            this.editDiseaseRequest.description = this.disease.description;
+            this.editDiseaseRequest.codeDisease = this.disease.codeDisease;
+          } else {
+            this.toast.warningToast('Lấy thông tin thất bại', response.message);
+          }
         },
         (error) => {
           this.toast.warningToast('Lấy thông tin thất bại', error);
@@ -79,19 +83,9 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
 
    // Xử lý thay 
    edit() {
-    // Lấy form controls
-    const controls = this.diseaseForm.controls;
-    
-    // Kiểm tra tính hợp lệ của các yếu tố, bỏ qua description
-    let formValid = false;
-    for (const name in controls) {
-      if (name !== 'description' && controls[name].invalid) {
-        formValid = true;
-        break;
-      }
-    }
+
     // Valid
-    if (formValid) {
+    if (this.diseaseForm.controls.invalid) {
       this.validationNotify.validateForm();
       this.formErrors =  this.validationNotify.formErrors;
       return;
@@ -103,9 +97,9 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
         console.log('Response from server:', res);
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
-        } else  {
+        } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);
-          this.validationNotify.formErrors[res.obj] = res.message;
+          this.validationNotify.formErrors[res.validationNotify.obj] = res.validationNotify.message;
         }
       },
       (err) => {

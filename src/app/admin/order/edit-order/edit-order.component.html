@@ -1,0 +1,194 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Chi tiết đơn hàng</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+  
+<div class="row">
+    <div class="col-lg-12">
+    <nb-card size="large">
+        <nb-card-header>Thông tin đơn hàng</nb-card-header>
+        <nb-card-body>
+        <div class="row">
+            <!-- Tên người đặt -->
+            <div class="col-lg-6">
+                <label for="forOrdererName" class="label">Tên người đặt</label>
+                <input [(ngModel)]="order.ordererName" name="ordererName" type="text" nbInput fullWidth
+                id="forOrdererName" #ordererName="ngModel" readonly>
+            </div>
+            <!-- Tên người nhận -->
+            <div class="col-lg-6">
+                <label for="forReceiverName" class="label">Tên người nhận</label>
+                <input [(ngModel)]="order.receiverName" name="receiverName" type="text" nbInput fullWidth
+                id="forReceiverName" #receiverName="ngModel" readonly>
+            </div>
+
+             <!-- Số điện thoại nhận hàng -->
+             <div class="col-lg-6">
+                <label for="forRecipientPhone" class="label">Số điện thoại nhận hàng</label>
+                <input [(ngModel)]="order.recipientPhone" name="recipientPhone" type="text" nbInput fullWidth
+                id="forRecipientPhone" #recipientPhone="ngModel" readonly>
+            </div>
+
+            <!-- Ngày đặt hàng -->
+            <div class="col-lg-6">
+                <label for="forOrderDate" class="label">Ngày đặt hàng</label>
+                <input [(ngModel)]="order.orderDate" name="orderDate" type="datetime-local" nbInput fullWidth
+                id="forOrderDate" #orderDate="ngModel" readonly>
+            </div>
+
+            <!-- Trạng thái đơn hàng-->
+            <div class="col-lg-6">
+                <label for="forOrderStatus" class="label">Trạng thái đơn hàng</label>
+
+                <nb-select [(ngModel)]="order.status" id="orderStatus" name="orderStatus" fullWidth>
+                    <nb-option *ngFor="let status of orderStatus" [value]="status">
+                      {{ orderStatusDescription[status] }}
+                    </nb-option>
+                  </nb-select>
+
+            </div> 
+
+
+            <!-- Ghi chú đơn hàng -->
+            <div class="form-group col-lg-12">
+                <label for="forNote" class="label">Ghi chú đơn hàng</label>
+                <textarea [(ngModel)]="order.note" name="note" rows="5" nbInput fullWidth
+                id="forNote" shape="rectangle" #note="ngModel" readonly></textarea>
+            </div>
+<!-- ******************************************************************** -->
+
+
+<!-- ************************************************************** -->
+ 
+
+<!-- ****************************************************************** -->
+ 
+        </div>
+
+        
+
+
+            <!-- Submit -->
+            <button class="btn-submit" nbButton (click)="edit()" status="warning">Chỉnh sửa</button>
+            </nb-card-body>
+    </nb-card>
+    </div>
+
+               
+<div class="accordion-container col-md-12 ">
+    <nb-accordion item>
+        <!-- gói địa chỉ -->
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Địa chỉ
+        </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="row">
+
+                                                <!-- Area -->
+                            <div class="col-lg-4">
+                                <label for="forWard" class="label">Khu vực</label>
+                                <input [(ngModel)]="order.ward" name="ward" type="text" nbInput fullWidth
+                                id="forWard" #ward="ngModel" readonly>
+                            </div>
+
+                        <!-- Quận/Huyện -->
+                        <div class="col-lg-4">
+                            <label for="forDistrict" class="label">Quận/Huyện</label>
+                            <input [(ngModel)]="order.district" name="district" type="text" nbInput fullWidth
+                            id="forDistrict" #district="ngModel" readonly>
+                        </div>
+
+                        <!-- Tỉnh/Thành phố -->
+                        <div class="col-lg-4">
+                            <label for="forProvinceOrCity" class="label">Tỉnh/Thành phố</label>
+                            <input [(ngModel)]="order.provinceOrCity" name="provinceOrCity" type="text" nbInput fullWidth
+                            id="forProvinceOrCity" #provinceOrCity="ngModel" readonly>
+                        </div>
+
+                        <!-- Địa chỉ cụ thể -->
+                        <div class="form-group col-lg-12">
+                            <label for="forAddressDetails" class="label">Địa chỉ cụ thể</label>
+                            <textarea [(ngModel)]="order.addressDetails" name="addressDetails" rows="5" nbInput fullWidth
+                            id="forAddressDetails" shape="rectangle" #addressDetails="ngModel" readonly></textarea>
+                        </div>
+                </div>
+            </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <!-- ********************************************************************** -->
+        <!-- Gói thanh toán -->
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Thanh toán
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+            <div class="row">
+                            <!-- Chiết khấu -->
+                            <div class="form-group col-lg-6">
+                                <label for="forTotalDiscount" class="label">Chiết khấu</label>
+                                <input [(ngModel)]="order.totalDiscount" name="totalDiscount"  nbInput fullWidth
+                                id="forTotalDiscount" type="text" #totalDiscount="ngModel" readonly>
+                            </div>
+
+                            <!-- Tổng tiền đơn hàng -->
+                            <div class="form-group col-lg-6">
+                                <label for="forTotalAmount" class="label">Tổng tiền sản phẩm</label>
+                                <input [(ngModel)]="order.totalAmount" name="totalAmount" nbInput fullWidth
+                                id="forTotalAmount" type="text" #totalAmount="ngModel" readonly>
+                            </div>
+
+                            <!-- Phí vận chuyển -->
+                            <div class="form-group col-lg-6">
+                                <label for="forTransportFee" class="label">Phí vận chuyển</label>
+                                <input [(ngModel)]="order.transportFee" name="transportFee"  nbInput fullWidth
+                                id="forTransportFee" type="text" #transportFee="ngModel" readonly>
+                            </div>
+
+                            <!-- Tổng tiền thanh toán -->
+                            <div class="form-group col-lg-6">
+                                <label for="forFinalAmount" class="label">Tổng tiền thanh toán</label>
+                                <input [(ngModel)]="order.finalAmount" name="finalAmount"  nbInput fullWidth
+                                id="forFinalAmount" type="text" #finalAmount="ngModel" readonly/>
+                            </div>
+
+                            <!-- Trạng thái thanh toán -->
+                            <div class="form-group col-lg-6">
+                                <label for="forPaymentStatus" class="label">Trạng thái thanh toán</label>
+                                <input [(ngModel)]="order.paymentStatus" name="paymentStatus"  nbInput fullWidth
+                                id="forPaymentStatus" type="text" #paymentStatus="ngModel" readonly>
+                            </div>
+
+                            <!-- Số tiền đã thanh toán -->
+                            <div class="form-group col-lg-6">
+                                <label for="forPaymentAmount" class="label">Số tiền đã thanh toán</label>
+                                <input [(ngModel)]="order.paymentAmount" name="paymentAmount" type="text" nbInput fullWidth
+                                id="forPaymentAmount" #paymentAmount="ngModel" readonly>
+                            </div>
+
+                            <!-- Ngày thanh toán -->
+                            <div class="form-group col-lg-6">
+                                <label for="forPaymentDate" class="label">Ngày thanh toán</label>
+                                <input [(ngModel)]="order.paymentDate" name="paymentDate" type="text" nbInput fullWidth
+                                id="forPaymentDate" #paymentDate="ngModel" readonly>
+                            </div>
+
+                            <!-- Hình thức thanh toán-->
+                            <div class="form-group col-lg-6">
+                                <label for="forPaymentName" class="label">Hình thức thanh toán</label>
+                                <input [(ngModel)]="paymentName" name="paymentName" type="text" nbInput fullWidth
+                                id="forPaymentName"  readonly>
+                            </div> 
+        </div>
+            
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <!-- ************************************************************************** -->
+    </nb-accordion>
+  </div>
+</div>
+

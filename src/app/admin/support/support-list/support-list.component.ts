@@ -4,7 +4,9 @@ import { NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { ListSupportResponse } from '../../../models/responses/support/list-support-response';
 import { SupportService } from '../../../services/support/support.service';
-import { DialogComponent } from '../../disease/dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
+import { SupportDeleteComponent } from '../support-delete/support-delete.component';
 
 @Component({
   selector: 'ngx-support-list',
@@ -12,112 +14,106 @@ import { DialogComponent } from '../../disease/dialog/dialog.component';
   styleUrls: ['./support-list.component.scss']
 })
 export class SupportListComponent implements OnInit{
+  searchTerm: string = '';
+  sortSelected: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
-  @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
-  
-  settings = {
-    mode: 'external',
-    actions: {
-      columnTitle: 'Actions',
-      add: true,
-      edit: true,
-      delete:true,
-    },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
-    },
-    columns: {
-      name:{
-        title: 'Tên hỗ trợ',
-        type: 'string',
-      },
-      description:{
-        title: 'Mô tả',
-        type: 'string',
-      },
-      codeSupport:{
-        title: 'Mã hỗ trợ',
-        type:'string',
-      }
-    },
-  };
+  defaultColumns = ["name" ,"codeSupport"];
+  allColumns = [...this.defaultColumns, 'actions'];
 
   source: LocalDataSource;
-  listSupport: ListSupportResponse[] = [];
-  dialogService: NbDialogService;
-
-  constructor(private supportService: SupportService, 
-    private router: Router){
-    this.source = new LocalDataSource();
-  }
-
-  loadSupportData(){
-    this.supportService.getSupport().subscribe((data: ListSupportResponse[])=>{
-      this.listSupport = data;
-      this.source.load(this.listSupport);
-    });
-  }
-
-  ngOnInit(){
-    this.loadSupportData();
-  }
-
-  onCustomAction(event) {
-    switch (event.action) {
-      case 'addRecord':
-        this.addRecord(event.data);
-        break;
+  filteredList: ListSupportResponse[] = [] ;
+  
+  getColumnTitle(column: string): string {
+    switch (column) {
+      case 'name':
+        return 'Tên hỗ trợ';
+      case 'codeSupport':
+        return 'Mã hỗ trợ';
+      case 'actions':
+        return 'Quản lý';
+      default:
+        return '';
     }
   }
 
-  public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
+  constructor(private supportService: SupportService, 
+    private router: Router,
+    private toast: Toast,
+    private dialogService: NbDialogService,){
+    this.source = new LocalDataSource();
   }
 
-  onCreate(event): void {
+  filterList() {
+    if (!this.searchTerm) {
+      this.loadSupportData();
+    } else {
+      this.filteredList = this.filteredList.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.codeSupport.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+    this.applySort();
+  }
+
+  sortColumn(column: string) {
+    if (this.sortSelected === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortSelected = column;
+      this.sortDirection = 'asc';
+    }
+    this.applySort();
+  }
+
+  applySort() {
+    if (this.sortDirection === 'asc') {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
+    } else {
+      this.filteredList.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
+    }
+    this.source.load(this.filteredList);
+  }
+
+  loadSupportData(){
+    this.supportService.getSupports().subscribe((data: ResponseApi<ListSupportResponse[]>)=>{
+      if(data.code === 200){
+      this.filteredList = data.obj;
+    }
+  },(error) => {
+    this.toast.warningToast('Lấy thông tin thất bại', error);
+  });
+  }
+
+  ngOnInit(){
+    this.filterList();
+  }
+
+  onCreate(): void {
     this.router.navigate(['/admin/support/support-create']);
   }
 
   onEdit(event): void{
-    this.router.navigate(['/admin/support/support-edit', event.data.id]);
+    this.router.navigate(['/admin/support/support-edit', event.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
+  onDelete(event): void {
+    const support: ListSupportResponse = event;
+    
+    this.dialogService
+      .open(SupportDeleteComponent, {
+        context: {
+          support: support
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadSupportData();
+        }
+      });
   }
 
-  onRowSelect(event): void{
-    this.router.navigate(['/admin/support/support-details', event.data.id]);
-  }
-
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
+  onViewDetails(event): void{
+    this.router.navigate(['/admin/support/support-details', event.id]);
   }
 }

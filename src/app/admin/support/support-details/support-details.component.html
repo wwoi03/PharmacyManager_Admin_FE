@@ -7,7 +7,7 @@
 </div>
   
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-7">
     <nb-card>
         <nb-card-header>Thông tin hỗ trợ</nb-card-header>
         <nb-card-body>
@@ -28,14 +28,20 @@
         <!-- Mô tả -->
         <div class="form-group col-lg-12">
             <label for="forDescription" class="label">Mô tả hỗ trợ</label>
-            <textarea [(ngModel)]="support.description" name="description" rows="3" nbInput fullWidth
+            <textarea [(ngModel)]="support.description" name="description" rows="8" nbInput fullWidth
             id="forDescription" shape="rectangle" #description="ngModel" readonly></textarea>
         </div>
         </div>
 
             <!-- Submit -->
             <button class="btn-submit" nbButton [routerLink]="['/admin/support/support-edit', support.id]" status="warning">Chỉnh sửa</button>
+            <button class="btn-delete btn-submit" nbButton (click)="onDelete()" status="danger">Xóa</button>
         </nb-card-body>
     </nb-card>
     </div>
+
+    <div class="col-lg-5">
+        <ngx-list-product-support [link]="2" [listName]="'sản phẩm'" [id]="support.id"></ngx-list-product-support>
+    </div>
+
 </div>
