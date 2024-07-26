@@ -2,6 +2,8 @@ export class CreateDiseaseRequest {
     name : string;
     description? :string;
     codeDisease : string;
+    symptomId: string[];
+    productId: string[];
 
     validationMessages = {
         name: {
@@ -10,6 +12,6 @@ export class CreateDiseaseRequest {
         codeDisease: {
           required: 'Mã bệnh là bắt buộc.'
         },
-        description:{required: ''},
+        description:{required: 'Yêu cầu mô tả về bệnh'},
       };
 }

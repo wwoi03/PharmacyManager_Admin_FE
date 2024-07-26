@@ -6,9 +6,8 @@
   </div>
 </div>
 
-
-<form (ngSubmit)="create()" #diseaseForm="ngForm" class="row">
-    <div class="col-lg-12">
+<form #diseaseForm="ngForm" class="row">
+    <div class="col-lg-7">
       <nb-card>
         <nb-card-header>Thông tin loại bệnh</nb-card-header>
         <nb-card-body>
@@ -44,18 +43,20 @@
           </div>
         </div>
 
-        
-
            <!-- Submit -->
-           <button class="btn-submit" type="submit" nbButton status="primary">Thêm mới</button>
+           <button class="btn-submit" (click)="create()" nbButton status="primary">Thêm mới</button>
+           <button class="btn-delete" (click)="back()" nbButton status="danger">Hủy</button>
         </nb-card-body>
       </nb-card>
+
+      
     </div>
 
-    <!-- <div class="col-lg-5">
-      <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
-  
-  
-      <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" [id]="disease.id"></ngx-list-product-disease>
-  </div> -->
+    <div class="col-lg-5">
+      <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [isCreate]="true" (listCreate)="onDataReceivedSymptom($event)" ></ngx-list-disease-symptom>
+    
+      <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" ></ngx-list-product-disease>
+    </div>
+    
 </form>
+

@@ -1,4 +1,4 @@
-<form (ngSubmit)="create()" #diseaseForm="ngForm">
+<form #diseaseForm="ngForm">
     <nb-card class="list-card" size="medium">
         <nb-card-header>Thêm quan hệ {{listName}}</nb-card-header>
         <nb-card-body>
@@ -28,7 +28,7 @@
 
         <nb-card-footer>
             <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
-            <button class="btn-delete" nbButton status="success">Thêm</button>
+            <button class="btn-delete" nbButton status="success" (click)="create()">Thêm</button>
         </nb-card-footer>
     </nb-card>
 </form>

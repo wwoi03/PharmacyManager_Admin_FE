@@ -15,29 +15,41 @@ import { SymptomDeleteComponent } from '../symptom-delete/symptom-delete.compone
 })
 export class SymptomListComponent implements OnInit{
 
-  searchTerm: string = '';
-  sortSelected: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
-
-  defaultColumns = ["name" ,"codeSymptom"];
-  allColumns = [...this.defaultColumns, 'actions'];
+  settings = {
+    mode: 'external',
+    actions: {
+      columnTitle: 'Actions',
+      add: true,
+      edit: true,
+      delete:true,
+    },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+    },
+    columns: {
+      name:{
+        title: 'Tên triệu chứng',
+        type: 'string',
+      },
+      description:{
+        title: 'Mô tả triệu chứng',
+        type: 'string',
+      },
+      codeSymptom:{
+        title: 'Mã triệu chứng',
+        type:'string',
+      },
+    }
+  };
 
   source: LocalDataSource;
-  filteredList: ListSymptomResponse[] = [] ;
-  
-  getColumnTitle(column: string): string {
-    switch (column) {
-      case 'name':
-        return 'Tên triệu chứng';
-      case 'codeSymptom':
-        return 'Mã triệu chứng';
-      case 'actions':
-        return 'Quản lý';
-      default:
-        return '';
-    }
-  }
-
+  listSymptom: ListSymptomResponse[] = [];
 
   constructor(private symptomService: SymptomService, 
     private router: Router,
@@ -46,41 +58,11 @@ export class SymptomListComponent implements OnInit{
     this.source = new LocalDataSource();
   }
 
-  filterList() {
-    if (!this.searchTerm) {
-      this.loadSymptomData();
-    } else {
-      this.filteredList = this.filteredList.filter(item =>
-        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        item.codeSymptom.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-    this.applySort();
-  }
-
-  sortColumn(column: string) {
-    if (this.sortSelected === column) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortSelected = column;
-      this.sortDirection = 'asc';
-    }
-    this.applySort();
-  }
-
-  applySort() {
-    if (this.sortDirection === 'asc') {
-      this.filteredList.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
-    } else {
-      this.filteredList.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
-    }
-    this.source.load(this.filteredList);
-  }
-
   loadSymptomData(){
     this.symptomService.getSymptom().subscribe((data: ResponseApi<ListSymptomResponse[]>)=>{
       if(data.code === 200){
-        this.filteredList = data.obj;
+        this.listSymptom = data.obj;
+        this.source.load(this.listSymptom);
       }
     },(error) => {
       this.toast.warningToast('Lấy thông tin thất bại', error);
@@ -88,7 +70,7 @@ export class SymptomListComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.filterList();
+    this.loadSymptomData();
   }
 
   onCreate(): void {
@@ -96,16 +78,16 @@ export class SymptomListComponent implements OnInit{
   }
 
   onEdit(event): void{
-    this.router.navigate(['/admin/symptom/symptom-edit', event.id]);
+    this.router.navigate(['/admin/symptom/symptom-edit', event.data.id]);
   }
   
 
   onViewDetails(event): void{
-    this.router.navigate(['/admin/symptom/symptom-details', event.id]);
+    this.router.navigate(['/admin/symptom/symptom-details', event.data.id]);
   }
 
   onDelete(event): void {
-    const symptom: ListSymptomResponse = event;
+    const symptom: ListSymptomResponse = event.data;
     
     this.dialogService
       .open(SymptomDeleteComponent, {

@@ -24,6 +24,13 @@ export class ListProductDiseaseComponent {
   sortSelected: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
+  p: number = 1;
+  pageSize: number = 4;
+  totalItems: number;
+  countItem = [];
+
+  size: string = 'medium';
+
   defaultColumns = ["name1" ,"code1"];
   allColumns = [...this.defaultColumns, 'actions'];
 
@@ -55,15 +62,13 @@ export class ListProductDiseaseComponent {
   }
 
   filterList() {
-    if (!this.searchTerm) {
-      this.loadProductDiseaseData();
-    } else {
+    if (this.searchTerm) {
       this.Data = this.Data.filter(item =>
         item.name1.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         item.code1.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-    this.sortColumn("name");
+    this.applySort();
   }
 
   sortColumn(column: string) {
@@ -76,13 +81,13 @@ export class ListProductDiseaseComponent {
     this.applySort();
   }
 
-  applySort() {
+   applySort() {
     if (this.sortDirection === 'asc') {
       this.Data.sort((a, b) => (a[this.sortSelected] > b[this.sortSelected]) ? 1 : ((b[this.sortSelected] > a[this.sortSelected]) ? -1 : 0));
     } else {
       this.Data.sort((a, b) => (a[this.sortSelected] < b[this.sortSelected]) ? 1 : ((b[this.sortSelected] < a[this.sortSelected]) ? -1 : 0));
     }
-    this.source.load(this.Data);
+    this.updateDataSource();
   }
 
 
@@ -122,9 +127,10 @@ export class ListProductDiseaseComponent {
   
       }));
     }
-
-    //Sắp xếp sau khi tải xong
     this.filterList();
+    //Số lượng phần tử
+    this.countItem = Array.from({ length: this.Data.length }, (_, index) => index + 1);
+    
     }else {
       this.toast.warningToast("Lỗi hệ thống", data.message);}
   },(error) => {
@@ -132,7 +138,20 @@ export class ListProductDiseaseComponent {
   });
   }
 
+
+  checkSize(){
+    if(this.link == 1){
+      this.size = 'medium';
+      this.pageSize = 10;
+    }
+    else if (this.link == 2){
+      this.pageSize = 4;
+      this.size = 'small';
+    }
+  }
+
   ngOnInit(){
+    this.checkSize();
     this.loadProductDiseaseData();
   }
 
@@ -181,6 +200,18 @@ export class ListProductDiseaseComponent {
           this.loadProductDiseaseData();
         }
       });
+  }
+  
+  changePage(page: number) {
+    this.p = page;
+    this.updateDataSource();
+  }
+
+  updateDataSource() {
+    const startIndex = ((this.p-1) * this.pageSize);
+    const endIndex = startIndex + this.pageSize;
+    const page = this.Data.slice(startIndex, endIndex);
+    this.source.load(page);
   }
   
 }
