@@ -1,9 +1,9 @@
 export class CreateDiseaseRequest {
     name : string;
-    description? :string;
+    description :string;
     codeDisease : string;
-    symptomId: string[];
-    productId: string[];
+    symptomId?: string[];
+    productId?: string[];
 
     validationMessages = {
         name: {

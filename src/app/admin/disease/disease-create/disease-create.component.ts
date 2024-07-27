@@ -64,12 +64,11 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
 
 
     // Valid
-    if (this.diseaseForm.controls.invalid) {
+    if (this.diseaseForm.invalid) {
       this.validationNotify.validateForm();
       this.formErrors =  this.validationNotify.formErrors;
       return;
     }
-
 
     // Call API Create 
     this.diseaseService.create(this.createDiseaseRequest).subscribe(
@@ -91,9 +90,15 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
   }
 
   onDataReceivedSymptom(data: string[]) {
-    this.receivedSymptom = data; // Cập nhật dữ liệu nhận được từ component con
+    // Cập nhật dữ liệu nhận được từ component con
+    this.createDiseaseRequest.symptomId = data;
   }
 
+  onDataReceivedProduct(data: string[]) {
+    // Cập nhật dữ liệu nhận được từ component con
+    this.createDiseaseRequest.productId = data;
+  }
+  
   back(){
     
   }

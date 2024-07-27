@@ -8,7 +8,6 @@ import { ResponseApi } from '../../../models/response-apis/response-api';
 import { DeleteDiseaseSymptomComponent } from '../delete-disease-symptom/delete-disease-symptom.component';
 import { DiseaseSymptomResponse, Symptom } from '../../../models/responses/diseaseSymptom/diseaseSympton-response';
 import { CreateDiseaseSymptomComponent } from '../create-disease-symptom/create-disease-symptom.component';
-import { Subject, Subscription } from 'rxjs';
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { SymptomService } from '../../../services/symptom/symptom.service';
 import { DetailsSymptomRequest } from '../../../models/requests/symptom/get-details-symptom-request';
@@ -19,19 +18,16 @@ import { DetailsDiseaseRequest } from '../../../models/requests/disease/get-deta
   templateUrl: './list-disease-symptom.component.html',
   styleUrls: ['./list-disease-symptom.component.scss']
 })
-export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
-  //Tham chiếu ngược
-  @ViewChild(CreateDiseaseSymptomComponent) childComponent!: CreateDiseaseSymptomComponent;
+export class ListDiseaseSymptomComponent implements OnInit {
 
-  //trả danh sách
+  //trả danh sách cho component cha
   @Output() listCreate = new EventEmitter<string[]>() ;
+  //Kiểm tra khởi tạo
+  @Input() isCreate: boolean = false;
 
   @Input() listName: string = 'quan hệ';
   @Input() id: string | undefined;
   @Input() link: number = 1;
-
-  //Kiểm tra khởi tạo
-  @Input() isCreate: boolean = false;
 
   searchTerm: string = '';
   sortSelected: string = '';
@@ -50,7 +46,7 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
   filteredList: DiseaseSymptomResponse[] = [] ;
 
   diseaseSymptom: DiseaseSymptomResponse = new  DiseaseSymptomResponse();
-  Data: any[];
+  Data: any[] = [];
   source: LocalDataSource;
   
   getColumnTitle(column: string): string {
@@ -154,30 +150,21 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
       });
     }
     else 
-      this.ngAfterViewInit();
-
+      this.onIsCreate();
   }
 
+  //Điều chỉnh kích cỡ
   checkSize(){
     if(this.link == 1){
       this.size = 'small';
       this.pageSize = 4;
     }
     else if (this.link == 2){
-      this.pageSize = 10;
-      this.size = 'medium';
+      this.pageSize = 15;
+      this.size = 'large';
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.childComponent && this.isCreate == true) {
-      // Đăng ký sự kiện từ component con
-      this.childComponent.dataOutput.subscribe(data => {
-        this.onIsCreate(data);
-      });
-    }
-    
-  }
 
   ngOnInit(){
     this.checkSize();
@@ -197,7 +184,8 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
       })
       .onClose.subscribe((result: any) => {
         if (result) {
-          this.onIsCreate(result);
+          if(this.isCreate)
+            this.onIsCreate(result);
           this.loadDiseaseSymptomData();
         }
       });
@@ -215,24 +203,32 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
   }
 
   onDelete(event): void {
-    this.diseaseSymptom.diseaseId = event.disease.id;
-    this.diseaseSymptom.disease = event.disease;
-    this.diseaseSymptom.symptomId = event.symptom.id;
-    this.diseaseSymptom.symptom = event.symptom;
-    
-    this.dialogService
-      .open(DeleteDiseaseSymptomComponent, {
-        context: {
-          link: this.link,
-          diseaseSymptom: this.diseaseSymptom,
-          listName: this.listName
-        }
-      })
-      .onClose.subscribe((isSubmit: boolean) => {
-        if (isSubmit) {
-          this.loadDiseaseSymptomData();
-        }
-      });
+
+    //Kiểm tra khởi tạo, nếu là khởi tạo => xóa danh sách
+    if(this.isCreate == false){
+      this.diseaseSymptom.diseaseId = event.disease.id;
+      this.diseaseSymptom.disease = event.disease;
+      this.diseaseSymptom.symptomId = event.symptom.id;
+      this.diseaseSymptom.symptom = event.symptom;
+      
+      this.dialogService
+        .open(DeleteDiseaseSymptomComponent, {
+          context: {
+            link: this.link,
+            diseaseSymptom: this.diseaseSymptom,
+            listName: this.listName
+          }
+        })
+        .onClose.subscribe((isSubmit: boolean) => {
+          if (isSubmit) {
+            this.loadDiseaseSymptomData();
+          }
+        });
+    }
+    else{
+      this.Data = this.Data.filter(item => item !== event);
+      this.filterList();
+    }
   }
   
 
@@ -255,6 +251,8 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
   
       if (this.link == 1) {
         detailsRequest = { id: data } as DetailsSymptomRequest;
+
+        //Test
         
         this.symptomService.details(detailsRequest).subscribe(
           (response) => {
@@ -265,9 +263,10 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
                 code1: response.obj.codeSymptom,
               };
               this.Data.push(newRes);
-  
-              this.updateDataSource(); // Cập nhật dữ liệu nguồn cho bảng nếu cần
-  
+               // Phát sự kiện cập nhật danh sách
+              const createId = this.Data.map(item => item.id1);
+              this.listCreate.emit(createId);
+              this.filterList();
             } else if (response.code >= 400 && response.code < 500) {
               this.toast.warningToast("Thất bại", response.message);
             } else if (response.code === 500) {
@@ -290,8 +289,10 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
                 code1: response.obj.codeDisease,
               };
               this.Data.push(newRes);
-  
-              this.updateDataSource(); // Cập nhật dữ liệu nguồn cho bảng nếu cần
+               // Phát sự kiện cập nhật danh sách
+              const createId = this.Data.map(item => item.id1);
+              this.listCreate.emit(createId);
+              this.filterList(); 
   
             } else if (response.code >= 400 && response.code < 500) {
               this.toast.warningToast("Thất bại", response.message);
@@ -304,14 +305,10 @@ export class ListDiseaseSymptomComponent implements OnInit, AfterViewInit {
           }
         );
       }
-  
+      
       // Cập nhật số lượng phần tử và lọc danh sách sau khi dữ liệu được cập nhật
       this.countItem = Array.from({ length: this.Data.length }, (_, index) => index + 1);
-      this.filterList();
-  
-      // Phát sự kiện cập nhật danh sách
-      const createId = this.Data.map(item => item.id1);
-      this.listCreate.emit(createId);
+      this.filterList();  
     }
   }
   
