@@ -71,7 +71,7 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
     //Lấy danh sách trạng thái
     this.orderService.getStatuses().subscribe(
       (response) =>  {
-        this.orderStatus = response;
+        this.orderStatus = response.filter(status=> status !== OrderStatus.GetAll);
         this.orderStatusDescription[this.order.status];
       },
       (error) => {

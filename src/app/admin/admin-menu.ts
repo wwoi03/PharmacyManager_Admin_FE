@@ -65,7 +65,7 @@ export class AdminMenu {
             link: "/admin/order/order-list",
           },
         ],
-        hidden: !roles.includes('PM_ORDER'),
+        hidden: !roles.includes('PM_ORDER') && !roles.includes('PM_PRODUCT_MANAGER'),
       },
       // Quản lý bệnh
       {
