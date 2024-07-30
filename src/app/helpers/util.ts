@@ -32,6 +32,17 @@ export class Util {
     return formattedDate;
   }
 
+  convertISODateFormat2(date: Date): string {
+    // Tách phần ngày tháng từ chuỗi đầu vào
+    const [datePart] = (date + '').split("T") ;
+    const [year, month, day] = datePart.split("-");
+
+    // Tạo chuỗi theo định dạng mới
+    const formattedDate = `${year}-${month}-${day}`;
+    
+    return formattedDate;
+  }
+
   formatDateToString(date: Date): string {
     return date.toISOString().split('T')[0];
   }

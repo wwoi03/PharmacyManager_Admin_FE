@@ -6,6 +6,7 @@ import { NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
 import { OrderStatus, OrderStatusDescriptions } from '../../../models/requests/order/edit-order-request';
 import { OrderService } from '../../../services/order/order.service';
+import { Util } from '../../../helpers/util';
 
 @Component({
   selector: 'ngx-edit-order',
@@ -20,6 +21,8 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
   currentTheme: string;
   themeSubscription: any;
   order: OrderResponse;
+
+
 
   orderStatus: OrderStatus[] = [];
   orderStatusDescription: { [key: string]: string } = OrderStatusDescriptions;
@@ -37,6 +40,7 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
     private themeService: NbThemeService,
     private orderService: OrderService,
     private toast: Toast,
+    public util: Util,
   ) {
 
     this.themeSubscription = this.themeService
@@ -55,7 +59,11 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
       this.orderService.details(this.id).subscribe(
         (response) =>  {
           if (response.code === 200){
+            //Gán chi tiết đơn hàng
             this.order = response.obj;
+            console.log(this.order.status)
+
+            //Tên phương thức thanh toán
             this.paymentName = this.order.paymentMethod.name;
           } else {
             this.toast.warningToast('Lấy thông tin thất bại', response.message);

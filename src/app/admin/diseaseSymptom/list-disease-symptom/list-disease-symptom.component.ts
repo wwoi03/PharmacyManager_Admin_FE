@@ -189,8 +189,6 @@ export class ListDiseaseSymptomComponent implements OnInit {
           this.loadDiseaseSymptomData();
         }
       });
-
-      
   }
 
   onViewDetails(event): void{
@@ -247,68 +245,72 @@ export class ListDiseaseSymptomComponent implements OnInit {
   // Hàm xử lý sự kiện và dữ liệu từ component con
   onIsCreate(data?: string) {
     if (data) {
-      let detailsRequest: DetailsSymptomRequest | DetailsDiseaseRequest;
-  
-      if (this.link == 1) {
-        detailsRequest = { id: data } as DetailsSymptomRequest;
+      //Kiểm tra id truyền vào đã có trong danh sách chưa
+      const checkExit = this.Data.some(item => item.id1 == data);
 
-        //Test
+      if(checkExit === false){
+        //Đặt giá trị cho request
+        let detailsRequest: DetailsSymptomRequest | DetailsDiseaseRequest;
+
+        if (this.link == 1) {
+          detailsRequest = { id: data } as DetailsSymptomRequest;
+
+          //Test
+          this.symptomService.details(detailsRequest).subscribe(
+            (response) => {
+              if (response.code == 200) {
+                const newRes = {
+                  id1: response.obj.id,
+                  name1: response.obj.name,
+                  code1: response.obj.codeSymptom,
+                };
+                this.Data.push(newRes);
+                // Phát sự kiện cập nhật danh sách
+                const createId = this.Data.map(item => item.id1);
+                this.listCreate.emit(createId);
+                this.updateDataSource();
+              } else if (response.code >= 400 && response.code < 500) {
+                this.toast.warningToast("Thất bại", response.message);
+              } else if (response.code === 500) {
+                this.toast.dangerToast("Lỗi hệ thống", response.message);
+              }
+            },
+            (error) => {
+              this.toast.warningToast('Lấy thông tin thất bại', error);
+            }
+          );
+        } else if (this.link == 2) {
+          detailsRequest = { id: data } as DetailsDiseaseRequest;
+          this.diseaseService.details(detailsRequest).subscribe(
+            (response) => {
+              if (response.code === 200) {
+                const newRes = {
+                  id1: response.obj.id,
+                  name1: response.obj.name,
+                  code1: response.obj.codeDisease,
+                };
+                this.Data.push(newRes);
+                // Phát sự kiện cập nhật danh sách
+                const createId = this.Data.map(item => item.id1);
+                this.listCreate.emit(createId);
+                this.updateDataSource(); 
+    
+              } else if (response.code >= 400 && response.code < 500) {
+                this.toast.warningToast("Thất bại", response.message);
+              } else if (response.code === 500) {
+                this.toast.dangerToast("Lỗi hệ thống", response.message);
+              }
+            },
+            (error) => {
+              this.toast.warningToast('Lấy thông tin thất bại', error);
+            }
+          );
+        }
         
-        this.symptomService.details(detailsRequest).subscribe(
-          (response) => {
-            if (response.code == 200) {
-              const newRes = {
-                id1: response.obj.id,
-                name1: response.obj.name,
-                code1: response.obj.codeSymptom,
-              };
-              this.Data.push(newRes);
-               // Phát sự kiện cập nhật danh sách
-              const createId = this.Data.map(item => item.id1);
-              this.listCreate.emit(createId);
-              this.filterList();
-            } else if (response.code >= 400 && response.code < 500) {
-              this.toast.warningToast("Thất bại", response.message);
-            } else if (response.code === 500) {
-              this.toast.dangerToast("Lỗi hệ thống", response.message);
-            }
-          },
-          (error) => {
-            this.toast.warningToast('Lấy thông tin thất bại', error);
-          }
-        );
-      } else if (this.link == 2) {
-        detailsRequest = { id: data } as DetailsDiseaseRequest;
-  
-        this.diseaseService.details(detailsRequest).subscribe(
-          (response) => {
-            if (response.code === 200) {
-              const newRes = {
-                id1: response.obj.id,
-                name1: response.obj.name,
-                code1: response.obj.codeDisease,
-              };
-              this.Data.push(newRes);
-               // Phát sự kiện cập nhật danh sách
-              const createId = this.Data.map(item => item.id1);
-              this.listCreate.emit(createId);
-              this.filterList(); 
-  
-            } else if (response.code >= 400 && response.code < 500) {
-              this.toast.warningToast("Thất bại", response.message);
-            } else if (response.code === 500) {
-              this.toast.dangerToast("Lỗi hệ thống", response.message);
-            }
-          },
-          (error) => {
-            this.toast.warningToast('Lấy thông tin thất bại', error);
-          }
-        );
-      }
-      
-      // Cập nhật số lượng phần tử và lọc danh sách sau khi dữ liệu được cập nhật
-      this.countItem = Array.from({ length: this.Data.length }, (_, index) => index + 1);
-      this.filterList();  
+        // Cập nhật số lượng phần tử và lọc danh sách sau khi dữ liệu được cập nhật
+        this.countItem = Array.from({ length: this.Data.length }, (_, index) => index + 1);
+        this.filterList();  
+        }
     }
   }
   

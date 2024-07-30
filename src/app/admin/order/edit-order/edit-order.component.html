@@ -35,8 +35,8 @@
             <!-- Ngày đặt hàng -->
             <div class="col-lg-6">
                 <label for="forOrderDate" class="label">Ngày đặt hàng</label>
-                <input [(ngModel)]="order.orderDate" name="orderDate" type="datetime-local" nbInput fullWidth
-                id="forOrderDate" #orderDate="ngModel" readonly>
+                <input [value]="util.convertISODateFormat2(order.orderDate)" name="orderDate" type="date" nbInput fullWidth
+                id="forOrderDate" readonly>
             </div>
 
             <!-- Trạng thái đơn hàng-->
@@ -172,8 +172,8 @@
                             <!-- Ngày thanh toán -->
                             <div class="form-group col-lg-6">
                                 <label for="forPaymentDate" class="label">Ngày thanh toán</label>
-                                <input [(ngModel)]="order.paymentDate" name="paymentDate" type="text" nbInput fullWidth
-                                id="forPaymentDate" #paymentDate="ngModel" readonly>
+                                <input [value]="util.convertISODateFormat2(order.paymentDate)" name="paymentDate" type="date" nbInput fullWidth
+                                id="forPaymentDate" readonly>
                             </div>
 
                             <!-- Hình thức thanh toán-->
