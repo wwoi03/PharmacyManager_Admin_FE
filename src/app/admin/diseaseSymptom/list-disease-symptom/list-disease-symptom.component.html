@@ -5,11 +5,11 @@
             <div style=" flex: 1;">
                 <label class="search-label" for="search"></label>
                 <input fullWidth nbInput [(ngModel)] ="searchTerm" id="search" class="search-input"
-                    placeholder="Tên {{listName}}, mã {{listName}}" (input)="filterList()" >
+                    placeholder="Tên {{listName}}, mã {{listName}}" (input)="loadDiseaseSymptomData()" >
             </div>
 
             <div style="flex: 1; text-align: end;">
-                <button nbButton status="primary" (click)="onCreate()">Thêm mới</button>
+                <button nbButton status="primary" (click)="onCreate()" >Thêm mới</button>
             </div>
         </div>
         

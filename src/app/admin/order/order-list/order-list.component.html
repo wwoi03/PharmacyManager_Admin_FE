@@ -1,6 +1,18 @@
-<nb-card>
-    <nb-card-header>
-        Danh sách đơn hàng
+<nb-card class="row">
+    <nb-card-header class="col-lg-5" >
+        <div class="col-lg-12">Danh sách đơn hàng</div>
+
+        <!-- Trạng thái đơn hàng-->
+        <div class="col-lg-12">
+            <label for="forOrderStatus" class="label">Trạng thái đơn hàng</label>
+
+            <nb-select [(ngModel)]="orderStatus" id="orderStatus" name="orderStatus" fullWidth (selectedChange)="loadOrderData()">
+                <nb-option *ngFor="let status of listOrderStatus" [value]="status" >
+                  {{ orderStatusDescription[status] }}
+                </nb-option>
+              </nb-select>
+
+        </div> 
     </nb-card-header>
 
     <nb-card-body>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { listDiseaseResponse } from '../../../models/responses/disease/list-disease-response';
 import { Subscription } from 'rxjs';
@@ -28,6 +28,11 @@ export class CreateProductDiseaseComponent implements OnInit, OnDestroy{
   id: any;
   listName: string = '';
   link: number;
+
+  //Kiểm tra khởi tạo
+  isCreate: boolean = false;
+  //Id khởi tạo
+  createId: string;
 
   searchTerm: string = '';
   sortSelected: string = '';
@@ -152,20 +157,26 @@ export class CreateProductDiseaseComponent implements OnInit, OnDestroy{
 
   // Create
   create() {
-    this.productDiseaseService.getLink(this.link);
 
-    this.productDiseaseService.create(this.productDisease).subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.toast.successToast("Thành công", res.message);
-          this.ref.close(true);
-        } else if (res.code >= 400 && res.code < 500) {
-          this.toast.warningToast("Thất bại", res.message);
-        } else if (res.code === 500) {
-          this.toast.dangerToast("Lỗi hệ thống", res.message);
-        }
-      },
-    )
+    if(this.isCreate == true){
+      this.ref.close(this.createId);
+    }
+    else{
+      this.productDiseaseService.getLink(this.link);
+
+      this.productDiseaseService.create(this.productDisease).subscribe(
+        (res) => {
+          if (res.code === 200) {
+            this.toast.successToast("Thành công", res.message);
+            this.ref.close(true);
+          } else if (res.code >= 400 && res.code < 500) {
+            this.toast.warningToast("Thất bại", res.message);
+          } else if (res.code === 500) {
+            this.toast.dangerToast("Lỗi hệ thống", res.message);
+          }
+        },
+      )
+    }
   }
 
   // Hủy
@@ -175,12 +186,15 @@ export class CreateProductDiseaseComponent implements OnInit, OnDestroy{
 
   onRowSelect(event){
     if(this.link == 1){
-      this.productDisease.diseaseId = this.id;
-      this.productDisease.productId = event.id;
+      this.productDisease.diseaseId = event.id;
+      this.productDisease.productId = this.id;
     }
     else if(this.link == 2){
-      this.productDisease.productId = this.id;
-      this.productDisease.diseaseId = event.id;
+      this.productDisease.productId = event.id;
+      this.productDisease.diseaseId = this.id;
+    }
+    if(this.isCreate == true){
+      this.createId = event.id;
     }
     
   }

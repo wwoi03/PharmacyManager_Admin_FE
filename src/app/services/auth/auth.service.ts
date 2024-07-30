@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AuthService {
   private readonly TOKEN_NAME = 'jwt_token';
-  private readonly ROLES = 'roles';
+  private readonly ROLES = 'roles';z
   private readonly NAME = 'name';
 
   constructor(private cookieService: CookieService) {}

@@ -41,7 +41,8 @@ export class DiseaseService {
   //Thêm bệnh
   create(request: CreateDiseaseRequest): Observable<ResponseApi<string>>{
     return this.http.post<ResponseApi<string>>(this.apiURL + 'CreateDisease', request)
-    .pipe(   tap((response: ResponseApi<string>) => {
+    .pipe(
+      map((response: ResponseApi<string>) => {
       if (response.isSuccessed) {
         return response;
       } else {

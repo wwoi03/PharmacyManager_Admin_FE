@@ -29,6 +29,11 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
   listName: string = '';
   link: number;
 
+   //Kiểm tra khởi tạo
+   isCreate: boolean = false;
+   //Id khởi tạo
+   createId: string;
+
   searchTerm: string = '';
   sortSelected: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -152,20 +157,25 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
 
   // Create
   create() {
-    this.productSupportService.getLink(this.link);
+    if(this.isCreate == true){
+      this.ref.close(this.createId);
+    }
+    else{
+      this.productSupportService.getLink(this.link);
 
-    this.productSupportService.create(this.productSupport).subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.toast.successToast("Thành công", res.message);
-          this.ref.close(true);
-        } else if (res.code >= 400 && res.code < 500) {
-          this.toast.warningToast("Thất bại", res.message);
-        } else if (res.code === 500) {
-          this.toast.dangerToast("Lỗi hệ thống", res.message);
-        }
-      },
-    )
+      this.productSupportService.create(this.productSupport).subscribe(
+        (res) => {
+          if (res.code === 200) {
+            this.toast.successToast("Thành công", res.message);
+            this.ref.close(true);
+          } else if (res.code >= 400 && res.code < 500) {
+            this.toast.warningToast("Thất bại", res.message);
+          } else if (res.code === 500) {
+            this.toast.dangerToast("Lỗi hệ thống", res.message);
+          }
+        },
+      )
+    }
   }
 
   // Hủy
@@ -182,6 +192,8 @@ export class CreateProductSupportComponent implements OnInit, OnDestroy{
       this.productSupport.productId = this.id;
       this.productSupport.supportId = event.id;
     }
-    
+    if(this.isCreate == true){
+      this.createId = event.id;
+    }
   }
 }

@@ -4,7 +4,7 @@ class Customer{
     id: string;
     fullName?: string;
     gender?: string;
-    birthday?: Date;
+    birthday?: Date = new Date();
     image?: string;
     status?: string;
 }
@@ -32,10 +32,10 @@ export class OrderResponse{
   totalAmount: number;
   finalAmount: number;
   note: string;
-  orderDate: Date;
+  orderDate: Date = new Date();
   status: string;
   paymentAmount: number;
-  paymentDate: Date;
+  paymentDate: Date = new Date();
   paymentStatus: string;
   accountNumber: string;
   bankName: string;
@@ -44,7 +44,7 @@ export class OrderResponse{
   staffId: string;
   branchId: string;
   codeOrder: string;
-  receiptDate: Date;
+  receiptDate: Date = new Date();
 }
 
 export class OrderDetailsDTO{

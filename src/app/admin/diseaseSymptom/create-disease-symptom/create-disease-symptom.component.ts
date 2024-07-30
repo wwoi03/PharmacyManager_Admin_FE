@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { DiseaseSymptomService } from '../../../services/diseaseSymptom/disease-symptom.service';
 import { Toast } from '../../../helpers/toast';
@@ -21,6 +21,14 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
   id: any;
   listName: string = '';
   link: number;
+
+  //Kiểm tra khởi tạo
+  isCreate: boolean = false;
+  //Id khởi tạo
+  createId: string;
+
+  //Truyền dữ liệu ra component cha
+  @Output() dataOutput = new EventEmitter<string>();
 
   searchTerm: string = '';
   sortSelected: string = '';
@@ -55,7 +63,7 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     private diseaseSymptomService: DiseaseSymptomService,
     private symptomService: SymptomService,
     private diseaseService: DiseaseService,
-    private toast: Toast
+    private toast: Toast,
   ) {
     this.source = new LocalDataSource();
   }
@@ -144,20 +152,27 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
 
   // Create
   create() {
-    this.diseaseSymptomService.getLink(this.link);
 
-    this.diseaseSymptomService.create(this.diseaseSymptom).subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.toast.successToast("Thành công", res.message);
-          this.ref.close(true);
-        } else if (res.code >= 400 && res.code < 500) {
-          this.toast.warningToast("Thất bại", res.message);
-        } else if (res.code === 500) {
-          this.toast.dangerToast("Lỗi hệ thống", res.message);
-        }
-      },
-    )
+    if(this.isCreate == true){
+      this.dataOutput.emit(this.createId);
+      this.ref.close(this.createId);
+    }
+    else{
+      this.diseaseSymptomService.getLink(this.link);
+
+      this.diseaseSymptomService.create(this.diseaseSymptom).subscribe(
+        (res) => {
+          if (res.code === 200) {
+            this.toast.successToast("Thành công", res.message);
+            this.ref.close(true);
+          } else if (res.code >= 400 && res.code < 500) {
+            this.toast.warningToast("Thất bại", res.message);
+          } else if (res.code === 500) {
+            this.toast.dangerToast("Lỗi hệ thống", res.message);
+          }
+        },
+      )
+    }
   }
 
   // Hủy
@@ -165,7 +180,7 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
     this.ref.close(false);
   }
 
-  onRowSelect(event){
+  onRowSelect(event?){
     if(this.link == 1){
       this.diseaseSymptom.diseaseId = this.id;
       this.diseaseSymptom.symptomId = event.id;
@@ -174,6 +189,8 @@ export class CreateDiseaseSymptomComponent implements OnInit, OnDestroy{
       this.diseaseSymptom.symptomId = this.id;
       this.diseaseSymptom.diseaseId = event.id;
     }
-    
+    if(this.isCreate == true){
+      this.createId = event.id;
+    }
   }
 }

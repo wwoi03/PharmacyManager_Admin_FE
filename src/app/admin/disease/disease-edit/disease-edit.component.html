@@ -6,9 +6,9 @@
     </div>
   </div>
   
-  
-  <form (ngSubmit)="edit()" #diseaseForm="ngForm" class="row">
-      <div class="col-lg-7">
+  <div class="row">
+  <form (ngSubmit)="edit()" #diseaseForm="ngForm" class="col-lg-7">
+      <div >
         <nb-card>
           <nb-card-header>Thông tin loại bệnh</nb-card-header>
           <nb-card-body>
@@ -36,12 +36,25 @@
               </div>
             </div>
   
+
+            
+
             <!-- Mô tả -->
-            <div class="form-group col-lg-12">
-              <label for="forDescription" class="label">Mô tả bệnh</label>
-              <textarea required [(ngModel)]="editDiseaseRequest.description" name="description" rows="12" nbInput fullWidth
-                id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
+            <div class="col-lg-12">
+            <nb-tab tabTitle="Mô tả">
+              <ngx-tiny-mce [value]="editDiseaseRequest.description"
+              [height]="305" 
+              (editorKeyup)="editDiseaseRequest.description = $event" ></ngx-tiny-mce>
+              <div class="text-danger-container">
+                  <div *ngIf="formErrors['description']" class="text-danger">
+                      {{ formErrors['description'] }}
+                      </div>
+                  </div>
+              </nb-tab>
             </div>
+
+
+
           </div>
   
           
@@ -53,11 +66,14 @@
       </div>
 
       
-      <div class="col-lg-5">
-        <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
-    
-    
-        <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" [id]="disease.id"></ngx-list-product-disease>
-    </div>
+      
   </form>
 
+  
+  <div class="col-lg-5">
+    <ngx-list-disease-symptom [link]="1" [listName]="'triệu chứng'" [id]="disease.id"></ngx-list-disease-symptom>
+
+
+    <ngx-list-product-disease [link]="2" [listName]="'sản phẩm'" [id]="disease.id"></ngx-list-product-disease>
+</div>
+</div>

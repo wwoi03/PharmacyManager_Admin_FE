@@ -6,7 +6,28 @@
     </div>
 </div>
 
-<nb-card class="list-card" size="medium">
+
+
+<nb-card>
+    <nb-card-header>
+        Danh sách bệnh
+    </nb-card-header>
+
+    <nb-card-body>
+        <ng2-smart-table 
+        [settings]="settings" 
+        [source]="source" 
+        (create)="onCreate()"
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)"
+        >
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
+
+
+<!-- (userRowSelect)="onViewDetails($event)" -->
+<!-- <nb-card class="list-card" size="medium">
     <nb-card-body>
         <div class="d-flex justify-content-between " style="position: sticky; top: 0; z-index: 1; flex: 1; background-color: white;">
             <div style=" flex: 1;">
@@ -40,4 +61,4 @@
           </table>
 
     </nb-card-body>
-</nb-card>
+</nb-card> -->
