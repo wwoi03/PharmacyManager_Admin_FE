@@ -186,12 +186,12 @@ export class CreateProductDiseaseComponent implements OnInit, OnDestroy{
 
   onRowSelect(event){
     if(this.link == 1){
-      this.productDisease.diseaseId = this.id;
-      this.productDisease.productId = event.id;
+      this.productDisease.diseaseId = event.id;
+      this.productDisease.productId = this.id;
     }
     else if(this.link == 2){
-      this.productDisease.productId = this.id;
-      this.productDisease.diseaseId = event.id;
+      this.productDisease.productId = event.id;
+      this.productDisease.diseaseId = this.id;
     }
     if(this.isCreate == true){
       this.createId = event.id;

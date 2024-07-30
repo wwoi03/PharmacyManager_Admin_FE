@@ -11,7 +11,7 @@
             </div>
             
             <table class="table table-striped">
-                <thead style="position: sticky; top: 2rem; z-index: 1; flex: 1; background-color: white;">
+                <thead >
                     <th *ngFor="let column of allColumns" (click)="sortColumn(column)">
                         {{ getColumnTitle(column) }}
                       </th>

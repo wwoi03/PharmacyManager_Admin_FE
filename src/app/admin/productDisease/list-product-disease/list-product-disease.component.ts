@@ -10,6 +10,8 @@ import { DeleteProductDiseaseComponent } from '../delete-product-disease/delete-
 import { CreateProductDiseaseComponent } from '../create-product-disease/create-product-disease.component';
 import { DetailsDiseaseRequest } from '../../../models/requests/disease/get-details-disease-request';
 import { DiseaseService } from '../../../services/disease/disease.service';
+import { ProductService } from '../../../services/product/product.service';
+import { ListProductResponse } from '../../../models/responses/product/list-product-response';
 
 @Component({
   selector: 'ngx-list-product-disease',
@@ -65,7 +67,8 @@ export class ListProductDiseaseComponent {
     private diseaseService: DiseaseService,
     private router: Router,
     private toast: Toast,
-    private dialogService: NbDialogService,){
+    private dialogService: NbDialogService,
+    private productService: ProductService,){
       this.source = new LocalDataSource();
   }
 
@@ -270,7 +273,25 @@ export class ListProductDiseaseComponent {
           }
         );
       } else if (this.link == 2) {
-        this.loadProductDiseaseData();
+        this.productService.getProducts().subscribe((res: ResponseApi<ListProductResponse[]>)=>{
+          if(res.code === 200){
+            const listProduct = res.obj;
+            const item = listProduct.find(i => i.id === data);
+            const newRes = {
+              id1: item.id,
+              name1: item.productName,
+              code1: item.codeMedicine,
+            };
+
+            this.Data.push(newRes);
+            // Phát sự kiện cập nhật danh sách
+            const createId = this.Data.map(item => item.id1);
+            this.listCreate.emit(createId);
+            this.filterList(); 
+          }
+        },(error) => {
+          this.toast.warningToast('Lấy thông tin thất bại', error);
+        });
       }
       
       // Cập nhật số lượng phần tử và lọc danh sách sau khi dữ liệu được cập nhật

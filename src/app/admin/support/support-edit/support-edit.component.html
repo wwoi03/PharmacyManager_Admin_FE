@@ -36,19 +36,19 @@
               </div>
             </div>
   
-            <!-- Mô tả -->
-            <div class="col-lg-12">
-              <nb-tab tabTitle="Mô tả">
-                <ngx-tiny-mce [value]="editSupportRequest.description"
-                [height]="305" 
-                (editorKeyup)="editSupportRequest.description = $event" ></ngx-tiny-mce>
-                <div class="text-danger-container">
-                    <div *ngIf="formErrors['description']" class="text-danger">
-                        {{ formErrors['description'] }}
-                        </div>
-                    </div>
-                </nb-tab>
-              </div>
+           <!-- Mô tả -->
+           <div class="col-lg-12">
+            <nb-tab tabTitle="Mô tả">
+              <ngx-tiny-mce [value]="editSupportRequest.description"
+              [height]="305" 
+              (editorKeyup)="editSupportRequest.description = $event" ></ngx-tiny-mce>
+              <div class="text-danger-container">
+                  <div *ngIf="formErrors['description']" class="text-danger">
+                      {{ formErrors['description'] }}
+                      </div>
+                  </div>
+              </nb-tab>
+            </div>
 
             
           </div>
