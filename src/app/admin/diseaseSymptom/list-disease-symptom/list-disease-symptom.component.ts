@@ -193,10 +193,10 @@ export class ListDiseaseSymptomComponent implements OnInit {
 
   onViewDetails(event): void{
     if(this.link == 1){
-      this.router.navigate(['/admin/symptom/symptom-details', event.id1]);
+      this.router.navigate(['/admin/symptom/symptom-edit', event.id1]);
     }
     else if(this.link == 2){
-      this.router.navigate(['/admin/disease/disease-details', event.id1]);
+      this.router.navigate(['/admin/disease/disease-edit', event.id1]);
     }
   }
 

@@ -1,21 +1,21 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import {  Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NbAccordionItemComponent, NbDateService, NbThemeService } from '@nebular/theme';
 
-import { ElectricityData } from '../../../@core/data/electricity';
+import {  ElectricityData } from '../../../@core/data/electricity';
 import { takeWhile } from 'rxjs/operators';
 import { StatisticService } from '../../../services/statistic/statistic.service';
-import { ResponseApi } from '../../../models/response-apis/response-api';
 import { Toast } from '../../../helpers/toast';
-import { StatisticRevenueResponse } from '../../../models/responses/statistic/statistic-revenue-response';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { StatisticOrderResponse } from '../../../models/responses/statistic/statistic-order-respone';
 import { StatisticRequest } from '../../../models/requests/statistic/statistic-request';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Component({
-  selector: 'ngx-electricity',
-  styleUrls: ['./electricity.component.scss'],
-  templateUrl: './electricity.component.html',
+  selector: 'ngx-electricity2',
+  styleUrls: ['./electricity.component2.scss'],
+  templateUrl: './electricity.component2.html',
 })
-export class ElectricityComponent implements OnDestroy {
+export class ElectricityComponent2 implements OnDestroy, OnInit {
 
   private alive = true;
 
@@ -27,7 +27,7 @@ export class ElectricityComponent implements OnDestroy {
   secondAccordionOpen = false;
 
   listData: any[] ;
-  chartData: StatisticRevenueResponse[] = [];
+  chartData: StatisticOrderResponse[] = [];
 
   request: StatisticRequest = new StatisticRequest();
 
@@ -43,7 +43,8 @@ export class ElectricityComponent implements OnDestroy {
   inputDate: Date = new Date();
 
   //Tính tổng
-  sumRevenue: number ;
+  sumOrder: number ;
+  sumCancellation: number ;
 
   constructor(private electricityService: ElectricityData,
               private themeService: NbThemeService,
@@ -73,14 +74,15 @@ export class ElectricityComponent implements OnDestroy {
     //Xử lý chart
 
     this.listData = [];
-    this.sumRevenue = 0;
+    this.sumOrder = 0;
+    this.sumCancellation = 0;
     
     this.request = {
       dateTime: moment(this.inputDate).format('YYYY-MM-DD'),
       timeType: this.type,
     };
 
-    this.statisticService.getStatisticRevenue(this.request).subscribe((data: ResponseApi<StatisticRevenueResponse[]>)=>{
+    this.statisticService.getStatisticOrder(this.request).subscribe((data: ResponseApi<StatisticOrderResponse[]>)=>{
       if(data.code === 200){
 
         if(this.type !== 'year')    
@@ -93,15 +95,16 @@ export class ElectricityComponent implements OnDestroy {
 
             const previousItem = data.obj[i + 1];
             const currentItem = data.obj[i];
-            let deltaValue = currentItem.statistic;
-            let deltaString = `${deltaValue} VND`;
+            let deltaValue = currentItem.order;
+            let deltaString = `${deltaValue} đơn hàng`;
             let down = false;
 
             //Tính sum
-            this.sumRevenue += currentItem.statistic;
+            this.sumOrder += currentItem.order;
+            this.sumCancellation += currentItem.cancellation;
 
-            if(previousItem.statistic !== 0 && previousItem.statistic !== null){
-              deltaValue = ((currentItem.statistic - previousItem.statistic) / previousItem.statistic) * 100;
+            if(previousItem.order !== 0 && previousItem.order !== null){
+              deltaValue = ((currentItem.order - previousItem.order) / previousItem.order) * 100;
               const delta = deltaValue.toFixed(2); // Làm tròn đến 2 chữ số thập phân
     
               deltaString = `+${delta}%`;
@@ -116,7 +119,7 @@ export class ElectricityComponent implements OnDestroy {
               title : currentItem.title,
               delta: deltaString, 
               down: down,
-              value: currentItem.statistic,
+              value: currentItem.order,
             }
             this.listData.push(tmp);
           }

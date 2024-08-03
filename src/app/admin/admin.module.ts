@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
+import { NbDatepickerModule, NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { AdminComponent } from './admin.component';
@@ -13,6 +13,7 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
     ThemeModule,
     NbMenuModule,
     DashboardModule,
+    NbDatepickerModule.forRoot(),
     MiscellaneousModule,
     NbSpinnerModule
   ],

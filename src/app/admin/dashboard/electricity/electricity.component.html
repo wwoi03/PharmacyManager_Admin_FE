@@ -1,47 +1,75 @@
-<nb-card class="cards-container">
-  <nb-card size="large" class="table-card">
-    <nb-card-header>
-      Electricity Consumption
-    </nb-card-header>
 
-    <nb-tabset fullWidth>
-      <nb-tab *ngFor="let year of listData" [tabTitle]="year.title" [active]="year.active">
-        <nb-list>
-          <nb-list-item *ngFor="let month of year.months">
-            <span class="month">{{ month.month }}</span>
-            <span>
-              <nb-icon
-                [class.down]="month.down"
-                [class.up]="!month.down"
-                [icon]="month.down ? 'arrow-down' : 'arrow-up'" pack="eva">
-              </nb-icon>
-              {{ month.delta }}
+<div>
+<div class="select">
+  <!-- pick ngày -->
+    <div class="input-day">
+    <input [(ngModel)]="inputDate" nbInput placeholder="Min Max Picker" [nbDatepicker]="picker" (ngModelChange)="onChangeDate($event)">
+    <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
+  </div>
+  
+  <nb-select class="type-select" name="type" [(ngModel)]="type" (selectedChange)="onChangeType($event)">
+    <nb-option *ngFor="let t of types" [value]="t">{{t}}</nb-option>
+  </nb-select>
+</div>
+  
+  
+    <nb-accordion>
+        <!-- gán giá trị con #firstAccordion -->
+      <nb-accordion-item
+        #firstAccordion
+        [expanded]="firstAccordionOpen"
+        (click)="onAccordionToggle()"
+        size="large"
+        class="table-card">
+          <!-- Accordion Header -->
+          <nb-accordion-item-header>
+            Thống kê doanh thu
+            <span class="stats">
+              <span>{{sumRevenue}} <span class="caption">Tổng doanh thu</span></span>
             </span>
-            <span class="results">
-              {{ month.kWatts }} <span class="caption">kWh</span> / {{ month.cost }} <span class="caption">USD</span>
-            </span>
-          </nb-list-item>
-        </nb-list>
-      </nb-tab>
-    </nb-tabset>
-  </nb-card>
-
-  <nb-card size="large" class="chart-card">
-    <nb-card-header>
-      <span class="stats">
-        <span class="caption">Consumed</span>
-        <span>816 <span class="caption">kWh</span></span>
-      </span>
-      <span class="stats">
-        <span class="caption">Spent</span>
-        <span>291 <span class="caption">USD</span></span>
-      </span>
-
-      <nb-select [(selected)]="type" class="type-select">
-        <nb-option *ngFor="let t of types" [value]="t">{{ t }}</nb-option>
-      </nb-select>
-    </nb-card-header>
-
-    <ngx-electricity-chart [data]="chartData"></ngx-electricity-chart>
-  </nb-card>
-</nb-card>
+          </nb-accordion-item-header>
+        <!-- Select Option -->
+  
+        
+  
+  
+        <nb-accordion-item-body>
+          <!-- Phần thống kê chỉ số -->
+         
+              <nb-list>
+                <nb-list-item *ngFor="let item of listData">
+                  <span class="title">{{ item.title }}</span>
+                  <span>
+                    <nb-icon
+                      [class.down]="item.down"
+                      [class.up]="!item.down"
+                      [icon]="item.down ? 'arrow-down' : 'arrow-up'"
+                      pack="eva">
+                    </nb-icon>
+                    {{ item.delta }}
+                  </span>
+                  <span class="results">
+                    {{ item.value }} <span class="caption">VND</span> / {{sumRevenue}} <span class="caption">Tổng doanh thu</span>
+                  </span>
+                </nb-list-item>
+              </nb-list>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+  
+      <!-- Bắt đầu bảng chart -->
+      <nb-accordion-item
+      #secondAccordion>
+        <nb-accordion-item-body>
+          <!-- Phần thống kê chỉ số -->
+          <nb-card size="large" class="chart-card">
+            <nb-card-header>
+             
+            </nb-card-header>
+  
+            <ngx-electricity-chart [data]="chartData" ></ngx-electricity-chart>
+          </nb-card>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </div>
+   
