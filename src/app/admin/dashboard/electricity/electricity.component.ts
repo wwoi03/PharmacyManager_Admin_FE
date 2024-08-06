@@ -28,6 +28,7 @@ export class ElectricityComponent implements OnDestroy {
 
   listData: any[] ;
   chartData: StatisticRevenueResponse[] = [];
+  tmpChart: any[]=[];
 
   request: StatisticRequest = new StatisticRequest();
 
@@ -69,6 +70,12 @@ export class ElectricityComponent implements OnDestroy {
     this.alive = false;
   }
 
+ 
+  //Chuyển đổi tiền tệ
+  formatCurrency(value: number): string {
+    return `${value.toLocaleString('vi-VN')}`;
+  }
+
   loadData(){
     //Xử lý chart
 
@@ -87,6 +94,13 @@ export class ElectricityComponent implements OnDestroy {
           this.chartData = data.obj.filter((_, index) => index !== data.obj.length - 1).reverse();
         else
           this.chartData = data.obj.reverse();
+
+          //Chuyển đổi Định dạng dữ liệu
+        this.tmpChart = this.chartData.map(data => ({
+          ...data,
+          value: this.formatCurrency(data.statistic),
+        }));
+      
 
         //Xử lý data list
         for (let i = 0; i < data.obj.length - 1; i++) {

@@ -27,6 +27,10 @@ const routes: Routes = [{
       loadChildren: ()=> import('./symptom/symptom.module').then(m => m.SymptomModule),
     },
     {
+      path: 'promotion',
+      loadChildren: ()=> import('./promotion/promotion.module').then(m => m.PromotionModule),
+    },
+    {
       path: 'order',
       loadChildren: ()=> import('./order/order.module').then(m => m.OrderModule),
     },

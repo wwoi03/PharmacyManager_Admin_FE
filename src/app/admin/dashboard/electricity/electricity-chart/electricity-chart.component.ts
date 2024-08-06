@@ -20,7 +20,7 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy, OnCh
  
   private alive = true;
 
-  @Input() data: StatisticRevenueResponse[];
+  @Input() data: any[];
 
   option: any;
   echartsIntance: any;
@@ -77,7 +77,7 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy, OnCh
             backgroundColor: eTheme.tooltipBg,
             borderColor: eTheme.tooltipBorderColor,
             borderWidth: 1,
-            formatter: '{c0} kWh',
+            formatter: '{c0} VND',
             extraCssText: eTheme.tooltipExtraCss,
           },
           xAxis: {
@@ -165,7 +165,7 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy, OnCh
               },
               data: this.data.map(i => i.statistic), // Sử dụng dữ liệu `order`
               tooltip: {
-                formatter: '{c} doanh thu'
+                formatter: `{c0} VND`,
               },
             },
           ],

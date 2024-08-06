@@ -38,7 +38,7 @@
   .select {
     position: absolute;
     z-index: 1;
-    margin-top: 2% ;
+    margin-top: 1% ;
     margin-left: 80%;
   }
 
@@ -100,8 +100,16 @@
     color: nb-theme(color-success-default);
   }
 
+  .sp-value{
+    margin-left: auto;
+  }
+
   .results {
     margin-left: auto;
+  }
+
+  .title{
+    width: 5rem;
   }
 
   @include media-breakpoint-down(xl) {

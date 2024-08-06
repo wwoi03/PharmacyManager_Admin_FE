@@ -1,4 +1,4 @@
 export class StatisticRevenueResponse {
-    title: string;
+    title: string ;
     statistic: number;
 }

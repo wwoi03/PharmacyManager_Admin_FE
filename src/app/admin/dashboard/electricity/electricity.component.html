@@ -39,7 +39,7 @@
               <nb-list>
                 <nb-list-item *ngFor="let item of listData">
                   <span class="title">{{ item.title }}</span>
-                  <span>
+                  <span class="sp-value">
                     <nb-icon
                       [class.down]="item.down"
                       [class.up]="!item.down"
@@ -66,7 +66,7 @@
              
             </nb-card-header>
   
-            <ngx-electricity-chart [data]="chartData" ></ngx-electricity-chart>
+            <ngx-electricity-chart  [data]="tmpChart" ></ngx-electricity-chart>
           </nb-card>
         </nb-accordion-item-body>
       </nb-accordion-item>
