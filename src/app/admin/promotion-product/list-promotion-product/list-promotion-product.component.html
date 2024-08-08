@@ -1,0 +1,21 @@
+<ngx-create-promotion-product *ngIf="showCreatePromotionProduct"></ngx-create-promotion-product>
+
+<nb-card>
+    <nb-card-header>
+        Danh sách sản phẩm khuyến mãi
+    </nb-card-header>
+
+   
+
+    <nb-card-body>
+        <ng2-smart-table 
+        [settings]="settings" 
+        [source]="source" 
+        (create)="onCreate()"
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)">
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
+
+<!-- (userRowSelect)="onViewDetails($event)" -->

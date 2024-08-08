@@ -68,6 +68,7 @@
     "ngx-cookie-service": "^15.0.0",
     "ngx-echarts": "^4.2.2",
     "ngx-pagination": "^6.0.3",
+    "ngx-select-dropdown": "^3.3.2",
     "ngx-tinymce": "^18.0.0",
     "node-sass": "^4.14.1",
     "normalize.css": "6.0.0",

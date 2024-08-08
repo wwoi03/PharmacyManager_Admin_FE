@@ -6,6 +6,7 @@ import { AdminComponent } from './admin.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { PromotionProductComponent } from './promotion-product/promotion-product.component';
 
 @NgModule({
   imports: [

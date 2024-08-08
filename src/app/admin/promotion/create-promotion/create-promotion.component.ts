@@ -115,7 +115,6 @@ export class CreatePromotionComponent implements OnInit, OnDestroy {
 
   updateMinEndDate() {
     this.minEndDate = this.createPromotion.startDate;
-    
     console.log(this.createPromotion.startDate);
     console.log(this.createPromotion.endDate);
   }

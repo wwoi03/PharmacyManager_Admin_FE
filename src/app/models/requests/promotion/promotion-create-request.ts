@@ -33,13 +33,28 @@ export class PromotionRequest{
 }
 
 export class ProductPromotionRequest{
-    productId?: string[]; // Assuming GUIDs are represented as strings
+    productId?: string[] = []; // Assuming GUIDs are represented as strings
     additionalInfo: string;
     quantity: number;
     promotionProgramRequest?: PromotionProgramRequest | null;
+
+    validationMessages = {
+      quantity: {
+        required: 'Số lượng là bắt buộc'
+      },
+      additionalInfo:{
+        required: 'Mô tả khuyến mãi là bắt buộc'
+      },
+    };
 }
 
 export class PromotionProgramRequest{
     productId?: string[]; // Assuming GUIDs are represented as strings
     quantity: number;
+
+    validationMessages = {
+      quantity: {
+        required: 'Số lượng là bắt buộc'
+      },
+    };
 }

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { PromotionProductModule } from '../promotion-product/promotion-product.module';
 
 
 @NgModule({
@@ -33,7 +34,9 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
     NgOptionHighlightModule,
     NbRadioModule,
 
+
     PromotionRoutingModule,
+    PromotionProductModule,
   ]
 })
 export class PromotionModule { }
