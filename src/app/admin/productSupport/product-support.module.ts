@@ -10,6 +10,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { RouterModule } from '@angular/router';
     NbButtonModule,
     RouterModule.forChild([]),
     NbDialogModule.forChild(),
+    NgxPaginationModule,
     
     ProductSupportRoutingModule,
   ],

@@ -2,6 +2,7 @@ export class CreateSupportRequest {
     name : string;
     description? :string;
     codeSupport : string;
+    productId: string[];
 
     validationMessages = {
         name: {
@@ -10,6 +11,6 @@ export class CreateSupportRequest {
         codeSupport: {
           required: 'Mã hỗ trợ là bắt buộc.'
         },
-        description:{required: ''},
+        description:{required: 'Mô tả hỗ trợ là bắt buộc'},
       };
 }

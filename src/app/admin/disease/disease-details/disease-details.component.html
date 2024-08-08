@@ -6,6 +6,8 @@
     </div>
 </div>
   
+<form  #diseaseForm="ngForm" class="row">
+
 <div class="row">
     <div class="col-lg-7">
     <nb-card size="large">
@@ -25,14 +27,18 @@
             id="forCodeDisease" #codeDisease="ngModel" readonly>
         </div>
 
+
+       
         <!-- Mô tả -->
-        <div class="form-group col-lg-12">
-            <label for="forDescription" class="label">Mô tả bệnh</label>
-            <textarea [(ngModel)]="disease.description" name="description" rows="12" nbInput fullWidth
-            id="forDescription" shape="rectangle" #description="ngModel" readonly></textarea>
-        </div>
+        <div class="col-lg-12">
+            <nb-tab tabTitle="Mô tả">
+             
+                <!-- <ngx-tiny-mce [value]="disease.description" [height]="305" [readonly]="true"></ngx-tiny-mce> -->
+            </nb-tab>
         </div>
 
+        </div>
+        
         
 
 
@@ -51,3 +57,4 @@
     </div>
 
 </div>
+</form>

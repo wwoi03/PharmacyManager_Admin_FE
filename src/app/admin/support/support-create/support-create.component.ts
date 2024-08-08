@@ -56,19 +56,9 @@ export class SupportCreateComponent implements OnInit, OnDestroy {
 
    // Xử lý thêm 
    create() {
-    // Lấy form controls
-    const controls = this.supportForm.controls;
-    
-    // Kiểm tra tính hợp lệ của các yếu tố, bỏ qua description
-    let formValid = false;
-    for (const name in controls) {
-      if (name !== 'description' && controls[name].invalid) {
-        formValid = true;
-        break;
-      }
-    }
+
     // Valid
-    if (formValid) {
+    if (this.supportForm.invalid) {
       this.validationNotify.validateForm();
       this.formErrors =  this.validationNotify.formErrors;
       return;
@@ -91,5 +81,10 @@ export class SupportCreateComponent implements OnInit, OnDestroy {
         this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
       }
     );
+  }
+
+  onDataReceived(data: string[]) {
+    // Cập nhật dữ liệu nhận được từ component con
+    this.createSupportRequest.productId = data;
   }
 }

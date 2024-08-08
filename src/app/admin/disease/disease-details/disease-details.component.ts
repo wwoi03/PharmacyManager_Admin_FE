@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DetailsDiseaseRequest } from '../../../models/requests/disease/get-details-disease-request';
-import { NgForm } from '@angular/forms';
-import { ValidationNotify } from '../../../helpers/validation-notify';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { NbDialogService, NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
-import { Console } from 'console';
 import { DiseaseResponse } from '../../../models/responses/disease/disease-response';
 import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.component';
 
@@ -21,6 +18,8 @@ export class DiseaseDetailsComponent implements OnInit, OnDestroy{
   themeSubscription: any;
   diseaseRequest: DetailsDiseaseRequest = new DetailsDiseaseRequest();
   disease: DiseaseResponse;
+
+
 
    // Constructor
    constructor(

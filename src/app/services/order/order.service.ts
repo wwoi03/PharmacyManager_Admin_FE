@@ -7,6 +7,7 @@ import { ResponseApi } from '../../models/response-apis/response-api';
 import { OrderResponse } from '../../models/responses/order/list-order-response';
 import { catchError, map, tap } from 'rxjs/operators';
 import { OrderStatus, OrderStatusNumber } from '../../models/requests/order/edit-order-request';
+import { AuthService } from '../auth/auth.service';
 
 
 @Injectable({
@@ -15,11 +16,17 @@ import { OrderStatus, OrderStatusNumber } from '../../models/requests/order/edit
 export class OrderService {
   private apiURL: string = environment.API_BASE_URL + '/admin/Order/';
 
-  constructor(private http: HttpClient, private errorNotify : ErrorNotify) { }
+  constructor(private http: HttpClient, private errorNotify : ErrorNotify,
+    private authService: AuthService) { 
+
+  }
 
   //Lấy danh sách
-  getOrders(): Observable<ResponseApi<OrderResponse[]>>{
-    return this.http.get<ResponseApi<OrderResponse[]>> (this.apiURL + 'GetOrders')
+  getOrders(status: OrderStatus): Observable<ResponseApi<OrderResponse[]>>{
+    //Gán kiểu lấy danh sách
+    const params = new HttpParams().set("type", this.orderStatusToNumber(status));
+
+    return this.http.get<ResponseApi<OrderResponse[]>> (this.apiURL + 'GetOrders', {params})
     .pipe(
       tap((response: ResponseApi<OrderResponse[]>) => {
         if (response.isSuccessed) {

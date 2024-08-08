@@ -14,9 +14,14 @@ import { Router } from '@angular/router';
 })
 
 export class DiseaseCreateComponent implements OnInit, OnDestroy {
-  
+
   currentTheme: string;
   themeSubscription: any;
+
+  //Tham chiếu từ component diseasesymptomlist
+  receivedSymptom: string[];
+
+
 
   //Tạo biến
   createDiseaseRequest: CreateDiseaseRequest = new CreateDiseaseRequest();
@@ -56,20 +61,10 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
 
    // Xử lý thêm 
    create() {
-    // // Lấy form controls
-    // const controls = this.diseaseForm.controls;
-    
-    // // Kiểm tra tính hợp lệ của các yếu tố, bỏ qua description
-    // let formValid = false;
-    // for (const name in controls) {
-    //   if (name !== 'description' && controls[name].invalid) {
-    //     formValid = true;
-    //     break;
-    //   }
-    // }
+
 
     // Valid
-    if (this.diseaseForm.controls.invalid) {
+    if (this.diseaseForm.invalid) {
       this.validationNotify.validateForm();
       this.formErrors =  this.validationNotify.formErrors;
       return;
@@ -92,5 +87,19 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
         this.toast.warningToast("Lỗi hệ thống", "Lỗi hệ thống, vui lòng thử lại sau.");
       }
     );
+  }
+
+  onDataReceivedSymptom(data: string[]) {
+    // Cập nhật dữ liệu nhận được từ component con
+    this.createDiseaseRequest.symptomId = data;
+  }
+
+  onDataReceivedProduct(data: string[]) {
+    // Cập nhật dữ liệu nhận được từ component con
+    this.createDiseaseRequest.productId = data;
+  }
+  
+  back(){
+    
   }
 }
