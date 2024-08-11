@@ -1,0 +1,54 @@
+<form (ngSubmit)="create()" #promotionProgramForm="ngForm" @createProgram>
+
+    <div >
+        <nb-card>
+            <nb-card-header>Thêm sản phẩm tặng kèm</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <div class="row" style="max-width: 50rem;">
+                            
+                            
+                        <div class="col-lg-12"  >
+                            <label for="forProductId" class="label">Sản phẩm tặng kèm
+                                <small class="text-danger">*</small></label>
+                                <!-- Chọn danh sách product -->
+                                <ng-select required [multiple]="true" [(ngModel)]="createPromotionProgram.products" name="productId" #productId = "ngModel">
+                                    <ng-option *ngFor="let item of listProductId" [value]="item" >
+                                        {{ item.productName }} | {{item.codeProduct}}
+                                    </ng-option>
+                                </ng-select>
+                                    {{createPromotionProgram.products| json}}
+
+                                    <!-- Kiểm tra tính hợp lệ của productId -->
+                                    <div *ngIf="productId.invalid && productId.touched">
+                                        <small class="text-danger">Bạn phải chọn ít nhất một sản phẩm.</small>
+                                    </div> 
+                        </div>
+                        <!-- Số lượng chương trình -->
+                        <div class="col-lg-12">
+                            <label for="forQuantity" class="label">Số lượng sản phẩm tặng kèm
+                                <small class="text-danger">*</small></label>
+                            <input required min="1" [(ngModel)]="createPromotionProgram.quantity" name="quantity"
+                                type="number" nbInput fullWidth id="forQuantity" placeholder="Mời bạn nhập giá trị tặng kèm"
+                                #quantity="ngModel" >
+                                <div *ngIf="quantity.invalid && quantity.touched">
+                                    <small class="text-danger" *ngIf="quantity.errors?.required">
+                                      {{ validationMessages.quantity.required }}
+                                    </small>
+                                    <small class="text-danger" *ngIf="quantity.errors?.min">
+                                      {{ validationMessages.quantity.min }}
+                                    </small>
+                                </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Thêm mới</button>
+                    <button class="btn-delete" (click)="cancel()" nbButton status="success">Hủy</button>
+
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</form>
+

@@ -13,6 +13,7 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { PromotionProductComponent } from './promotion-product.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PromotionProgramModule } from '../promotion-program/promotion-program.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     Ng2SmartTableModule,
     NgSelectModule,
 
-    PromotionProductRoutingModule
+    PromotionProductRoutingModule,
+    PromotionProgramModule
   ],
   exports:[
     ...routedComponents,

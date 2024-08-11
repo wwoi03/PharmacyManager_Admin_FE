@@ -1,4 +1,4 @@
-<ngx-create-promotion-product *ngIf="showCreatePromotionProduct"></ngx-create-promotion-product>
+<ngx-create-promotion-product *ngIf="showCreatePromotionProduct" (createProduct) = "handleProductCreate($event)"></ngx-create-promotion-product >
 
 <nb-card>
     <nb-card-header>

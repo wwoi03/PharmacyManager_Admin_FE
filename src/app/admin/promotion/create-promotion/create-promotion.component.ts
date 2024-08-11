@@ -136,4 +136,8 @@ export class CreatePromotionComponent implements OnInit, OnDestroy {
     this.createPromotion.endDate = this.formatDateToISO(event);
   }
 
+  handleProductPromotions(promotionRequest: any) {
+    this.createPromotion.productPromotionRequest = promotionRequest;
+  }
+
 }

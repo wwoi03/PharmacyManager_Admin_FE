@@ -7,7 +7,7 @@ export class PromotionRequest{
     discountValue: number;
     codePromotion: string;
     // Chọn product được giảm giá
-    productPromotionRequest?: ProductPromotionRequest | null = null;
+    productPromotionRequest?: ProductPromotionRequest[] | null = null;
 
     validationMessages = {
         name: {
@@ -36,25 +36,10 @@ export class ProductPromotionRequest{
     productId?: string[] = []; // Assuming GUIDs are represented as strings
     additionalInfo: string;
     quantity: number;
-    promotionProgramRequest?: PromotionProgramRequest | null;
-
-    validationMessages = {
-      quantity: {
-        required: 'Số lượng là bắt buộc'
-      },
-      additionalInfo:{
-        required: 'Mô tả khuyến mãi là bắt buộc'
-      },
-    };
+    promotionProgramRequest?: PromotionProgramRequest[] | null;
 }
 
 export class PromotionProgramRequest{
-    productId?: string[]; // Assuming GUIDs are represented as strings
+    productId?: string[] = []; // Assuming GUIDs are represented as strings
     quantity: number;
-
-    validationMessages = {
-      quantity: {
-        required: 'Số lượng là bắt buộc'
-      },
-    };
 }
