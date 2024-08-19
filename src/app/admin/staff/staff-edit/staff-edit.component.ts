@@ -5,12 +5,13 @@ import { NgForm } from "@angular/forms";
 import { ValidationNotify } from "../../../helpers/validation-notify";
 import { StaffService } from "../../../services/staff/staff.service";
 import { RoleService } from "../../../services/role/role.service";
-import { NbThemeService } from "@nebular/theme";
+import { NbDialogService, NbThemeService } from "@nebular/theme";
 import { Toast } from "../../../helpers/toast";
 import { LoadingService } from "../../../helpers/loading-service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DetailsStaffResponse } from "../../../models/responses/staff/details-staff.response";
 import { Util } from "../../../helpers/util";
+import { RevokeTokenComponent } from "../revoke-token/revoke-token.component";
 
 @Component({
   selector: "ngx-staff-edit",
@@ -43,7 +44,8 @@ export class StaffEditComponent {
     private loadingService: LoadingService,
     private router: Router,
     private route: ActivatedRoute,
-    private util: Util
+    private util: Util,
+    private dialogService: NbDialogService
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -78,7 +80,8 @@ export class StaffEditComponent {
 
   // checked role
   isRoleSelected(roleNormalizedName: string): boolean {
-    var isSelected = this.detailsStaffResponse.roles.includes(roleNormalizedName);
+    var isSelected =
+      this.detailsStaffResponse.roles.includes(roleNormalizedName);
     return isSelected;
   }
 
@@ -119,9 +122,14 @@ export class StaffEditComponent {
   loadStaff() {
     this.staffService.details(this.updateStaffRequest.id).subscribe((res) => {
       if (res.code === 200) {
-        this.strBirthday = this.util.convertISODateFormat(res.obj.birthday + '');
+        this.strBirthday = this.util.convertISODateFormat(
+          res.obj.birthday + ""
+        );
         this.detailsStaffResponse = res.obj;
-        this.mapDetailsToUpdate(this.detailsStaffResponse, this.updateStaffRequest);
+        this.mapDetailsToUpdate(
+          this.detailsStaffResponse,
+          this.updateStaffRequest
+        );
       } else {
         this.router.navigate(["/admin/dashboard"]);
       }
@@ -149,7 +157,7 @@ export class StaffEditComponent {
 
   // Xử lý thêm nhân viên
   updateStaff() {
-    console.log(this.updateStaffRequest)
+    console.log(this.updateStaffRequest);
     // Valid
     if (this.staffForm.invalid) {
       this.validationNotify.validateForm();
@@ -179,8 +187,22 @@ export class StaffEditComponent {
         }
       },
       (err) => {
-        console.error(err)
+        console.error(err);
       }
     );
+  }
+
+  // Hủy phiên đăng nhập
+  onClickRevokeToken() {
+    this.dialogService
+      .open(RevokeTokenComponent, {
+        context: {
+          detailsStaffResponse: this.detailsStaffResponse,
+        },
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+        }
+      });
   }
 }

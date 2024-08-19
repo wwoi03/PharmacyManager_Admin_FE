@@ -6,6 +6,7 @@ import { ShipmentDetailsListComponent } from './shipment-details-list/shipment-d
 import { ShipmentEditComponent } from './shipment-edit/shipment-edit.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { ShipmentDetailsUnitListComponent } from './shipment-details-unit-list/shipment-details-unit-list.component';
+import { ShipmentDetailsDeleteComponent } from './shipment-details-delete/shipment-details-delete.component';
 
 const routes: Routes = [{
   path: '',
@@ -35,4 +36,5 @@ export const routedComponents = [
   ShipmentEditComponent,
   ProductCreateComponent,
   ShipmentDetailsUnitListComponent,
+  ShipmentDetailsDeleteComponent,
 ];

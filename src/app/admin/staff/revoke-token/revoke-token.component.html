@@ -1,0 +1,14 @@
+<form (ngSubmit)="onSubmit()">
+    <nb-card>
+        <nb-card-header>Ngắt kết nối người dùng</nb-card-header>
+        <nb-card-body>
+            <div>
+                Xác nhận hủy phiên đăng nhập người dùng!
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button style="margin-right: 10px;" class="cancel" nbButton status="warning" (click)="cancel()">Hủy</button>
+            <button style="margin-right: 10px;" nbButton status="danger">Ngắt kết nối</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

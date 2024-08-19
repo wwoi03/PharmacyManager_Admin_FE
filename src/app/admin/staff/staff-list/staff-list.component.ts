@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
+import { Component } from "@angular/core";
+import { LocalDataSource } from "ng2-smart-table";
 
-import { ListStaffResponse } from '../../../models/responses/staff/list-staff-response';
-import { StaffService } from '../../../services/staff/staff.service';
-import { Router } from '@angular/router';
+import { ListStaffResponse } from "../../../models/responses/staff/list-staff-response";
+import { StaffService } from "../../../services/staff/staff.service";
+import { Router } from "@angular/router";
+import { NbDialogService } from "@nebular/theme";
+import { RevokeTokenComponent } from "../revoke-token/revoke-token.component";
 
 @Component({
-  selector: 'ngx-staff-list',
-  templateUrl: './staff-list.component.html',
-  styleUrls: ['./staff-list.component.scss']
+  selector: "ngx-staff-list",
+  templateUrl: "./staff-list.component.html",
+  styleUrls: ["./staff-list.component.scss"],
 })
-
 export class StaffListComponent {
   settings = {
-    mode: 'external', // Chế độ external
+    mode: "external", // Chế độ external
     actions: {
-      columnTitle: 'Actions',
+      columnTitle: "Actions",
       add: true,
       edit: true,
       delete: true,
@@ -39,24 +40,24 @@ export class StaffListComponent {
     },
     columns: {
       fullName: {
-        title: 'Họ và tên',
-        type: 'string',
+        title: "Họ và tên",
+        type: "string",
       },
       userName: {
-        title: 'Tên đăng nhập',
-        type: 'string',
+        title: "Tên đăng nhập",
+        type: "string",
       },
       phoneNumber: {
-        title: 'Số điện thoại',
-        type: 'string',
+        title: "Số điện thoại",
+        type: "string",
       },
       gender: {
-        title: 'Giới tính',
-        type: 'string',
+        title: "Giới tính",
+        type: "string",
       },
       email: {
-        title: 'E-mail',
-        type: 'string',
+        title: "E-mail",
+        type: "string",
       },
       // birthday: {
       //   title: 'Birthday',
@@ -76,13 +77,17 @@ export class StaffListComponent {
       //     return `<img src="${image}" alt="Image" style="height: 50px; width: 50px;" />`;
       //   },
       // },
-    }
+    },
   };
 
   source: LocalDataSource;
-  listStaff: ListStaffResponse[] = [];  // Khởi tạo mảng rỗng cho listStaff
+  listStaff: ListStaffResponse[] = []; // Khởi tạo mảng rỗng cho listStaff
 
-  constructor(private staffService: StaffService, private router: Router) {
+  constructor(
+    private staffService: StaffService,
+    private router: Router,
+    private dialogService: NbDialogService
+  ) {
     this.source = new LocalDataSource();
   }
 
@@ -91,42 +96,36 @@ export class StaffListComponent {
   }
 
   loadStaffData() {
-    this.staffService.getStaffs().subscribe(
-      (res) => {
-        if (res.code === 200) {
-          this.listStaff = res.obj;
-          this.source.load(this.listStaff);
-        }
-      }  
-    );
+    this.staffService.getStaffs().subscribe((res) => {
+      if (res.code === 200) {
+        this.listStaff = res.obj;
+        this.source.load(this.listStaff);
+      }
+    });
   }
 
   onCustomAction(event) {
     switch (event.action) {
-      case 'addRecord':
+      case "addRecord":
         this.addRecord(event.data);
         break;
     }
   }
 
   public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
+    this.router.navigate(["/admin/dashboard"]);
   }
 
   onCreate(event): void {
-    this.router.navigate(['/admin/staff/staff-create']);
+    this.router.navigate(["/admin/staff/staff-create"]);
   }
 
   onEdit(event): void {
     const staffId: string = event.data.id;
-    this.router.navigate(['/admin/staff/staff-edit', staffId]);
+    this.router.navigate(["/admin/staff/staff-edit", staffId]);
   }
 
-  onDeleteConfirm(event): void {
-    if (window.confirm('Bạn có chắc chắn muốn xóa?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
+  onDelete(event): void {
+    
   }
 }

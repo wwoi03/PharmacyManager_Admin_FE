@@ -191,18 +191,18 @@
         </div>
       </nb-card-body>
     </nb-card>
-
-    <!-- Hủy phiên đăng nhập -->
-    <nb-card>
-      <nb-card-header>Ngắt kết nối<small class="text-danger"></small></nb-card-header>
-
-      <nb-card-body class="checkbox-radio">
-        <div class="row demo-items">
-          <div class="col-6">
-            <button nbButton status="danger">Ngắt kết nối ngay</button>
-          </div>
-        </div>
-      </nb-card-body>
-    </nb-card>
   </div>
 </form>
+
+<!-- Hủy phiên đăng nhập -->
+<nb-card>
+  <nb-card-header>Ngắt kết nối<small class="text-danger"></small></nb-card-header>
+
+  <nb-card-body class="checkbox-radio">
+    <div class="row demo-items">
+      <div class="col-6">
+        <button nbButton status="danger" (click)="onClickRevokeToken()">Ngắt kết nối</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

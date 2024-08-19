@@ -9,6 +9,7 @@ import { CreateStaffRequest } from "../../models/requests/staff/create-staff-req
 import { ErrorNotify } from "../../helpers/error-notify";
 import { UpdateStaffRequest } from "../../models/requests/staff/update-staff-request";
 import { DetailsStaffResponse } from "../../models/responses/staff/details-staff.response";
+import { LoadingService } from "../../helpers/loading-service";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +17,7 @@ import { DetailsStaffResponse } from "../../models/responses/staff/details-staff
 export class StaffService {
   private apiUrl: string = environment.API_BASE_URL + "/admin/staff/";
 
-  constructor(private http: HttpClient, private errorNotify: ErrorNotify) {}
+  constructor(private http: HttpClient, private errorNotify: ErrorNotify, private loadingService: LoadingService) {}
 
   getStaffs(): Observable<ResponseApi<ListStaffResponse[]>> {
     return this.http
@@ -91,4 +92,6 @@ export class StaffService {
         })
       );
   }
+
+  
 }
