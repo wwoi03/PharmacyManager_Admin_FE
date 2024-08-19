@@ -5,7 +5,9 @@ import { listDiseaseResponse } from '../../../models/responses/disease/list-dise
 import { DiseaseService } from '../../../services/disease/disease.service';
 import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
-import { DialogComponent } from '../dialog/dialog.component';
+import { ResponseApi } from '../../../models/response-apis/response-api';
+import { Toast } from '../../../helpers/toast';
+import { DiseaseDeleteComponent } from '../disease-delete/disease-delete.component';
 
 @Component({
   selector: 'ngx-disease-list',
@@ -14,8 +16,6 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class DiseaseListComponent implements OnInit {
 
-  @ViewChild('dialog', { static: true }) dialog: TemplateRef<any>;
-  
   settings = {
     mode: 'external',
     actions: {
@@ -26,21 +26,12 @@ export class DiseaseListComponent implements OnInit {
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
-      create: false,
-      position: 'left',
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true,
-      position: 'left',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-      position: 'left',
-      onDeleteConfirm: this.open.bind(this),
     },
     columns: {
       name:{
@@ -48,49 +39,57 @@ export class DiseaseListComponent implements OnInit {
         type: 'string',
       },
       description:{
-        title: 'Mô tả',
+        title: 'Mô tả bệnh',
         type: 'string',
       },
       codeDisease:{
         title: 'Mã bệnh',
         type:'string',
-      }
-    },
+      },
+    }
   };
 
   source: LocalDataSource;
-  listDisease: listDiseaseResponse[] = [];
-  dialogService: NbDialogService;
-
+  listDisease: listDiseaseResponse[] = [] ;
+  
   constructor(private diseaseService: DiseaseService, 
-    private router: Router){
+    private router: Router,
+    private toast: Toast,
+    private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
 
-  loadDiseaseData(){
-    this.diseaseService.getDisease().subscribe((data: listDiseaseResponse[])=>{
-      this.listDisease = data;
-      this.source.load(this.listDisease);
+  //Cắt ngắn đoạn mô tả
+  shortenDescription(listDisease: listDiseaseResponse[]) {
+    return listDisease.map(item => {
+      const words = item.description.split(' ');
+      if (words.length > 20) {
+        return { ...item, description: words.slice(0, 20).join(' ') + '...' };
+      }
+      return item;
     });
+  }
+
+  loadDiseaseData(){
+    this.diseaseService.getDiseases().subscribe((data: ResponseApi<listDiseaseResponse[]>)=>{
+      if(data.code === 200){
+      
+      this.listDisease = data.obj;
+      this.shortenDescription(data.obj);
+
+      this.source.load(this.listDisease);
+    }else {
+      this.toast.warningToast("Lỗi hệ thống", data.message);}
+  },(error) => {
+    this.toast.warningToast('Lấy thông tin thất bại', error);
+  });
   }
 
   ngOnInit(){
     this.loadDiseaseData();
   }
 
-  onCustomAction(event) {
-    switch (event.action) {
-      case 'addRecord':
-        this.addRecord(event.data);
-        break;
-    }
-  }
-
-  public addRecord(formData: any) {
-    this.router.navigate(['/admin/dashboard']);
-  }
-
-  onCreate(event): void {
+  onCreate(): void {
     this.router.navigate(['/admin/disease/disease-create']);
   }
 
@@ -98,27 +97,24 @@ export class DiseaseListComponent implements OnInit {
     this.router.navigate(['/admin/disease/disease-edit', event.data.id]);
   }
   
-  onDeleteConfirm(event): void {
-    this.dialogService.open(this.dialog, {
-      context: 'Bạn có chắc muốn xóa bệnh này không?',
-    }).onClose.subscribe(confirmed => {
-      if (confirmed) {
-        event.confirm.resolve();
-      } else {
-        event.confirm.reject();
-      }
-    });
-  }
-
-  onRowSelect(event): void{
+  onViewDetails(event): void{
     this.router.navigate(['/admin/disease/disease-details', event.data.id]);
   }
 
-  open(): void {
-    this.dialogService.open(DialogComponent, {
-      context: {
-        title: 'Bạn có chắc chắn muốn xóa?',
-      },
-    });
+  onDelete(event): void {
+    const disease: listDiseaseResponse = event.data;
+    
+    this.dialogService
+      .open(DiseaseDeleteComponent, {
+        context: {
+          disease: disease
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.loadDiseaseData();
+        }
+      });
   }
+  
 }

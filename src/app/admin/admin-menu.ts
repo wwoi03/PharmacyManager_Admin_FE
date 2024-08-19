@@ -54,6 +54,19 @@ export class AdminMenu {
         ],
         hidden: !roles.includes('PM_PRODUCT_MANAGER'),
       },
+
+      // Quản lý đơn hàng
+      {
+        title: "Quản lý đơn hàng",
+        icon: "shake-outline",
+        children: [
+          {
+            title: "Danh sách đơn hàng",
+            link: "/admin/order/order-list",
+          },
+        ],
+        hidden: !roles.includes('PM_ORDER') && !roles.includes('PM_PRODUCT_MANAGER'),
+      },
       // Quản lý bệnh
       {
         title: "Loại bệnh",

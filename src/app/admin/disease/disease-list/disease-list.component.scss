@@ -1,7 +1,132 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
-  nb-card {
-    transform: translate3d(0, 0, 0);
+  button[nbTreeGridRowToggle] {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .search-label {
+    display: block;
+  }
+  .search-input {
+    margin-bottom: 1rem;
+  }
+
+  .nb-column-name {
+    width: 100%;
+  }
+
+  ::ng-deep .row-toggle-button {
+    color: nb-theme(text-basic-color);
+  }
+
+  .nb-tree-grid-header-cell,
+  .nb-tree-grid-header-cell button {
+    text-transform: capitalize;
+  }
+
+  @media screen and (min-width: 400px) {
+    .nb-column-name,
+    .nb-column-size {
+      width: 50%;
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    .nb-column-name,
+    .nb-column-size,
+    .nb-column-kind {
+      width: 33.333%;
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    .nb-column-name {
+      width: 31%;
+    }
+    .nb-column-size,
+    .nb-column-kind,
+    .nb-column-items {
+      width: 23%;
+    }
+  }
+}
+
+/* Trong file styles.css hoặc trong <style> tag của component */
+.category-name-column {
+  width: 50%; /* Hoặc bạn có thể sử dụng px, em tùy ý */
+}
+
+.default-column {
+  width: 20%; /* Điều chỉnh theo nhu cầu */
+}
+
+.actions-column {
+  width: 30%;
+}
+
+/* Thêm vào file styles.css hoặc trong <style> của component */
+.action-icon {
+  font-size: 24px; /* Điều chỉnh kích thước icon */
+  margin-right: 10px; /* Khoảng cách giữa các icon */
+}
+
+.action-icon:hover {
+  cursor: pointer;
+}
+
+.action-cell {
+  
+}
+
+/* Style cho nút dạng text có gạch chân */
+.action-link {
+  color: #007bff !important; /* Màu xanh nhạt giống như thẻ <a> */
+  text-decoration: underline !important; /* Thêm gạch chân */
+  cursor: pointer; /* Con trỏ chuột dạng pointer */
+  background: none; /* Không có nền */
+  border: none; /* Không có viền */
+  padding: 5px; /* Padding nhỏ để tăng phần click */
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+}
+
+.action-link:hover {
+  color: #0056b3; /* Màu sẫm hơn khi hover */
+}
+
+::ng-deep ng2-smart-table {
+  table {
+    table-layout: fixed;
+    width: 100%;
+
+    th, td {
+      overflow: hidden; // Ẩn nội dung tràn
+      text-overflow: ellipsis; // Hiển thị dấu "..."
+      white-space: normal; // Cho phép văn bản xuống dòng
+      word-wrap: break-word; // Đảm bảo từ dài không vượt quá ô
+    }
+
+    // Đặt chiều rộng cho từng cột
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 10%; 
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 30%; 
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 40%; 
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 20%;
+    }
   }
 }

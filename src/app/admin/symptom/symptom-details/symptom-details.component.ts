@@ -3,8 +3,9 @@ import { DetailsSymptomRequest } from '../../../models/requests/symptom/get-deta
 import { SymptomResponse } from '../../../models/responses/symptom/symptom-response';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SymptomService } from '../../../services/symptom/symptom.service';
-import { NbThemeService } from '@nebular/theme';
+import { NbDialogService, NbThemeService } from '@nebular/theme';
 import { Toast } from '../../../helpers/toast';
+import { SymptomDeleteComponent } from '../symptom-delete/symptom-delete.component';
 
 @Component({
   selector: 'ngx-symptom-details',
@@ -24,6 +25,7 @@ export class SymptomDetailsComponent implements OnInit{
     private themeService: NbThemeService,
     private toast: Toast,
     private router: Router,
+    private dialogService: NbDialogService,
   ) {
     this.themeSubscription = this.themeService
       .getJsTheme()
@@ -40,16 +42,35 @@ export class SymptomDetailsComponent implements OnInit{
       // Gọi service để lấy thông tin chi tiết bệnh
       this.symptomService.details(this.symptomRequest).subscribe(
         (response) => {
-          this.symptom = response.obj;
-        },
-        (error) => {
+          if (response.code === 200){
+            this.symptom = response.obj;
+          } else {
+            this.toast.warningToast('Lấy thông tin thất bại', response.message);
+          }
+        }, (error) => {
           this.toast.warningToast('Lấy thông tin thất bại', error);
         }
-      );
+        );
     }
   }
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
   }
+
+  onDelete(): void {
+    
+    this.dialogService
+      .open(SymptomDeleteComponent, {
+        context: {
+          symptom: this.symptom
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          this.router.navigate(['/admin/symptom/symptom-list']);
+        }
+      });
+  }
+
 }

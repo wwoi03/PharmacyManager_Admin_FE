@@ -7,8 +7,8 @@
   </div>
   
   
-  <form (ngSubmit)="create()" #supportForm="ngForm" class="row">
-      <div class="col-lg-12">
+  <form #supportForm="ngForm" class="row">
+      <div class="col-lg-7">
         <nb-card>
           <nb-card-header>Thông tin loại hỗ trợ</nb-card-header>
           <nb-card-body>
@@ -36,19 +36,30 @@
               </div>
             </div>
   
-            <!-- Mô tả -->
-            <div class="form-group col-lg-12">
-              <label for="forDescription" class="label">Mô tả hỗ trợ</label>
-              <textarea required [(ngModel)]="createSupportRequest.description" name="description" rows="3" nbInput fullWidth
-                id="forDescription" shape="rectangle" placeholder="Mô tả" #description="ngModel" ></textarea>
+             <!-- Mô tả -->
+          <div class="col-lg-12">
+            <nb-tab tabTitle="Mô tả">
+              <ngx-tiny-mce
+              [height]="305" 
+              (editorKeyup)="createSupportRequest.description = $event" ></ngx-tiny-mce>
+              <div class="text-danger-container">
+                  <div *ngIf="formErrors['description']" class="text-danger">
+                      {{ formErrors['description'] }}
+                      </div>
+                  </div>
+              </nb-tab>
             </div>
           </div>
   
           
   
              <!-- Submit -->
-             <button class="btn-submit" type="submit" nbButton status="primary">Thêm mới</button>
+             <button class="btn-submit" (click)="create" nbButton status="primary">Thêm mới</button>
           </nb-card-body>
         </nb-card>
       </div>
+
+     <div class="col-lg-5">
+        <ngx-list-product-support [link]="2" [listName]="'sản phẩm'" [isCreate]="true" (listCreate)="onDataReceived($event)" ></ngx-list-product-support>
+    </div> 
   </form>

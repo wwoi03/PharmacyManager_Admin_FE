@@ -7,7 +7,7 @@
 </div>
   
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-7">
     <nb-card>
         <nb-card-header>Thông tin triệu chứng</nb-card-header>
         <nb-card-body>
@@ -28,14 +28,20 @@
         <!-- Mô tả -->
         <div class="form-group col-lg-12">
             <label for="forDescription" class="label">Mô tả triệu chứng</label>
-            <textarea [(ngModel)]="symptom.description" name="description" rows="3" nbInput fullWidth
+            <textarea [(ngModel)]="symptom.description" name="description" rows="8" nbInput fullWidth
             id="forDescription" shape="rectangle" #description="ngModel" readonly></textarea>
         </div>
         </div>
 
             <!-- Submit -->
             <button class="btn-submit" nbButton [routerLink]="['/admin/symptom/symptom-edit', symptom.id]" status="warning">Chỉnh sửa</button>
+            <button class="btn-delete btn-submit" nbButton (click)="onDelete()" status="danger">Xóa</button>
         </nb-card-body>
     </nb-card>
+    </div>
+    
+
+    <div class="col-lg-5">
+        <ngx-list-disease-symptom [link]="2" [listName]="'loại bệnh'" [id]="symptom.id"></ngx-list-disease-symptom>
     </div>
 </div>

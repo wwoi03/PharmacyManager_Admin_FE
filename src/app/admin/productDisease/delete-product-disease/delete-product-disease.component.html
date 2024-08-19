@@ -1,0 +1,42 @@
+<form (ngSubmit)="delete()" #diseaseForm="ngForm">
+    <nb-card>
+        <nb-card-header>Xóa thông tin {{listName}}</nb-card-header>
+        <nb-card-body>
+            <div class="row">
+                <!-- Bệnh -->
+                <div class="form-group ">
+                    <div class="col-12">
+                        <label for="forDiseaseName" class="label">Tên bệnh</label>
+                        <input readonly [(ngModel)]="productDisease.disease.name" name="diseaseName" type="text" nbInput
+                            fullWidth id="forDiseaseName" >
+                    </div>
+                    <div class="col-12">
+                        <label for="forDiseaseCode" class="label">Mã bệnh</label>
+                        <input readonly [(ngModel)]="productDisease.disease.codeDisease" name="codeDisease" type="text" nbInput
+                            fullWidth id="forDiseaseCode" >
+                    </div>
+
+                </div>
+
+                <!-- Triệu chứng -->
+                <div class="form-group ">
+                    <div class="col-12">
+                        <label for="forProductName" class="label">Tên sản phẩm</label>
+                        <input readonly [(ngModel)]="productDisease.product.name" name="productName" type="text" nbInput
+                            fullWidth id="forProductName" >
+                    </div>
+                    <div class="col-12">
+                        <label for="forProductCode" class="label">Mã sản phẩm</label>
+                        <input readonly [(ngModel)]="productDisease.product.codeMedicine" name="codeProduct" type="text" nbInput
+                            fullWidth id="forProductCode" >
+                    </div>
+
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button class="btn-delete" nbButton status="success">Xóa</button>
+        </nb-card-footer>
+    </nb-card>
+</form>
