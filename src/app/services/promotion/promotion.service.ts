@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ErrorNotify } from '../../helpers/error-notify';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
@@ -54,5 +54,25 @@ export class PromotionService {
       })
     );
   }
+
+  //Xóa khuyến mãi
+  delete(request: string): Observable<ResponseApi<string>>{
+    const params = new HttpParams().set("id", request);
+
+    return this.http.delete<ResponseApi<string>>(this.apiURL + 'DeletePromotion', {params})
+    .pipe( tap((response: ResponseApi<string>) => {
+      if (response.isSuccessed) {
+        return response;
+      } else {
+        this.errorNotify.handleStatusError(response.code);
+      }
+    }),
+    catchError((error: HttpErrorResponse) => {
+      return this.errorNotify.handleStatusError(error.status);
+    })
+  );
+
+  
+}
 
 }

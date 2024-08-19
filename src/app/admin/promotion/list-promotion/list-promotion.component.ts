@@ -21,7 +21,7 @@ export class ListPromotionComponent implements OnInit{
     actions: {
       columnTitle: 'Actions',
       add: true,
-      edit: false,
+      edit: true,
       delete:true,
     },
     add: {
@@ -98,19 +98,30 @@ export class ListPromotionComponent implements OnInit{
   }
 
   onDelete(event): void {
-    // const promotion: PromotionResponse = event.data;
+     //Gán giá trị cho biểu mẫu
+     const productRequest: {
+      id: string;
+      name: string; 
+      codePromotion: string;
+    } = {
+      id : event.data.id,
+      name: event.data.name,
+      codePromotion: event.data.codePromotion,
+    }
     
-    // this.dialogService
-    //   .open(DeletePromotionComponent, {
-    //     context: {
-    //       promotion: promotion
-    //     }
-    //   })
-    //   .onClose.subscribe((isSubmit: boolean) => {
-    //     if (isSubmit) {
-    //       this.loadPromotionData();
-    //     }
-    //   });
+    this.dialogService
+      .open(DeletePromotionComponent, {
+        context: {
+          promotion: productRequest
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {  
+
+          //load dữ liệu
+          this.loadPromotionData();
+        }
+      });
   }
 
   

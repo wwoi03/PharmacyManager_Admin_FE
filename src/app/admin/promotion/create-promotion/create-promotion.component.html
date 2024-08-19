@@ -54,7 +54,7 @@
                                     <label for="forDiscountType" class="label" style="margin: 0 1.5rem 0 0;">Loại khuyến mãi<small
                                             class="text-danger">*</small></label>
         
-                                    <nb-radio-group (input)="validationNotify.onInputChange('discountType')" required
+                                    <nb-radio-group (input)="validationNotify.onInputChange('discountType') " (ngModelChange)="onDiscountTypeChange()" required
                                         [(ngModel)]="createPromotion.discountType" name="discountType" id="forDiscountType" #discountType="ngModel">
                                         <nb-radio [value]="'PromotionMoney'">Giảm giá tiền</nb-radio>
                                         <nb-radio [value]="'PromotionPercent'">Giảm giá theo phần trăm</nb-radio>
@@ -112,7 +112,11 @@
                                     <small class="text-danger">*</small></label>
                                 <input required [(ngModel)]="createPromotion.discountValue" name="discountValue"
                                     type="number" nbInput fullWidth id="forDiscountValue" placeholder="Mời bạn nhập giá trị khuyến mãi"
-                                    #discountValue="ngModel" (input)="validationNotify.onInputChange('discountValue')">
+                                    #discountValue="ngModel" (input)="validationNotify.onInputChange('discountValue'); onDiscountValueChange($event)">
+                                    <span class="input-suffix">
+                                        {{ createPromotion.discountType === 'PromotionPercent' ? '%' : 'VND' }}
+                                    </span>
+
                                 <div class="text-danger-container">
                                     <div *ngIf="formErrors['discountValue']" class="text-danger">
                                         {{ formErrors['discountValue'] }}

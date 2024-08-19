@@ -6,12 +6,14 @@ import { ThemeModule } from '../../@theme/theme.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
   declarations: [...routedComponents],
   
   imports: [
+    CommonModule,
     NbCardModule,
     NbIconModule,
     NbInputModule,
@@ -25,6 +27,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbActionsModule,
     NbSelectModule,
     Ng2SmartTableModule,
+    
 
     OrderRoutingModule
   ]

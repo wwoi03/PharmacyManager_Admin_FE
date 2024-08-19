@@ -32,3 +32,13 @@ nb-card.inline-form-card nb-card-body {
 .ip-day{
   width: 100%
 }
+
+.input-suffix {
+  position: absolute;
+  right: 4rem;
+  top: 3rem;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #555;
+  pointer-events: none; /* Đảm bảo rằng ký hiệu không thể bị click */
+}

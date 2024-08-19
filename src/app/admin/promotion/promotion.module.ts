@@ -13,11 +13,13 @@ import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { PromotionProductModule } from '../promotion-product/promotion-product.module';
+import { EditPromotionComponent } from './edit-promotion/edit-promotion.component';
 
 
 @NgModule({
   declarations: [
     ...routedComponents,
+    EditPromotionComponent,
   ],
   imports: [
     NbCardModule,

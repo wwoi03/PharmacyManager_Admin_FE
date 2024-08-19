@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PromotionComponent } from './promotion.component';
 import { ListPromotionComponent } from './list-promotion/list-promotion.component';
 import { CreatePromotionComponent } from './create-promotion/create-promotion.component';
-import { DetailsPromotionComponent } from './details-promotion/details-promotion.component';
 import { DeletePromotionComponent } from './delete-promotion/delete-promotion.component';
+import { EditPromotionComponent } from './edit-promotion/edit-promotion.component';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'promotion-list', component: ListPromotionComponent },
       {path: 'promotion-create', component: CreatePromotionComponent},
-      {path: 'promotion-details/:id', component: DetailsPromotionComponent},
+      {path: 'promotion-edit/:id', component: EditPromotionComponent},
       {path: 'promotion-delete/:id', component: DeletePromotionComponent},
     ]
   }
@@ -28,6 +28,6 @@ export const routedComponents = [
   PromotionComponent,
   ListPromotionComponent,
   CreatePromotionComponent,
-  DetailsPromotionComponent,
+  EditPromotionComponent,
   DeletePromotionComponent,
 ];

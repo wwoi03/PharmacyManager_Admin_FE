@@ -145,6 +145,12 @@ export class CreatePromotionProductComponent implements OnInit, OnDestroy {
   handlePrograms(promotionRequests: PromotionProgramRequest[]) {
     this.createPromotionProduct.promotionProgramRequest = promotionRequests;
   }
-
+  
+  // Chỉ nhận số nguyên
+  preventDecimal(event: KeyboardEvent) {
+    if (event.key === '.' || event.key === ',' || event.key === '-') {
+      event.preventDefault();
+    }
+  }
 
 }

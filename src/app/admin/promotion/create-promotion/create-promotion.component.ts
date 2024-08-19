@@ -53,6 +53,8 @@ export class CreatePromotionComponent implements OnInit, OnDestroy {
       .subscribe((theme) => {
         this.currentTheme = theme.name;
       });
+    //Đặt giá trị mặc định
+    this.createPromotion.discountType = 'PromotionMoney';
   }
 
   ngOnInit(): void {
@@ -140,4 +142,35 @@ export class CreatePromotionComponent implements OnInit, OnDestroy {
     this.createPromotion.productPromotionRequest = promotionRequest;
   }
 
+  //Chuyển đổi
+  onDiscountTypeChange() {
+    //Chờ model cập nhật
+    setTimeout(()=> 
+      {
+        const value = this.createPromotion.discountValue;
+
+        if (this.createPromotion.discountType === 'PromotionPercent' && value > 100) {
+          this.createPromotion.discountValue = 100;
+        } else if (this.createPromotion.discountType === 'PromotionMoney') {
+          this.createPromotion.discountValue = Math.round((value || 1)) * 1000;
+        }
+        console.log(this.createPromotion.discountValue, this.createPromotion.discountType);
+      }
+    )
+  }
+
+  //check giá trị giảm
+  onDiscountValueChange(event: Event) {
+    const value = (event.target as HTMLInputElement).valueAsNumber;
+
+    if (this.createPromotion.discountType === 'PromotionPercent') {
+      if (value > 100) {
+        this.createPromotion.discountValue = 100;
+        this.formErrors['discountValue'] = 'Giảm giá không được vượt quá 100%';
+      } else {
+        this.createPromotion.discountValue = value;
+        this.formErrors['discountValue'] = '';
+      }
+    } 
+  }
 }

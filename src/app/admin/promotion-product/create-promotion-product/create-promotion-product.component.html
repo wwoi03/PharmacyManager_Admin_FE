@@ -29,7 +29,7 @@
                                 <label for="forQuantity" class="label">Số lượng được giảm giá của mỗi sản phẩm
                                     <small class="text-danger">*</small></label>
                                 <input required [(ngModel)]="createPromotionProduct.quantity" name="quantity"
-                                    type="number" nbInput fullWidth id="forQuantity" placeholder="Mời bạn nhập giá trị khuyến mãi"
+                                    type="number" step="1" (keypress)="preventDecimal($event)" nbInput fullWidth id="forQuantity" placeholder="Mời bạn nhập giá trị khuyến mãi"
                                     #quantity="ngModel" (input)="validationNotify.onInputChange('quantity')" min="1">
                                     <div *ngIf="quantity.invalid && quantity.touched">
                                         <small class="text-danger" *ngIf="quantity.errors?.required">

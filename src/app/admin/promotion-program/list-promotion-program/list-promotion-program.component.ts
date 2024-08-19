@@ -8,6 +8,7 @@ import { NbDialogService } from '@nebular/theme';
 import { PromotionProgramResponse } from '../../../models/responses/promotion/promotion-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CreatePromotionProgramComponent } from '../create-promotion-program/create-promotion-program.component';
+import { DeletePromotionProgramComponent } from '../delete-promotion-program/delete-promotion-program.component';
 
 @Component({
   selector: 'ngx-list-promotion-program',
@@ -176,19 +177,36 @@ export class ListPromotionProgramComponent implements OnInit{
   }
 
   onDelete(event): void {
-    // const promotion: PromotionResponse = event.data;
+    //Gán giá trị cho biểu mẫu
+    const programRequest: {
+      id: string;
+      productName: string; 
+      codeProduct: string;
+      quantity:number;
+    } = {
+      id : event.data.id,
+      productName: event.data.productName,
+      codeProduct: event.data.codeProduct,
+      quantity: event.data.quantity,
+    }
     
-    // this.dialogService
-    //   .open(DeletePromotionComponent, {
-    //     context: {
-    //       promotion: promotion
-    //     }
-    //   })
-    //   .onClose.subscribe((isSubmit: boolean) => {
-    //     if (isSubmit) {
-    //       this.loadPromotionData();
-    //     }
-    //   });
+    this.dialogService
+      .open(DeletePromotionProgramComponent, {
+        context: {
+          program: programRequest
+        }
+      })
+      .onClose.subscribe((isSubmit: boolean) => {
+        if (isSubmit) {
+          //Xử lý cập nhật, xóa sản phẩm product trong list
+          this.createPromotionPrograms.forEach(promotion => {
+            promotion.products = promotion.products.filter(product => product.id !== programRequest.id);
+          }); 
+          
+          //load dữ liệu
+          this.loadData();
+        }
+      });
   }
 
   

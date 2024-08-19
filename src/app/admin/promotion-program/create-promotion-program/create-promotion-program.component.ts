@@ -121,4 +121,11 @@ export class CreatePromotionProgramComponent implements OnInit, OnDestroy {
     this.ref.close(false);
   }
 
+  // Chỉ nhận số nguyên
+  preventDecimal(event: KeyboardEvent) {
+    if (event.key === '.' || event.key === ',' || event.key === '-') {
+      event.preventDefault();
+    }
+  }
+
 }

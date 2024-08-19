@@ -7,6 +7,7 @@ import { Toast } from '../../../helpers/toast';
 import { NbDialogService } from '@nebular/theme';
 import { ResponseApi } from '../../../models/response-apis/response-api';
 import { OrderStatus, OrderStatusDescriptions } from '../../../models/requests/order/edit-order-request';
+import { OrderStatusComponent } from '../order-status/order-status.component';
 
 @Component({
   selector: 'ngx-order-list',
@@ -60,14 +61,16 @@ export class OrderListComponent implements OnInit {
         title: 'Ngày giao',
         type:'date',
       },
-      status:{
-        title: 'Trạng thái đơn hàng',
-        type:'string',
-      },
       recipientPhone:{
         title: 'SDT người nhận',
         type:'string',
-      }
+      },
+      status:{
+        title: "Trạng thái",
+        type: "custom",
+        renderComponent: OrderStatusComponent,
+        width: '13%'
+      },
     }
   };
 
