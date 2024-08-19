@@ -56,4 +56,25 @@ export class ShipmentDetailsService {
         })
       );
   }
+
+  // delete
+  delete(shipmentDetailsId: string): Observable<ResponseApi<string>> {
+    const params = new HttpParams().set("shipmentDetailsId", shipmentDetailsId);
+
+    return this.http
+      .post<ResponseApi<string>>(this.apiUrl + "Delete", { params })
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
 }

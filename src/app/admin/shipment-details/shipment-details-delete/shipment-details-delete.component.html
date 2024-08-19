@@ -1,0 +1,34 @@
+<form (ngSubmit)="deleteShipmentDetails()" #shipmentDetailsForm="ngForm">
+    <nb-card>
+        <nb-card-header>Xác nhận xóa chi tiết nhập kho</nb-card-header>
+        <nb-card-body>
+            <div>
+                <!-- Mã kho nhập -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên sản phẩm</label>
+                    <textarea rows="3" readonly [(ngModel)]="listShipmentDetailsResponse.productName" name="productName" type="text" nbInput
+                        fullWidth id="forName"></textarea>
+                </div>
+
+                <!-- Giá bán -->
+                <div class="form-group">
+                    <label for="forCode" class="label">Giá bán</label>
+                    <input readonly [value]="getMoney(listShipmentDetailsResponse.importPrice)" type="text" nbInput
+                        fullWidth id="forCode">
+                </div>
+
+                 <!-- Số lượng -->
+                 <div class="form-group">
+                    <label for="forCode" class="label">Số lượng</label>
+                    <input readonly [(ngModel)]="listShipmentDetailsResponse.quantity" name="quantity" type="text" nbInput
+                        fullWidth id="forCode">
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="warning" (click)="cancel()">Hủy</button>
+            <button nbButton status="info">Xem</button>
+            <button nbButton status="danger">Xóa</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

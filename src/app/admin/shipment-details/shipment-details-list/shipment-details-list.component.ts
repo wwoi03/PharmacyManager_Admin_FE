@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ListShipmentDetailsResponse } from "../../../models/responses/shipment-details/list-shipment-details-response";
 import { Toast } from "../../../helpers/toast";
 import { NbDialogService } from "@nebular/theme";
+import { ShipmentDetailsDeleteComponent } from "../shipment-details-delete/shipment-details-delete.component";
+import { UtilMoney } from "../../../helpers/util-money";
 
 @Component({
   selector: "ngx-shipment-details-list",
@@ -13,7 +15,7 @@ import { NbDialogService } from "@nebular/theme";
 })
 export class ShipmentDetailsListComponent {
   // Variable
-  source: LocalDataSource = new LocalDataSource();;
+  source: LocalDataSource = new LocalDataSource();
   shipmentId: string;
   listShipmentDetailsResponse: ListShipmentDetailsResponse[] = [];
 
@@ -48,6 +50,9 @@ export class ShipmentDetailsListComponent {
       importPrice: {
         title: "Giá nhập",
         type: "string",
+        valuePrepareFunction: (data) => {
+          return this.getMoney(data);
+        },
         width: "200px",
       },
       quantity: {
@@ -114,6 +119,7 @@ export class ShipmentDetailsListComponent {
     private router: Router,
     private toast: Toast,
     private dialogService: NbDialogService,
+    private utilMoney: UtilMoney,
   ) {}
 
   // Init Data
@@ -132,28 +138,45 @@ export class ShipmentDetailsListComponent {
         if (res.code === 200) {
           this.listShipmentDetailsResponse = res.obj;
           this.source.load(this.listShipmentDetailsResponse);
-          console.log(this.source);
-        } 
+        }
       });
   }
 
   // Create
   onCreate(event): void {
-    this.router.navigate(['/admin/shipment-details/shipment-details-create', this.shipmentId]);
+    this.router.navigate([
+      "/admin/shipment-details/shipment-details-create",
+      this.shipmentId,
+    ]);
   }
 
   // Eidt
   onEdit(event): void {
     const shipmentId: string = event.data.id;
-    this.router.navigate(['/admin/shipment-details/shipment-details-list', shipmentId]);
+    this.router.navigate([
+      "/admin/shipment-details/shipment-details-list",
+      shipmentId,
+    ]);
   }
 
   // Delete
-  onDeleteConfirm(event): void {
-    if (window.confirm("Bạn có chắc chắn muốn xóa?")) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
+  onDelete(event): void {
+    this.dialogService
+      .open(ShipmentDetailsDeleteComponent, {
+        context: {
+          listShipmentDetailsResponse: event.data,
+          
+        },
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadShipmentDetails();
+        }
+      });
+  }
+
+  // get money
+  getMoney(amount: number): string {
+    return this.utilMoney.formatCurrency(amount);
   }
 }
