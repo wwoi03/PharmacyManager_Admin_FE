@@ -59,8 +59,8 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forPassword" class="label">Mật khẩu</label>
-                <input [(ngModel)]="updateStaffRequest.password" name="password" type="password" nbInput
-                  fullWidth id="forPassword" placeholder="Mật khẩu" #password="ngModel"
+                <input [(ngModel)]="updateStaffRequest.password" name="password" type="password" nbInput fullWidth
+                  id="forPassword" placeholder="Mật khẩu" #password="ngModel"
                   (input)="validationNotify.onInputChange('password')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['password']" class="text-danger">
@@ -72,8 +72,8 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forConfirmPassword" class="label">Mật khẩu xác nhận</label>
-                <input [(ngModel)]="updateStaffRequest.confirmPassword" name="confirmPassword" type="password"
-                  nbInput fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel"
+                <input [(ngModel)]="updateStaffRequest.confirmPassword" name="confirmPassword" type="password" nbInput
+                  fullWidth id="forConfirmPassword" placeholder="Mật khẩu xác nhận" #confirmPassword="ngModel"
                   (input)="validationNotify.onInputChange('confirmPassword')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['confirmPassword']" class="text-danger">
@@ -124,8 +124,9 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="forBirthday" class="label">Ngày sinh<small class="text-danger">*</small></label>
-                <input required [ngModel]="strBirthday" (ngModelChange)="onBirthdayChange($event)" name="birthday" type="date" nbInput fullWidth
-                  id="forBirthday" #birthday="ngModel" (input)="validationNotify.onInputChange('birthday')">
+                <input required [ngModel]="strBirthday" (ngModelChange)="onBirthdayChange($event)" name="birthday"
+                  type="date" nbInput fullWidth id="forBirthday" #birthday="ngModel"
+                  (input)="validationNotify.onInputChange('birthday')">
                 <div class="text-danger-container">
                   <div *ngIf="formErrors['birthday']" class="text-danger">
                     {{ formErrors['birthday'] }}
@@ -192,3 +193,16 @@
     </nb-card>
   </div>
 </form>
+
+<!-- Hủy phiên đăng nhập -->
+<nb-card>
+  <nb-card-header>Ngắt kết nối<small class="text-danger"></small></nb-card-header>
+
+  <nb-card-body class="checkbox-radio">
+    <div class="row demo-items">
+      <div class="col-6">
+        <button nbButton status="danger" (click)="onClickRevokeToken()">Ngắt kết nối</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

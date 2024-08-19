@@ -13,7 +13,7 @@ export class AuthService {
 
   setToken(token: string): void {
     // Lưu token vào session cookie với thuộc tính bảo mật
-    this.cookieService.set(this.TOKEN_NAME, token, 0, '/', null, true, 'Strict');
+    this.cookieService.set(this.TOKEN_NAME, token, 0, '/admin', null, true, 'Strict');
   }
 
   getToken(): string {
@@ -21,11 +21,11 @@ export class AuthService {
   }
 
   deleteToken(): void {
-    this.cookieService.delete(this.TOKEN_NAME, '/');
+    this.cookieService.delete(this.TOKEN_NAME, '/admin');
   }
 
   setRoles(roles: string[]): void {
-    this.cookieService.set(this.ROLES, JSON.stringify(roles), 0, '/', null, true, 'Strict');
+    this.cookieService.set(this.ROLES, JSON.stringify(roles), 0, '/admin', null, true, 'Strict');
   }
 
   getRoles(): string[] {
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   setName(name: string): void {
-    this.cookieService.set(this.NAME, name, 0, '/', null, true, 'Strict');
+    this.cookieService.set(this.NAME, name, 0, '/admin', null, true, 'Strict');
   }
 
   getName(): string {
@@ -42,8 +42,8 @@ export class AuthService {
   }
 
   logout(): void {
-    this.cookieService.delete(this.TOKEN_NAME, '/');
-    this.cookieService.delete(this.ROLES, '/');
-    this.cookieService.delete(this.NAME, '/');
+    this.cookieService.delete(this.TOKEN_NAME, '/admin');
+    this.cookieService.delete(this.ROLES, '/admin');
+    this.cookieService.delete(this.NAME, '/admin');
   }
 }

@@ -5,6 +5,7 @@ import { StaffComponent } from './staff.component';
 import { StaffListComponent } from './staff-list/staff-list.component';
 import { StaffCreateComponent } from './staff-create/staff-create.component';
 import { StaffEditComponent } from './staff-edit/staff-edit.component';
+import { RevokeTokenComponent } from './revoke-token/revoke-token.component';
 
 const routes: Routes = [{
   path: '',
@@ -38,4 +39,5 @@ export const routedComponents = [
     StaffListComponent,
     StaffCreateComponent,
     StaffEditComponent,
+    RevokeTokenComponent,
 ];
