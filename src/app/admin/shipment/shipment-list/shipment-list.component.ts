@@ -4,6 +4,7 @@ import { ShipmentService } from "../../../services/shipment/shipment.service";
 import { Router } from "@angular/router";
 import { ShipmentResponse } from "../../../models/responses/shipment/shipment-response";
 import { Toast } from "../../../helpers/toast";
+import { ShipmentStatusComponent } from "../shipment-status/shipment-status.component";
 
 @Component({
   selector: "ngx-shipment-list",
@@ -78,12 +79,13 @@ export class ShipmentListComponent {
       totalProduct: {
         title: "Số sản phẩm",
         type: "number",
-        width: '15%'
+        width: '12%'
       },
       status: {
         title: "Trạng thái",
-        type: "string",
-        width: '10%'
+        type: "custom",
+        renderComponent: ShipmentStatusComponent,
+        width: '13%'
       },
     },
   };

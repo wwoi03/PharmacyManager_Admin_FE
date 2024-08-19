@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShipmentComponent } from './shipment.component';
 import { ShipmentListComponent } from './shipment-list/shipment-list.component';
 import { ShipmentCreateComponent } from './shipment-create/shipment-create.component';
+import { ShipmentStatusComponent } from './shipment-status/shipment-status.component';
 
 const routes: Routes = [{
   path: '',
@@ -28,5 +29,6 @@ export class ShipmentRoutingModule { }
 export const routedComponents = [
   ShipmentComponent,
   ShipmentListComponent,
-  ShipmentCreateComponent
+  ShipmentCreateComponent,
+  ShipmentStatusComponent
 ];
