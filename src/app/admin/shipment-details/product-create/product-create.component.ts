@@ -9,6 +9,12 @@ import { NgForm } from "@angular/forms";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 import { CategoryService } from "../../../services/category/category.service";
 import { SelectCategoryResponse } from "../../../models/responses/category/select-category-response";
+import { SelectIngredientResponse } from "../../../models/responses/ingredient/select-ingredient-response";
+import { IngredientService } from "../../../services/ingredient/ingredient.service";
+import { SelectDiseaseResponse } from "../../../models/responses/disease/select-disease-response";
+import { DiseaseService } from "../../../services/disease/disease.service";
+import { SupportService } from "../../../services/support/support.service";
+import { SelectSupportResponse } from "../../../models/responses/support/select-support-response";
 
 @Component({
   selector: "ngx-product-create",
@@ -25,6 +31,10 @@ export class ProductCreateComponent {
   images: string[] = [];
   imagesFile: File[] = [];
   categories: SelectCategoryResponse[] = [];
+  ingredients: SelectIngredientResponse[] = [];
+  diseases: SelectDiseaseResponse[] = [];
+  supports: SelectSupportResponse[] = [];
+
 
   // Form Validation
   formErrors: { [key: string]: string } = {};
@@ -40,12 +50,18 @@ export class ProductCreateComponent {
     private router: Router,
     private uploadFileService: UploadFileService,
     private categoryService: CategoryService,
+    private ingredientService: IngredientService,
+    private diseaseService: DiseaseService,
+    private supportService: SupportService,
   ) {}
 
   // InitData
   ngOnInit(): void {
     this.validationMessages = this.createProductRequest.validationMessages;
     this.loadCategories();
+    this.loadIngredients();
+    this.loadDiseases();
+    this.loadSupports();
   }
 
   // After Init Data
@@ -68,6 +84,39 @@ export class ProductCreateComponent {
       (res) => {
         if (res.code === 200) {
           this.categories = res.obj;
+        }
+      }
+    )
+  }
+
+  // load ingredient
+  loadIngredients() {
+    this.ingredientService.getIngredientSelect().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.ingredients = res.obj;
+        }
+      }
+    )
+  }
+
+  // load disease
+  loadDiseases() {
+    this.diseaseService.getDiseaseSelect().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.diseases = res.obj;
+        }
+      }
+    )
+  }
+
+  // load support
+  loadSupports() {
+    this.supportService.getSupportSelect().subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.supports = res.obj;
         }
       }
     )
@@ -130,7 +179,6 @@ export class ProductCreateComponent {
       console.error('Có lỗi xảy ra khi tải lên ảnh:', error);
     }
   }
-
   
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -159,4 +207,34 @@ export class ProductCreateComponent {
     term = term.toLowerCase();
     return item.name.toLowerCase().includes(term) || item.codeCategory.toString().includes(term);
   }
+
+  customSearchIngredient(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return item.name.toLowerCase().includes(term) || item.codeIngredient.toString().includes(term);
+  }
+
+  customSearchDisease(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return item.name.toLowerCase().includes(term) || item.codeDisease.toString().includes(term);
+  }
+
+  customSearchSupport(term: string, item: any): boolean {
+    term = term.toLowerCase();
+    return item.name.toLowerCase().includes(term) || item.codeSupport.toString().includes(term);
+  }
+
+  toggleDisabled() {
+		const ingredient: any = this.ingredients[1];
+		ingredient.disabled = !ingredient.disabled;
+	}
+
+  toggleDisabledDisease() {
+		const disease: any = this.diseases[1];
+		disease.disabled = !disease.disabled;
+	}
+
+  toggleDisabledSupport() {
+		const support: any = this.supports[1];
+		support.disabled = !support.disabled;
+	}
 }

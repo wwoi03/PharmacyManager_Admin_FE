@@ -176,6 +176,69 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <!-- Thành phần thuốc -->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="forcodeIngredient" class="label">Thành phần thuốc<small
+                                            class="text-danger">*</small></label>
+                                    <ng-select [multiple]="true" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="createProductRequest.productIngredients" name="productIngredients"
+                                        [searchFn]="customSearchIngredient"
+                                        placeholder="Tìm kiếm theo tên, mã loại thành phần">
+
+                                        <ng-option *ngFor="let ingredient of ingredients" [value]="ingredient"
+                                            [disabled]="ingredient.disabled">{{
+                                            ingredient.name }}</ng-option>
+                                    </ng-select>
+                                    <div class="text-danger-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Loại bệnh -->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="forcodeDisease" class="label">Loại bệnh<small
+                                            class="text-danger">*</small></label>
+                                    <ng-select [multiple]="true" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="createProductRequest.productDiseases" name="productDiseases"
+                                        [searchFn]="customSearchDisease"
+                                        placeholder="Tìm kiếm theo tên, mã loại bệnh">
+
+                                        <ng-option *ngFor="let disease of diseases" [value]="disease"
+                                            [disabled]="disease.disabled">{{
+                                            disease.name }}</ng-option>
+                                    </ng-select>
+                                    <div class="text-danger-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Loại bệnh -->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="forcodeSupport" class="label">Hỗ trợ của sản phẩm<small
+                                            class="text-danger">*</small></label>
+                                    <ng-select [multiple]="true" bindLabel="name" bindValue="id"
+                                        [(ngModel)]="createProductRequest.productSupports" name="productSupports"
+                                        [searchFn]="customSearchSupport"
+                                        placeholder="Tìm kiếm theo tên, mã loại bệnh">
+
+                                        <ng-option *ngFor="let support of supports" [value]="support"
+                                            [disabled]="support.disabled">{{
+                                            support.name }}</ng-option>
+                                    </ng-select>
+                                    <div class="text-danger-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Mô tả ngắn -->
                         <div class="form-group">
                             <label for="forshortDescription" class="label">Mô tả ngắn<small
