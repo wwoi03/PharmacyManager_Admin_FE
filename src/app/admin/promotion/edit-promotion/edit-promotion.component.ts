@@ -80,32 +80,36 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
       (response) => {
         if (response.code === 200){
           this.detailsPromotion = response.obj;
+
           this.editPromotion.name = this.detailsPromotion.name;
           this.editPromotion.description = this.detailsPromotion.description;
-          this.editPromotion.startDate = this.detailsPromotion.startDate.toISOString();
-          this.editPromotion.endDate = this.detailsPromotion.endDate.toISOString();
+          
           this.editPromotion.discountType = this.detailsPromotion.discountType;
           this.editPromotion.discountValue = this.detailsPromotion.discountValue;
           this.editPromotion.codePromotion = this.detailsPromotion.codePromotion;
 
-          // Mapping dữ liệu từ ProductPromotionResponse sang PromotionProducts
-          this.promotionProducts = this.detailsPromotion.productPromotions.map(product => ({
-            products: [{
-              id: product.productId,               // Gán productId
-              productName: product.productName,    // Gán productName
-              codeProduct: product.codeProduct     // Gán codeProduct
-            }],
-            additionalInfo: product.additionalInfo,  // Gán additionalInfo tương ứng
-            quantity: product.quantity,              // Gán quantity tương ứng
-            promotionProgramRequest: product.promotionPrograms.map(program => ({
-              productId: [program.productId], // Bọc productId trong một mảng string[]
-              quantity: program.quantity
-            })),
-          }));
-          
-          
           
 
+          // Mapping dữ liệu từ ProductPromotionResponse sang PromotionProducts
+          this.promotionProducts = this.detailsPromotion.productPromotions.map(product => ({
+              products: [{
+                  id: product.productId,               // Gán productId
+                  productName: product.productName,    // Gán productName
+                  codeProduct: product.codeProduct     // Gán codeProduct
+              }],
+              additionalInfo: product.additionalInfo,  // Gán additionalInfo tương ứng
+              quantity: product.quantity,              // Gán quantity tương ứng
+              promotionProgramRequest: product.promotionPrograms.map(program => ({
+                  productId: [program.productId],  // Đảm bảo rằng productId được bọc trong một mảng string[]
+                  quantity: program.quantity
+              })),
+          }));
+
+          this.editPromotion.startDate = this.formatDateToISO(this.detailsPromotion.startDate);
+          this.editPromotion.endDate = this.formatDateToISO(this.detailsPromotion.endDate);
+          
+          console.log(this.detailsPromotion);
+          console.log(this.promotionProducts);
 
         } else {
           this.toast.warningToast('Lấy thông tin thất bại', response.message);
@@ -158,15 +162,16 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
     
   }
 
-  formatDateToISO(date: Date ): string {
+  formatDateToISO(date: string ): string {
     if (date) {
-      return date.toISOString().split('T')[0];
+      return date.split('T')[0];
     }
     return '';
   }
 
   onChangeStartDate(){
     this.minEndDate = this.editPromotion.startDate;
+    console.log(this.editPromotion.startDate);
   }
 
   onChangeEndDate(event){

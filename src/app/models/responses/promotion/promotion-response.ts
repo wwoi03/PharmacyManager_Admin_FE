@@ -4,8 +4,8 @@ export class PromotionResponse {
     id: string;
     name: string;
     description?: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     discountType: string;
     discountValue: number;
     codePromotion: string;
@@ -53,6 +53,7 @@ quantity:number;
 };
 
 export class PromotionPrograms {
+    promotionProductId?: string;
     products: { id: string; productName: string; codeProduct: string }[];
     quantity: number
 }

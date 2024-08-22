@@ -95,7 +95,7 @@ export class PromotionService {
   details(request: string) : Observable<ResponseApi<PromotionResponse>>{
     const params = new HttpParams().set("id", request);
 
-    return this.http.get(this.apiURL + 'DetailsDisease', {params})
+    return this.http.get(this.apiURL + 'DetailsPromotion', {params})
     .pipe(
       tap((response: ResponseApi<PromotionResponse>) => {
         if (response.isSuccessed) {

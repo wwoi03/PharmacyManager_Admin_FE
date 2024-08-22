@@ -1,0 +1,15 @@
+<nb-card @listProgram size="large">
+    <nb-card-header>
+        Danh sách sản phẩm tặng kèm
+    </nb-card-header>
+
+   
+
+    <nb-card-body >
+        <ng2-smart-table class="program"
+        [settings]="settings" 
+        [source]="source" 
+        (delete)="onDelete($event)">
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

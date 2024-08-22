@@ -1,0 +1,36 @@
+@import '../../../@theme/styles/themes';
+
+::ng-deep ng2-smart-table.program {
+    table {
+        table-layout: fixed;
+        width: 100%;
+
+        th, td {
+            overflow: hidden; // Ẩn nội dung tràn
+            text-overflow: ellipsis; // Hiển thị dấu "..."
+            white-space: normal; // Cho phép văn bản xuống dòng
+            word-wrap: break-word; // Đảm bảo từ dài không vượt quá ô
+        }
+
+        // Đặt chiều rộng cho từng cột
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 16%; 
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 40%; 
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 24%; 
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 20%;
+        }
+    }
+}

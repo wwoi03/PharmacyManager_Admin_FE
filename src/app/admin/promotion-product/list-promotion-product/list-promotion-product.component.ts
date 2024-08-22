@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { allProducts, ProductPromotionResponse, PromotionProducts } from '../../../models/responses/promotion/promotion-response';
 import { PromotionService } from '../../../services/promotion/promotion.service';
@@ -14,7 +14,7 @@ import { DeletePromotionProductComponent } from '../delete-promotion-product/del
   templateUrl: './list-promotion-product.component.html',
   styleUrls: ['./list-promotion-product.component.scss']
 })
-export class ListPromotionProductComponent implements OnInit{
+export class ListPromotionProductComponent implements OnInit, OnChanges{
 
   settings = {
     mode: 'external',
@@ -50,7 +50,7 @@ export class ListPromotionProductComponent implements OnInit{
   };
 
   source: LocalDataSource;
-  @Input() listPromotionProduct: PromotionProducts[];
+  @Input() listPromotionProduct: PromotionProducts[] =[] ;
 
   //isEdit
   isEdit: boolean = false;
@@ -72,18 +72,17 @@ export class ListPromotionProductComponent implements OnInit{
     private dialogService: NbDialogService,){
     this.source = new LocalDataSource();
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.listPromotionProduct) {
+      console.log('List Promotion Product updated:', this.listPromotionProduct);
+      this.loadData();
+    }
+  }
 
   ngOnInit(){
-    this.check();
     this.loadData();
   }
 
-  check(){
-    if(this.listPromotionProduct.length != 0)
-      this.source.load(this.listPromotionProduct);
-    else
-      this.listPromotionProduct = [];
-  }
 
   loadData(){
       this.allProducts = this.listPromotionProduct.reduce((acc, mapProduct) => {

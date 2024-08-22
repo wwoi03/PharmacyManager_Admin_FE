@@ -33,7 +33,7 @@ import { PromotionProgramModule } from '../promotion-program/promotion-program.m
     NgSelectModule,
 
     PromotionProductRoutingModule,
-    PromotionProgramModule
+    PromotionProgramModule,
   ],
   exports:[
     ...routedComponents,
@@ -41,6 +41,7 @@ import { PromotionProgramModule } from '../promotion-program/promotion-program.m
     ListPromotionProductComponent,
     DeletePromotionProductComponent,
     CreatePromotionProductComponent,
+    
   ]
 })
 export class PromotionProductModule { }

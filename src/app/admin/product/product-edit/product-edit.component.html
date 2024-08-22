@@ -302,7 +302,7 @@
                     </nb-tab>
                     <!-- Công dụng -->
                     <nb-tab tabTitle="Công dụng">
-                        <ngx-tiny-mce [height]="200" (editorKeyup)="updateProductRequest.uses = $event"></ngx-tiny-mce>
+                        <ngx-tiny-mce  [height]="200" (editorKeyup)="updateProductRequest.uses = $event"></ngx-tiny-mce>
                         <div class="text-danger-container">
                             <div *ngIf="formErrors['uses']" class="text-danger">
                                 {{ formErrors['uses'] }}

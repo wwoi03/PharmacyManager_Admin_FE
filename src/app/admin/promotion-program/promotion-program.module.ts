@@ -10,6 +10,8 @@ import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModu
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
+import { ListEditPromotionProgramComponent } from './list-edit-promotion-program/list-edit-promotion-program.component';
+import { PromotionProgramComponent } from './promotion-program.component';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { ThemeModule } from '../../@theme/theme.module';
     ListPromotionProgramComponent,
     CreatePromotionProgramComponent,
     DeletePromotionProgramComponent,
+    ListEditPromotionProgramComponent,
   ]
 })
 export class PromotionProgramModule { }
