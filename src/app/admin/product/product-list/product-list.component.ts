@@ -177,6 +177,22 @@ export class ProductListComponent {
       });
   }
 
+  // filter
+  onChangeFilter(event: any) {
+    if (event.target.value.length > 0) {
+      this.productService.filterProduct(event.target.value).subscribe((res) => {
+        if (res.code === 200) {
+          this.treeNodes = this.mapToTreeNode(res.obj);
+          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);
+  
+          this.tempItems = Array.from({ length: this.treeNodes.length }, (_, index) => index + 1);
+        }
+      });
+    } else {
+      this.loadProducts();
+    }
+  }
+
   updateSort(sortRequest: NbSortRequest): void {}
 
   getSortDirection(column: string): NbSortDirection {
