@@ -60,4 +60,22 @@ export class AccountService {
         })
       );
   }
+
+  // // chi tiết staff
+  // refreshToken(): Observable<ResponseApi<string>> {
+  //   return this.http
+  //     .put<ResponseApi<string>>(this.apiUrl + "RefreshToken")
+  //     .pipe(
+  //       tap((response: ResponseApi<string>) => {
+  //           if (response.isSuccessed) {
+  //             return response;
+  //           } else {
+  //             this.errorNotify.handleStatusError(response.code);
+  //           }
+  //       }),
+  //       catchError((error: HttpErrorResponse) => {
+  //         return this.errorNotify.handleStatusError(error.status);
+  //       })
+  //     );
+  // }
 }
