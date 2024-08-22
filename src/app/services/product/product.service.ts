@@ -8,6 +8,7 @@ import { ResponseApi } from '../../models/response-apis/response-api';
 import { catchError, tap } from 'rxjs/operators';
 import { CreateProductRequest } from '../../models/requests/product/create-product-request';
 import { SelectProductResponse } from '../../models/responses/product/select-product-response';
+import { UpdateProductRequest } from '../../models/requests/product/update-product-request';
 
 @Injectable({
   providedIn: 'root'
@@ -94,4 +95,44 @@ export class ProductService {
       );
   }
 
+  // delete
+  details(productId: string): Observable<ResponseApi<UpdateProductRequest>> {
+    const params = new HttpParams().set("productId", productId);
+
+    return this.http
+      .get<ResponseApi<UpdateProductRequest>>(
+        this.apiUrl + "Details", { params }
+      )
+      .pipe(
+        tap((response: ResponseApi<UpdateProductRequest>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // update
+  update(request: UpdateProductRequest): Observable<ResponseApi<string>> {
+    return this.http
+      .post<ResponseApi<string>>(this.apiUrl + "update", request)
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
 }

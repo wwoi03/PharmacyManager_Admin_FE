@@ -142,7 +142,9 @@ export class ProductListComponent {
   onViewDetails(row: any) {}
 
   // Edit
-  onEdit(row: any): void {}
+  onEdit(row: any): void {
+    this.router.navigate(['/admin/product/product-edit', row.data.id]);
+  }
 
   // Delete
   onDelete(row: any): void {
