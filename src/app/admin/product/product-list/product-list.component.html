@@ -10,11 +10,20 @@
 <nb-card>
   <nb-card-body>
     <div class="d-flex justify-content-between">
-      <div style="flex: 1">
-        <label class="search-label" for="search">Tìm kiếm:</label>
-        <input style="background-color: #fff;" fullWidth nbInput [nbFilterInput]="dataSource" id="search"
-          class="search-input" placeholder="Tên loại sản phẩm, code">
+      <div style="flex: 2" class="d-flex">
+        <div style="flex: 1; margin-right: 20px;">
+          <label class="search-label" for="search">Tìm kiếm:</label>
+          <input style="background-color: #fff;" fullWidth nbInput [nbFilterInput]="dataSource" id="search"
+            class="search-input" placeholder="Tên sản phẩm, Mã sản phẩm, Loại sản phẩm">
+        </div>
+
+        <div style="flex: 1">
+          <label class="search-label" for="search">Lọc theo nội dung:</label>
+          <input style="background-color: #fff;" fullWidth nbInput (input)="onChangeFilter($event)" id="filter" type="text"
+            class="search-input" placeholder="Thành phần, Loại bệnh, Hỗ trợ">
+        </div>
       </div>
+
       <div style="flex: 1; text-align: end;">
         <button nbButton status="primary" (click)="onCreate()">Thêm mới</button>
       </div>
@@ -29,9 +38,9 @@
         <th class="actions-column" nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Actions</th>
         <td nbTreeGridCell *nbTreeGridCellDef="let row">
           <div class="action-cell row">
-              <a class="action-link" (click)="onViewDetails(row)">Xem</a>
-              <a class="action-link" (click)="onEdit(row)">Sửa</a>
-              <a class="action-link" (click)="onDelete(row)">Xóa</a>
+            <a class="action-link" (click)="onEdit(row)">Xem/Sửa</a>
+            <a class="action-link" (click)="onDelete(row)">Xóa</a>
+            <a class="action-link" (click)="onClickPrice(row)">Giá</a>
           </div>
         </td>
       </ng-container>

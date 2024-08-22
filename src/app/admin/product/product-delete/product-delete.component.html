@@ -1,0 +1,34 @@
+<form (ngSubmit)="onSubmitDelete()" #shipmentDetailsForm="ngForm">
+    <nb-card>
+        <nb-card-header>Xác nhận xóa sản phẩm</nb-card-header>
+        <nb-card-body>
+            <div>
+                <!-- Mã sản phẩm -->
+                <div class="form-group">
+                    <label for="forName" class="label">Mã sản phẩm</label>
+                    <input readonly [(ngModel)]="product.codeMedicine" name="codeMedicine" type="text" nbInput
+                        fullWidth id="forName">
+                </div>
+
+                <!-- tên sản phẩm -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên sản phẩm</label>
+                    <textarea rows="3" readonly [(ngModel)]="product.productName" name="productName" type="text" nbInput
+                        fullWidth id="forName"></textarea>
+                </div>
+
+                <!-- loại sản phẩm -->
+                <div class="form-group">
+                    <label for="forName" class="label">Loại sản phẩm</label>
+                    <textarea rows="2" readonly [(ngModel)]="product.categoryName" name="categoryName" type="text" nbInput
+                        fullWidth id="forName"></textarea>
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button style="margin-right: 10px;" class="cancel" nbButton status="warning" (click)="cancel()">Hủy</button>
+            <button style="margin-right: 10px;" nbButton status="info">Xem</button>
+            <button style="margin-right: 10px;" nbButton status="danger">Xóa</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

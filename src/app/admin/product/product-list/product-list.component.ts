@@ -12,6 +12,8 @@ import { ProductService } from "../../../services/product/product.service";
 import { Toast } from "../../../helpers/toast";
 import { Router } from "@angular/router";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
+import { ProductDeleteComponent } from "../product-delete/product-delete.component";
+import { ProductPriceComponent } from "../product-price/product-price.component";
 
 interface TreeNode<T> {
   data: T;
@@ -141,10 +143,55 @@ export class ProductListComponent {
   onViewDetails(row: any) {}
 
   // Edit
-  onEdit(row: any): void {}
+  onEdit(row: any): void {
+    this.router.navigate(['/admin/product/product-edit', row.data.id]);
+  }
 
   // Delete
-  onDelete(row: any): void {}
+  onDelete(row: any): void {
+    this.dialogService
+      .open(ProductDeleteComponent, {
+        context: {
+          product: row.data,
+        },
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadProducts();
+        }
+      });
+  }
+
+  // Delete
+  onClickPrice(row: any): void {
+    this.dialogService
+      .open(ProductPriceComponent, {
+        context: {
+          product: row.data,
+        },
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadProducts();
+        }
+      });
+  }
+
+  // filter
+  onChangeFilter(event: any) {
+    if (event.target.value.length > 0) {
+      this.productService.filterProduct(event.target.value).subscribe((res) => {
+        if (res.code === 200) {
+          this.treeNodes = this.mapToTreeNode(res.obj);
+          this.dataSource = this.dataSourceBuilder.create(this.treeNodes);
+  
+          this.tempItems = Array.from({ length: this.treeNodes.length }, (_, index) => index + 1);
+        }
+      });
+    } else {
+      this.loadProducts();
+    }
+  }
 
   updateSort(sortRequest: NbSortRequest): void {}
 

@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorNotify } from '../../helpers/error-notify';
-import { Observable } from 'rxjs';
-import { ListProductResponse } from '../../models/responses/product/list-product-response';
-import { ResponseApi } from '../../models/response-apis/response-api';
-import { catchError, tap } from 'rxjs/operators';
-import { CreateProductRequest } from '../../models/requests/product/create-product-request';
-import { SelectProductResponse } from '../../models/responses/product/select-product-response';
+import { Injectable } from "@angular/core";
+import { environment } from "../../../environments/environment.prod";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from "@angular/common/http";
+import { ErrorNotify } from "../../helpers/error-notify";
+import { Observable } from "rxjs";
+import { ListProductResponse } from "../../models/responses/product/list-product-response";
+import { ResponseApi } from "../../models/response-apis/response-api";
+import { catchError, tap } from "rxjs/operators";
+import { CreateProductRequest } from "../../models/requests/product/create-product-request";
+import { SelectProductResponse } from "../../models/responses/product/select-product-response";
+import { UpdateProductRequest } from "../../models/requests/product/update-product-request";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProductService {
   private apiUrl: string = environment.API_BASE_URL + "/admin/product/";
@@ -32,7 +37,7 @@ export class ProductService {
         catchError((error: HttpErrorResponse) => {
           return this.errorNotify.handleStatusError(error.status);
         })
-    );
+      );
   }
 
   // Create
@@ -57,7 +62,9 @@ export class ProductService {
   // Product Select
   getProductsSelect(): Observable<ResponseApi<SelectProductResponse[]>> {
     return this.http
-      .get<ResponseApi<SelectProductResponse[]>>(this.apiUrl + "GetProductsSelect")
+      .get<ResponseApi<SelectProductResponse[]>>(
+        this.apiUrl + "GetProductsSelect"
+      )
       .pipe(
         tap((response: ResponseApi<SelectProductResponse[]>) => {
           if (response.isSuccessed) {
@@ -69,6 +76,87 @@ export class ProductService {
         catchError((error: HttpErrorResponse) => {
           return this.errorNotify.handleStatusError(error.status);
         })
-    );
+      );
+  }
+
+  // delete
+  delete(productId: string): Observable<ResponseApi<string>> {
+    const params = new HttpParams().set("productId", productId);
+
+    return this.http
+      .delete<ResponseApi<string>>(this.apiUrl + "Delete", { params })
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // delete
+  filterProduct(contentStr: string): Observable<ResponseApi<ListProductResponse[]>> {
+    const params = new HttpParams().set("contentStr", contentStr);
+
+    return this.http
+      .get<ResponseApi<ListProductResponse[]>>(this.apiUrl + "filterProduct", { params })
+      .pipe(
+        tap((response: ResponseApi<ListProductResponse[]>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // delete
+  details(productId: string): Observable<ResponseApi<UpdateProductRequest>> {
+    const params = new HttpParams().set("productId", productId);
+
+    return this.http
+      .get<ResponseApi<UpdateProductRequest>>(this.apiUrl + "Details", {
+        params,
+      })
+      .pipe(
+        tap((response: ResponseApi<UpdateProductRequest>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
+  // update
+  update(request: UpdateProductRequest): Observable<ResponseApi<string>> {
+    return this.http
+      .post<ResponseApi<string>>(this.apiUrl + "update", request)
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error(error);
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
   }
 }

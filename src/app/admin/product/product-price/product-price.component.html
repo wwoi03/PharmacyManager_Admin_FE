@@ -1,0 +1,53 @@
+<form>
+    <nb-card>
+        <nb-card-header>Giá sản phẩm mới nhất</nb-card-header>
+        <nb-card-body>
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- Mã sản phẩm -->
+                        <div class="form-group">
+                            <label for="forName" class="label">Mã sản phẩm</label>
+                            <input readonly [(ngModel)]="product.codeMedicine" name="codeMedicine" type="text" nbInput
+                                fullWidth id="forName">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <!-- Tồn kho -->
+                        <div class="form-group">
+                            <label for="forName" class="label">Số lượng hàng còn trong kho</label>
+                            <input readonly [(ngModel)]="quantityInStock" name="quantityInStock" type="text" nbInput
+                                fullWidth id="forName">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- tên sản phẩm -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên sản phẩm</label>
+                    <textarea rows="2" readonly [(ngModel)]="product.productName" name="productName" type="text" nbInput
+                        fullWidth id="forName"></textarea>
+                </div>
+
+                <!-- loại sản phẩm -->
+                <div class="form-group">
+                    <label for="forName" class="label">Loại sản phẩm</label>
+                    <textarea rows="1" readonly [(ngModel)]="product.categoryName" name="categoryName" type="text"
+                        nbInput fullWidth id="forName"></textarea>
+                </div>
+
+                <!-- Giá bán -->
+                <div class="form-group">
+                    <label for="forName" class="label">Giá bán</label>
+
+                    <ng2-smart-table [settings]="settings" [source]="source">
+                    </ng2-smart-table>
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button style="margin-right: 10px;" class="cancel" nbButton (click)="cancel()">Đóng</button>
+        </nb-card-footer>
+    </nb-card>
+</form>
