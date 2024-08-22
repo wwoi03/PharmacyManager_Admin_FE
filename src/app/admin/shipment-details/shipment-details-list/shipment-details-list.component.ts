@@ -165,7 +165,6 @@ export class ShipmentDetailsListComponent {
       .open(ShipmentDetailsDeleteComponent, {
         context: {
           listShipmentDetailsResponse: event.data,
-          
         },
       })
       .onClose.subscribe((result: boolean) => {

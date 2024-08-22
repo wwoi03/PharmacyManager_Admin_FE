@@ -66,6 +66,9 @@
                         </ng-select>
 
                         <div class="text-danger-container">
+                            <div *ngIf="formErrors['productId']" class="text-danger">
+                                {{ formErrors['productId'] }}
+                            </div>
                         </div>
                     </div>
 
@@ -125,12 +128,14 @@
                             *ngIf="createShipmentDetailsRequest.productId"></ngx-shipment-details-unit-list>
 
                         <div class="text-danger-container">
-
+                            <div *ngIf="formErrors['unitId']" class="text-danger">
+                                {{ formErrors['unitId'] }}
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <!-- Ngày nhập -->
+                        <!-- Ngày sản xuất -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="forBirthday" class="label">Ngày sản xuất<small
@@ -147,7 +152,7 @@
                             </div>
                         </div>
 
-                        <!-- Ngày nhập -->
+                        <!-- Ngày hết hạn -->
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="forBirthday" class="label">Ngày hết hạn<small

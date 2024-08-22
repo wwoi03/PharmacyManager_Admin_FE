@@ -115,8 +115,11 @@ export class ShipmentDetailsCreateComponent {
           setTimeout(() => {
             this.loadingService.hide();
             this.toast.warningToast("Thất bại", res.validationNotify.message);
-            this.validationNotify.formErrors[res.validationNotify.obj] =
+
+            if (res.validationNotify.obj != 'default') {
+              this.validationNotify.formErrors[res.validationNotify.obj] =
               res.validationNotify.message;
+            }
           }, 1000);
         }
       });
