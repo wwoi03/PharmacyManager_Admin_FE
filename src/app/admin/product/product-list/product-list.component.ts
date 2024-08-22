@@ -13,6 +13,7 @@ import { Toast } from "../../../helpers/toast";
 import { Router } from "@angular/router";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 import { ProductDeleteComponent } from "../product-delete/product-delete.component";
+import { ProductPriceComponent } from "../product-price/product-price.component";
 
 interface TreeNode<T> {
   data: T;
@@ -148,10 +149,23 @@ export class ProductListComponent {
 
   // Delete
   onDelete(row: any): void {
-    console.log(row);
-
     this.dialogService
       .open(ProductDeleteComponent, {
+        context: {
+          product: row.data,
+        },
+      })
+      .onClose.subscribe((result: boolean) => {
+        if (result) {
+          this.loadProducts();
+        }
+      });
+  }
+
+  // Delete
+  onClickPrice(row: any): void {
+    this.dialogService
+      .open(ProductPriceComponent, {
         context: {
           product: row.data,
         },
