@@ -51,6 +51,12 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+
+
+  loadData(){
     //Lấy  id
     this.id = this.route.snapshot.paramMap.get('id');
 
@@ -61,7 +67,7 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
           if (response.code === 200){
             //Gán chi tiết đơn hàng
             this.order = response.obj;
-            console.log(this.order.status)
+            console.log(this.order)
 
             //Tên phương thức thanh toán
             this.paymentName = this.order.paymentMethod.name;
@@ -87,9 +93,6 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
       }
     );
   }
-
-
-
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
   }

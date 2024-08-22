@@ -108,8 +108,7 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
           this.editPromotion.startDate = this.formatDateToISO(this.detailsPromotion.startDate);
           this.editPromotion.endDate = this.formatDateToISO(this.detailsPromotion.endDate);
           
-          console.log(this.detailsPromotion);
-          console.log(this.promotionProducts);
+          console.log(this.editPromotion);
 
         } else {
           this.toast.warningToast('Lấy thông tin thất bại', response.message);
@@ -139,7 +138,11 @@ export class EditPromotionComponent implements OnInit, OnDestroy {
       this.formErrors =  this.validationNotify.formErrors;
       return;
     }
+    
+    this.editPromotion.productPromotionRequest = this.promotionProducts;
 
+    console.log(this.editPromotion);
+    
     // Call API Create 
     this.promotionService.edit(this.editPromotion).subscribe(
       (res) => {

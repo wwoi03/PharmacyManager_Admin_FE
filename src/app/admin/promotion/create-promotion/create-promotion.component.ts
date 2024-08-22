@@ -91,6 +91,8 @@ export class CreatePromotionComponent implements OnInit, OnDestroy {
       return;
     }
 
+    console.log(this.createPromotion);
+
     // Call API Create 
     this.promotionService.create(this.createPromotion).subscribe(
       (res) => {

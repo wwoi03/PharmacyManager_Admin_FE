@@ -187,6 +187,37 @@
         </nb-accordion-item-body>
       </nb-accordion-item>
 
+      <!-- ********************************************************************** -->
+        <!-- Gói ĐƠn hàng -->
+        <nb-accordion-item>
+            <nb-accordion-item-header>
+              Chi tiết đơn hàng
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="row">
+                    <div class="product-list">
+                        <div class="product-item" *ngFor="let item of order.orderDetails">
+                          <img [src]="item.shipmentDetails.product.image" alt="{{ item.shipmentDetails.product.name }}" class="product-image">
+                          <h2 class="product-name">{{ item.shipmentDetails.product.name }}</h2>
+                          <div class="product-price-row">
+                            <p class="price-vnd">Giá sản phẩm</p>
+                            <p class="price-unit">{{ item.pricePerUnit | currency:'VND' }}</p>
+                          </div>
+                          <div class="product-price-row">
+                            <p class="price-vnd">số lượng</p>
+                            <p class="price-unit">{{ item.quantity }}</p>
+                          </div>
+                          <div class="product-price-row">
+                            <p class="price-vnd">Tổng tiền</p>
+                            <p class="price-unit">{{ item.totalPrice | currency:'VND' }}</p>
+                          </div>
+                        </div>
+                      </div>                      
+            </div>
+                
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+
       <!-- ************************************************************************** -->
     </nb-accordion>
   </div>

@@ -48,7 +48,7 @@ export class OrderResponse{
 }
 
 export class OrderDetailsDTO{
-    orderId: string;
+  orderId: string;
   shipmentDetailsId: string;
   shipmentDetails?: ShipmentDetailsDTO;
   unitId: string;
