@@ -1,0 +1,156 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card class="d-flex">
+            <nb-card-header>Thêm khuyến mãi</nb-card-header>
+        </nb-card>
+    </div>
+</div>
+
+<form (ngSubmit)="create()" #promotionForm="ngForm" class="row">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>Thông tin khuyến mãi</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <div class="row">
+                            <!-- Code -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="forCodePromotion" class="label">Mã khuyến mãi
+                                        <small class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createPromotion.codePromotion" name="codePromotion"
+                                        type="text" nbInput fullWidth id="forCodePromotion" placeholder="Mã khuyến mãi"
+                                        #codePromotion="ngModel" (input)="validationNotify.onInputChange('codePromotion')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['codePromotion']" class="text-danger">
+                                            {{ formErrors['codePromotion'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tên chương trình khuyến mãi -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="forName" class="label">Tên chương trình khuyến mãi
+                                        <small class="text-danger">*</small></label>
+                                    <input required [(ngModel)]="createPromotion.name" name="name"
+                                        type="text" nbInput fullWidth id="forName" placeholder="Mời bạn nhập tên chương trình khuyến mãi"
+                                        #name="ngModel" (input)="validationNotify.onInputChange('name')">
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['name']" class="text-danger">
+                                            {{ formErrors['name'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <!-- ***************************** -->
+                                <!-- Loại khuyến mãi -->
+                                <div class="form-group">
+                                    <label for="forDiscountType" class="label" style="margin: 0 1.5rem 0 0;">Loại khuyến mãi<small
+                                            class="text-danger">*</small></label>
+        
+                                    <nb-radio-group (input)="validationNotify.onInputChange('discountType') " (ngModelChange)="onDiscountTypeChange()" required
+                                        [(ngModel)]="createPromotion.discountType" name="discountType" id="forDiscountType" #discountType="ngModel">
+                                        <nb-radio [value]="'PromotionMoney'">Giảm giá tiền</nb-radio>
+                                        <nb-radio [value]="'PromotionPercent'">Giảm giá theo phần trăm</nb-radio>
+                                    </nb-radio-group>
+        
+                                    <div class="text-danger-container">
+                                        <div *ngIf="formErrors['discountType']" class="text-danger">
+                                            {{ formErrors['discountType'] }}
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- *********************************** -->
+                                <!-- Ngày bắt đầu khuyến mãi -->
+                                  
+                                        <div >
+                                            <label for="forStartDate" class="label">Ngày bắt đầu khuyến mãi<small
+                                                    class="text-danger">*</small></label>
+                                            <!-- pick ngày -->
+                                            <div class="input-day">
+                                                <input class="ip-day" required nbInput placeholder="Ngày bắt đầu khuyến mãi" type="date" [(ngModel)]="createPromotion.startDate" 
+                                                (ngModelChange)="updateMinEndDate()" id="forStartDate" name="startDate" #startDate="ngModel" [attr.min]="min | date:'yyyy-MM-dd'" >
+                                            </div>
+        
+                                            <div class="text-danger-container">
+                                                <div *ngIf="formErrors['startDate']" class="text-danger">
+                                                    {{ formErrors['startDate'] }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- Ngày kết thúc khuyến mãi -->
+                                    <div >
+                                        <div class="form-group">
+                                            <label for="forEndDate" class="label">Ngày kết thúc khuyến mãi<small
+                                                    class="text-danger">*</small></label>
+                                        <!-- pick ngày -->
+                                            <div class="input-day">
+                                                <input required class="ip-day" nbInput placeholder="Ngày kết thúc khuyến mãi" type="date" 
+                                                [(ngModel)]="createPromotion.endDate" id="forEndDate" name="endDate" #endDate="ngModel" [attr.min]="minEndDate | date:'yyyy-MM-dd'" >
+                                            </div>
+        
+                                            <div class="text-danger-container">
+                                                <div *ngIf="formErrors['endDate']" class="text-danger">
+                                                    {{ formErrors['endDate'] }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                            <!-- ***************************************** -->
+                        <div class="col-sm-12 col-lg-6">
+                        <!-- Giá trị giảm -->
+                        <div>
+                            <div class="form-group">
+                                <label for="forDiscountValue" class="label">Giá trị giảm 
+                                    <small class="text-danger">*</small></label>
+                                <input required [(ngModel)]="createPromotion.discountValue" name="discountValue"
+                                    type="number" nbInput fullWidth id="forDiscountValue" placeholder="Mời bạn nhập giá trị khuyến mãi"
+                                    #discountValue="ngModel" (input)="validationNotify.onInputChange('discountValue'); onDiscountValueChange($event)">
+                                    <span class="input-suffix">
+                                        {{ createPromotion.discountType === 'PromotionPercent' ? '%' : 'VND' }}
+                                    </span>
+
+                                <div class="text-danger-container">
+                                    <div *ngIf="formErrors['discountValue']" class="text-danger">
+                                        {{ formErrors['discountValue'] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ********************************** -->
+                             <!-- Mô tả khuyến mãi -->
+                            <div class="form-group">
+                                <label for="forDescription" class="label">Mô tả khuyến mãi<small class="text-danger">*</small></label>
+                                <textarea required [(ngModel)]="createPromotion.description" name="description" rows="5" nbInput
+                                    fullWidth id="forDescription" shape="rectangle" placeholder="Mời bạn nhập mô tả chương trình khuyến mãi" #description="ngModel"
+                                    (input)="validationNotify.onInputChange('description')"></textarea>
+                                <div class="text-danger-container">
+                                    <div *ngIf="formErrors['description']" class="text-danger">
+                                        {{ formErrors['description'] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Thêm mới</button>
+                </div>
+
+            </nb-card-body>
+        </nb-card>
+
+        <ngx-list-promotion-product (productPromotions)="handleProductPromotions($event)" ></ngx-list-promotion-product>
+
+        <ngx-list-edit-promotion-program ></ngx-list-edit-promotion-program>
+    </div>
+
+</form>
+

@@ -54,7 +54,18 @@ export class AdminMenu {
         ],
         hidden: !roles.includes('PM_PRODUCT_MANAGER'),
       },
-
+      // Quản lý khuyến mãi
+      {
+        title: "Quản lý khuyến mãi",
+        icon: "shake-outline",
+        children: [
+          {
+            title: "Danh sách khuyến mãi",
+            link: "/admin/promotion/promotion-list",
+          },
+        ],
+        hidden: !roles.includes('PM_ORDER') && !roles.includes('PM_PRODUCT_MANAGER'),
+      },
       // Quản lý đơn hàng
       {
         title: "Quản lý đơn hàng",

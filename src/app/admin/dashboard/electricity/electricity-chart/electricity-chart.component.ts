@@ -1,8 +1,8 @@
 import { delay, takeWhile } from 'rxjs/operators';
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { LayoutService } from '../../../../@core/utils';
-import { ElectricityChart } from '../../../../@core/data/electricity';
+import { StatisticRevenueResponse } from '../../../../models/responses/statistic/statistic-revenue-response';
 
 @Component({
   selector: 'ngx-electricity-chart',
@@ -11,16 +11,16 @@ import { ElectricityChart } from '../../../../@core/data/electricity';
     <div echarts
          [options]="option"
          [merge]="option"
-         class="echart"
-         (chartInit)="onChartInit($event)">
+         class="echart">
     </div>
   `,
 })
-export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
+export class ElectricityChartComponent implements AfterViewInit, OnDestroy, OnChanges {
 
+ 
   private alive = true;
 
-  @Input() data: ElectricityChart[];
+  @Input() data: any[];
 
   option: any;
   echartsIntance: any;
@@ -34,7 +34,16 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => this.resizeChart());
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+
+      this.ngAfterViewInit();
+    }
+  }
+
+
   ngAfterViewInit(): void {
+    this.data;
     this.theme.getJsTheme()
       .pipe(
         takeWhile(() => this.alive),
@@ -45,9 +54,9 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
 
         this.option = {
           grid: {
-            left: 0,
+            left: 30,
             top: 0,
-            right: 0,
+            right: 30,
             bottom: 80,
           },
           tooltip: {
@@ -68,20 +77,20 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
             backgroundColor: eTheme.tooltipBg,
             borderColor: eTheme.tooltipBorderColor,
             borderWidth: 1,
-            formatter: '{c0} kWh',
+            formatter: '{c0} VND',
             extraCssText: eTheme.tooltipExtraCss,
           },
           xAxis: {
             type: 'category',
             boundaryGap: false,
             offset: 25,
-            data: this.data.map(i => i.label),
+            data: this.data.map(i => i.title),
             axisTick: {
               show: false,
             },
             axisLabel: {
               color: eTheme.xAxisTextColor,
-              fontSize: 18,
+              fontSize: 12,
             },
             axisLine: {
               lineStyle: {
@@ -111,11 +120,13 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
           },
           series: [
             {
+              name: 'Tổng doanh thu',
               type: 'line',
               smooth: true,
               symbolSize: 20,
               itemStyle: {
                 normal: {
+                  color: '#A4D24F',
                   opacity: 0,
                 },
                 emphasis: {
@@ -129,12 +140,12 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
                 normal: {
                   width: eTheme.lineWidth,
                   type: eTheme.lineStyle,
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  color: new echarts.graphic.LinearGradient(0, 5, 0, 0.5, [{
                     offset: 0,
-                    color: eTheme.lineGradFrom,
+                    color: '#008009',
                   }, {
                     offset: 1,
-                    color: eTheme.lineGradTo,
+                    color: '#A4D24F',
                   }]),
                   shadowColor: eTheme.lineShadow,
                   shadowBlur: 6,
@@ -143,48 +154,26 @@ export class ElectricityChartComponent implements AfterViewInit, OnDestroy {
               },
               areaStyle: {
                 normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 0.3, [{
                     offset: 0,
-                    color: eTheme.areaGradFrom,
+                    color: '#008009',
                   }, {
                     offset: 1,
-                    color: eTheme.areaGradTo,
+                    color: '#A4D24F',
                   }]),
                 },
               },
-              data: this.data.map(i => i.value),
-            },
-
-            {
-              type: 'line',
-              smooth: true,
-              symbol: 'none',
-              lineStyle: {
-                normal: {
-                  width: eTheme.lineWidth,
-                  type: eTheme.lineStyle,
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: eTheme.lineGradFrom,
-                  }, {
-                    offset: 1,
-                    color: eTheme.lineGradTo,
-                  }]),
-                  shadowColor: eTheme.shadowLineDarkBg,
-                  shadowBlur: 14,
-                  opacity: 1,
-                },
+              data: this.data.map(i => i.statistic), // Sử dụng dữ liệu `order`
+              tooltip: {
+                formatter: `{c0} VND`,
               },
-              data: this.data.map(i => i.value),
             },
           ],
         };
     });
   }
 
-  onChartInit(echarts) {
-    this.echartsIntance = echarts;
-  }
+
 
   resizeChart() {
     if (this.echartsIntance) {

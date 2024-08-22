@@ -190,10 +190,10 @@ export class ListProductSupportComponent {
 
   onViewDetails(event): void{
     if(this.link == 1){
-      this.router.navigate(['/admin/product/product-details', event.id1]);
+      this.router.navigate(['/admin/product/product-edit', event.id1]);
     }
     else if(this.link == 2){
-      this.router.navigate(['/admin/support/support-details', event.id1]);
+      this.router.navigate(['/admin/support/support-edit', event.id1]);
     }
   }
 

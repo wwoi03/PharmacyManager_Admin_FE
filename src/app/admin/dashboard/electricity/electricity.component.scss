@@ -35,12 +35,16 @@
     margin-bottom: -1px;
   }
 
-  .type-select {
-    margin-left: auto;
+  .select {
+    position: absolute;
+    z-index: 1;
+    margin-top: 1% ;
+    margin-left: 80%;
   }
 
   .stats {
     margin-right: 1rem;
+    margin-left: 2rem;
 
     > .caption {
       display: block;
@@ -69,6 +73,24 @@
   .month {
     width: 2rem;
   }
+  
+  .input-day{
+    display: inline;
+    margin-left: -100%;
+  }
+
+  .type-select{
+    margin-left: 5%;
+  }
+
+  nb-card-body {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 100%;
+    }
+  }
 
   nb-icon.down {
     color: nb-theme(color-danger-default);
@@ -78,8 +100,16 @@
     color: nb-theme(color-success-default);
   }
 
+  .sp-value{
+    margin-left: auto;
+  }
+
   .results {
     margin-left: auto;
+  }
+
+  .title{
+    width: 5rem;
   }
 
   @include media-breakpoint-down(xl) {

@@ -9,6 +9,9 @@ import {
   NbSelectModule,
   NbListModule,
   NbIconModule,
+  NbAccordionModule,
+  NbDatepickerModule,
+  NbInputModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -30,6 +33,9 @@ import { PlayerComponent } from './rooms/player/player.component';
 import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
 import { FormsModule } from '@angular/forms';
+import { Toast } from '../../helpers/toast';
+import { ElectricityComponent2 } from './electricity copy/electricity.component2';
+import { ElectricityChartComponent2 } from './electricity copy/electricity-chart/electricity-chart.component2';
 
 @NgModule({
   imports: [
@@ -44,8 +50,11 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule,
     NbListModule,
     NbIconModule,
+    NbInputModule,
     NbButtonModule,
     NgxEchartsModule,
+    NbDatepickerModule,
+    NbAccordionModule,
   ],
   declarations: [
     DashboardComponent,
@@ -57,13 +66,16 @@ import { FormsModule } from '@angular/forms';
     RoomsComponent,
     KittenComponent,
     SecurityCamerasComponent,
-    ElectricityComponent,
-    ElectricityChartComponent,
     WeatherComponent,
     PlayerComponent,
     SolarComponent,
     TrafficComponent,
     TrafficChartComponent,
+    ElectricityComponent2,
+    ElectricityChartComponent2,
+    ElectricityComponent,
+    ElectricityChartComponent,
+    
   ],
 })
 export class DashboardModule { }

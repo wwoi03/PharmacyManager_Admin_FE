@@ -1,0 +1,38 @@
+.btn-delete {
+float: right;
+}
+
+nb-checkbox {
+margin-bottom: 1rem;
+}
+
+.form-inline [fullWidth] {
+flex: 1;
+}
+
+.form-inline > * {
+margin: 0 1.5rem 1.5rem 0;
+}
+
+nb-card.inline-form-card nb-card-body {
+padding-bottom: 0;
+}
+
+.text-danger-container {
+min-height: 20px;
+margin-top: 5px;
+}
+
+.text-danger {
+color: red;
+font-size: 12px;
+margin-top: 5px;
+}
+
+.form-group {
+margin-bottom: 0.2rem !important;
+}
+
+.ip-day{
+width: 100%
+}

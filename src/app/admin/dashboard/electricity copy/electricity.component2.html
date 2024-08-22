@@ -1,0 +1,80 @@
+
+<div>
+<div class="select">
+  <!-- pick ngày -->
+   <div class="input-day">
+    <input [(ngModel)]="inputDate" nbInput placeholder="Min Max Picker" [nbDatepicker]="picker" (ngModelChange)="onChangeDate($event)">
+    <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
+  </div>
+ 
+  <nb-select class="type-select" name="type" [(ngModel)]="type" (selectedChange)="onChangeType($event)">
+    <nb-option *ngFor="let t of types" [value]="t">{{t}}</nb-option>
+  </nb-select>
+</div>
+
+
+  <nb-accordion>
+      <!-- gán giá trị con #firstAccordion -->
+    <nb-accordion-item
+      #firstAccordion
+      [expanded]="firstAccordionOpen"
+      (click)="onAccordionToggle()"
+      size="large"
+      class="table-card">
+        <!-- Accordion Header -->
+        <nb-accordion-item-header>
+          Thống kê đơn hàng
+          <span class="stats">
+            <span class="caption">Tổng</span>
+            <span>{{sumOrder}} <span class="caption">đơn hàng</span></span>
+          </span>
+          <span class="stats">
+            <span class="caption">Tổng</span>
+            <span>{{sumCancellation}} <span class="caption">hủy đơn</span></span>
+          </span>
+        </nb-accordion-item-header>
+      <!-- Select Option -->
+
+      
+
+
+      <nb-accordion-item-body>
+        <!-- Phần thống kê chỉ số -->
+       
+            <nb-list>
+              <nb-list-item *ngFor="let item of listData">
+                <span class="title">{{ item.title }}</span>
+                <span class="sp-value">
+                  <nb-icon
+                    [class.down]="item.down"
+                    [class.up]="!item.down"
+                    [icon]="item.down ? 'arrow-down' : 'arrow-up'"
+                    pack="eva">
+                  </nb-icon>
+                  {{ item.delta }}
+                </span>
+                <span class="results">
+                  {{ item.value }} <span class="caption">Đơn hàng</span> / {{sumOrder}} <span class="caption">Tổng đơn</span>
+                </span>
+              </nb-list-item>
+            </nb-list>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+
+    <!-- Bắt đầu bảng chart -->
+    <nb-accordion-item
+    #secondAccordion>
+      <nb-accordion-item-body>
+        <!-- Phần thống kê chỉ số -->
+        <nb-card size="large" class="chart-card">
+          <nb-card-header>
+           
+          </nb-card-header>
+
+          <ngx-electricity-chart2 [data]="chartData" ></ngx-electricity-chart2>
+        </nb-card>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+  </nb-accordion>
+</div>
+ 

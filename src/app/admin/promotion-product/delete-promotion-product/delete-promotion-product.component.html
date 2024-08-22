@@ -1,0 +1,33 @@
+<form (ngSubmit)="delete()" #promotionForm="ngForm">
+    <nb-card>
+        <nb-card-header>Xóa thông tin khuyến mãi</nb-card-header>
+        <nb-card-body>
+            <div>
+                <!-- Tên -->
+                <div class="form-group">
+                    <label for="forName" class="label">Tên sản phẩm khuyến mãi</label>
+                    <input readonly [(ngModel)]="product.productName" name="promotionName" type="text" nbInput
+                        fullWidth id="forName" >
+                </div>
+
+                <!-- Code -->
+                <div class="form-group">
+                    <label for="forCode" class="label">Mã sản phẩm</label>
+                    <input readonly [(ngModel)]="product.codeProduct" name="codeMedicine" type="text" nbInput
+                        fullWidth id="forCode" >
+                </div>
+
+                 <!-- Số lượng -->
+                 <div class="form-group">
+                    <label for="forQuantity" class="label">Số lượng sản phẩm</label>
+                    <input readonly [(ngModel)]="product.quantity" name="quantity" type="text" nbInput
+                        fullWidth id="forQuantity" >
+                </div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button class="cancel" nbButton status="danger" (click)="cancel()">Hủy</button>
+            <button class="btn-delete" nbButton status="success">Xóa</button>
+        </nb-card-footer>
+    </nb-card>
+</form>

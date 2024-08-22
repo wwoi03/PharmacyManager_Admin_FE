@@ -1,0 +1,120 @@
+@import '../../../@theme/styles/themes';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import '@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+
+  .cards-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  .table-card,
+  .chart-card {
+    box-shadow: none;
+    margin-bottom: 0;
+    border-width: 0;
+  }
+
+  .table-card {
+    flex: 0 0 auto;
+  }
+
+  .chart-card {
+    flex: 1 0 auto;
+  }
+
+  .chart-card nb-card-header {
+    display: flex;
+    align-items: center;
+    padding-top: nb-theme(card-header-with-select-padding-top);
+    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
+
+    // prevents double border from chart yAxisSplitLine
+    margin-bottom: -1px;
+  }
+
+  .select {
+    position: absolute;
+    z-index: 1;
+    margin-top: 2% ;
+    margin-left: 80%;
+  }
+
+  .stats {
+    margin-right: 1rem;
+    margin-left: 2rem;
+
+    > .caption {
+      display: block;
+    }
+  }
+
+  nb-tabset {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  nb-tab {
+    padding: 0;
+  }
+
+  nb-list-item {
+    display: flex;
+    align-items: baseline;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  .month {
+    width: 2rem;
+  }
+  
+  .input-day{
+    display: inline;
+    margin-left: -100%;
+  }
+
+  .type-select{
+    margin-left: 5%;
+  }
+
+  nb-card-body {
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  nb-icon.down {
+    color: nb-theme(color-danger-default);
+  }
+
+  nb-icon.up {
+    color: nb-theme(color-success-default);
+  }
+
+  .sp-value{
+    margin-left: auto;
+  }
+
+  .title{
+    width: 5rem;
+  }
+
+  .results {
+    margin-left: auto;
+  }
+
+  @include media-breakpoint-down(xl) {
+    .table-card {
+      display: none;
+    }
+  }
+}

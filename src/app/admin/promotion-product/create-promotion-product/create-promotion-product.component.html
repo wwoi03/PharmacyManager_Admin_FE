@@ -1,0 +1,71 @@
+
+<form (ngSubmit)="create()" #promotionProductForm="ngForm" class="row" @pageAnimation >
+    <div [ngClass]="promotionProgram ? 'col-md-6' : 'col-md-12'" >
+        <nb-card size="large">
+            <nb-card-header>Thêm sản phẩm khuyến mãi</nb-card-header>
+            <nb-card-body>
+                <div>
+                    <div class="row">
+                            
+                            
+                                <div class="col-lg-12">
+                                    <label for="forProductId" class="label">Sản phẩm khuyến mãi
+                                        <small class="text-danger">*</small></label>
+                                        <!-- Chọn danh sách product -->
+                                        <ng-select required [multiple]="true" [(ngModel)]="createPromotionProduct.products" name="productId" #productId = "ngModel">
+                                            <ng-option *ngFor="let item of listProductId" [value]="item" >
+                                                {{ item.productName }} | {{item.codeProduct}}
+                                            </ng-option>
+                                        </ng-select>
+                                        {{createPromotionProduct.products| json}}
+
+                                       <!-- Kiểm tra tính hợp lệ của productId -->
+                                    <div *ngIf="productId.invalid && productId.touched">
+                                        <small class="text-danger">Bạn phải chọn ít nhất một sản phẩm.</small>
+                                    </div> 
+                                </div>
+                            <!-- Số lượng chương trình -->
+                            <div class="col-lg-12">
+                                <label for="forQuantity" class="label">Số lượng được giảm giá của mỗi sản phẩm
+                                    <small class="text-danger">*</small></label>
+                                <input required [(ngModel)]="createPromotionProduct.quantity" name="quantity"
+                                    type="number" step="1" (keypress)="preventDecimal($event)" nbInput fullWidth id="forQuantity" placeholder="Mời bạn nhập giá trị khuyến mãi"
+                                    #quantity="ngModel" (input)="validationNotify.onInputChange('quantity')" min="1">
+                                    <div *ngIf="quantity.invalid && quantity.touched">
+                                        <small class="text-danger" *ngIf="quantity.errors?.required">
+                                          {{ validationMessages.quantity.required }}
+                                        </small>
+                                        <small class="text-danger" *ngIf="quantity.errors?.min">
+                                          {{ validationMessages.quantity.min }}
+                                        </small>
+                                    </div>
+                            </div>
+
+                              <!-- Mô tả khuyến mãi -->
+                              <div class="col-lg-12">
+                                    <label for="forAdditionalInfo" class="label">Mô tả khuyến mãi<small class="text-danger">*</small></label>
+                                    <textarea required [(ngModel)]="createPromotionProduct.additionalInfo" name="additionalInfo" rows="5" nbInput
+                                        fullWidth id="forAdditionalInfo" shape="rectangle" placeholder="Mời bạn nhập mô tả chương trình khuyến mãi" #additionalInfo="ngModel"
+                                        (input)="validationNotify.onInputChange('additionalInfo')"></textarea>
+                                      <!-- Kiểm tra tính hợp lệ của additionalInfo -->
+                                      <div *ngIf="additionalInfo.invalid && additionalInfo.touched">
+                                        <small class="text-danger" *ngIf="additionalInfo.errors?.required">
+                                          {{ validationMessages.additionalInfo.required }}
+                                        </small>
+                                    </div>
+                            </div>
+
+                    </div>
+                
+                    <!-- Submit -->
+                    <button type="submit" nbButton status="primary">Thêm mới</button>
+                    <button class="btn-delete" nbButton status="warning" (click)="openPromotion($event)" >Tặng kèm sản phẩm</button>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+
+    <ngx-list-promotion-program class="col-md-6" *ngIf="promotionProgram" (createPrograms)="handlePrograms($event)" ></ngx-list-promotion-program>
+
+</form>
+
