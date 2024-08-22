@@ -11,6 +11,7 @@ import { EditDiseaseRequest } from '../../models/requests/disease/edit-disease-r
 import { DetailsDiseaseRequest } from '../../models/requests/disease/get-details-disease-request';
 import { ErrorNotify } from '../../helpers/error-notify';
 import { DiseaseResponse } from '../../models/responses/disease/disease-response';
+import { SelectDiseaseResponse } from '../../models/responses/disease/select-disease-response';
 
 
 @Injectable({
@@ -115,5 +116,25 @@ export class DiseaseService {
         return this.errorNotify.handleStatusError(error.status);
       })
     );
+  }
+
+  // Product Select
+  getDiseaseSelect(): Observable<ResponseApi<SelectDiseaseResponse[]>> {
+    return this.http
+      .get<ResponseApi<SelectDiseaseResponse[]>>(
+        this.apiURL + "GetDiseaseSelect"
+      )
+      .pipe(
+        tap((response: ResponseApi<SelectDiseaseResponse[]>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
   }
 }

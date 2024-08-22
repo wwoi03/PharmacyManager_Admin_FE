@@ -4,7 +4,7 @@ import { ValidationNotify } from "../../../helpers/validation-notify";
 import { ProductService } from "../../../services/product/product.service";
 import { Toast } from "../../../helpers/toast";
 import { LoadingService } from "../../../helpers/loading-service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { UploadFileService } from "../../../services/upload-file/upload-file.service";
 import { CategoryService } from "../../../services/category/category.service";
@@ -15,18 +15,21 @@ import { SelectDiseaseResponse } from "../../../models/responses/disease/select-
 import { DiseaseService } from "../../../services/disease/disease.service";
 import { SupportService } from "../../../services/support/support.service";
 import { SelectSupportResponse } from "../../../models/responses/support/select-support-response";
+import { UpdateProductRequest } from "../../../models/requests/product/update-product-request";
 
 @Component({
-  selector: "ngx-product-create",
-  templateUrl: "./product-create.component.html",
-  styleUrls: ["./product-create.component.scss"],
+  selector: "ngx-product-edit",
+  templateUrl: "./product-edit.component.html",
+  styleUrls: ["./product-edit.component.scss"],
 })
-export class ProductCreateComponent {
+export class ProductEditComponent {
   // Variable
+  productId: string;
   @Input() newProductId: string;
   @Output() actionTriggered = new EventEmitter<any>(); // Định nghĩa sự kiện
   
   createProductRequest: CreateProductRequest = new CreateProductRequest();
+  updateProductRequest: UpdateProductRequest = new UpdateProductRequest();
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   images: string[] = [];
   imagesFile: File[] = [];
@@ -48,20 +51,29 @@ export class ProductCreateComponent {
     private toast: Toast,
     private loadingService: LoadingService,
     private router: Router,
+    private route: ActivatedRoute,
     private uploadFileService: UploadFileService,
     private categoryService: CategoryService,
     private ingredientService: IngredientService,
     private diseaseService: DiseaseService,
     private supportService: SupportService,
-  ) {}
+  ) {
+    
+  }
 
   // InitData
   ngOnInit(): void {
-    this.validationMessages = this.createProductRequest.validationMessages;
-    this.loadCategories();
-    this.loadIngredients();
-    this.loadDiseases();
-    this.loadSupports();
+    this.route.params.subscribe(params => {
+      this.productId = params['id'];
+
+      this.loadProduct();
+      this.validationMessages = this.updateProductRequest.validationMessages;
+
+      this.loadCategories();
+      this.loadIngredients();
+      this.loadDiseases();
+      this.loadSupports();
+    });
   }
 
   // After Init Data
@@ -76,6 +88,17 @@ export class ProductCreateComponent {
   // Kích hoạt sự kiện để thông báo cho component cha
   triggerAction(): void {
     this.actionTriggered.emit(this.newProductId);
+  }
+
+  // load product
+  loadProduct() {
+    this.productService.details(this.productId).subscribe(
+      (res) => {
+        if (res.code === 200) {
+          this.updateProductRequest = res.obj;
+        }
+      }
+    )
   }
 
   // load category
@@ -122,11 +145,8 @@ export class ProductCreateComponent {
     )
   }
 
-  handleEditorKeyup(content: any) {
-  }
-
   // Xử lý thêm nhân viên
-  async createProduct() {
+  async updateProduct() {
     // Valid
     if (this.productForm.invalid) {
       this.validationNotify.validateForm();
@@ -139,7 +159,7 @@ export class ProductCreateComponent {
     await this.uploadImages();
 
     // Call API Create Staff
-    this.productService.create(this.createProductRequest).subscribe((res) => {
+    this.productService.update(this.updateProductRequest).subscribe((res) => {
       if (res.code === 200) {
         setTimeout(() => {
           this.loadingService.hide();
@@ -203,6 +223,10 @@ export class ProductCreateComponent {
     this.imagesFile.splice(index, 1);
   }
 
+  removeImageCurrent(index: number): void {
+    this.updateProductRequest.images.splice(index, 1);
+  }
+
   customSearchFn(term: string, item: any): boolean {
     term = term.toLowerCase();
     return item.name.toLowerCase().includes(term) || item.codeCategory.toString().includes(term);
@@ -237,4 +261,8 @@ export class ProductCreateComponent {
 		const support: any = this.supports[1];
 		support.disabled = !support.disabled;
 	}
+
+  loadImage(image: string) {
+    return this.uploadFileService.loadImage(image);
+  }
 }

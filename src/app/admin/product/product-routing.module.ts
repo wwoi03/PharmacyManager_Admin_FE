@@ -4,7 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductComponent } from './product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
-import { TestComponent } from './test/test.component';
+import { ProductDeleteComponent } from './product-delete/product-delete.component';
+import { ProductEditComponent } from './product-edit/product-edit.component';
+import { ProductPriceComponent } from './product-price/product-price.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,8 +21,8 @@ const routes: Routes = [{
       component: ProductCreateComponent,
     },
     {
-      path: 'test',
-      component: TestComponent,
+      path: 'product-edit/:id',
+      component: ProductEditComponent,
     },
   ],
 }];
@@ -37,5 +39,7 @@ export const routedComponents = [
     ProductComponent,
     ProductListComponent,
     ProductCreateComponent,
-    TestComponent,
+    ProductEditComponent,
+    ProductDeleteComponent,
+    ProductPriceComponent,
 ];

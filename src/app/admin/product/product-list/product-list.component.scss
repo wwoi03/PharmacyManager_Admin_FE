@@ -121,6 +121,18 @@
   width: 250px;
 }
 
+td.nb-column-shortDescription {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify !important;
+  height: 162px;
+  padding: 0;
+  margin: 14px 20px;
+}
+
 .imageColumn {
   width: 180px;
 }
@@ -174,7 +186,7 @@
 }
 
 ::ng-deep .ngx-pagination .current {
-  background-color: #3366FF;
+  background-color: #3366ff;
   color: #fff;
   display: flex;
   border: none;
@@ -189,7 +201,8 @@
   opacity: 0.5;
 }
 
-::ng-deep .pagination-previous, ::ng-deep .pagination-next {
+::ng-deep .pagination-previous,
+::ng-deep .pagination-next {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -209,10 +222,11 @@
 }
 
 ::ng-deep .nb-tree-grid-row:nth-child(odd) {
-  background-color: #ffffff !important; 
+  background-color: #ffffff !important;
 }
 
-table tr th, table tr td {
+table tr th,
+table tr td {
   border: 1px solid var(--smart-table-separator) !important;
 }
 

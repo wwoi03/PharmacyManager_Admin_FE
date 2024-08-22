@@ -62,7 +62,7 @@ export class ShipmentDetailsService {
     const params = new HttpParams().set("shipmentDetailsId", shipmentDetailsId);
 
     return this.http
-      .post<ResponseApi<string>>(this.apiUrl + "Delete", { params })
+      .delete<ResponseApi<string>>(this.apiUrl + "Delete", { params })
       .pipe(
         tap((response: ResponseApi<string>) => {
           if (response.isSuccessed) {
