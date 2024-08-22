@@ -1,4 +1,7 @@
-export class PromotionRequest{
+import { ProductPromotionRequest } from "./promotion-create-request";
+
+export class EditPromotionRequest{
+    id: string;
     name: string;
     description?: string;
     startDate: string;
@@ -32,16 +35,4 @@ export class PromotionRequest{
 
         productPromotionRequest:{required: 'Vui lòng thêm sản phẩm áp dụng khuyến mãi.'}
       };
-}
-
-export class ProductPromotionRequest{
-    productId?: string[] = []; // Assuming GUIDs are represented as strings
-    additionalInfo: string;
-    quantity: number;
-    promotionProgramRequest?: PromotionProgramRequest[] | null;
-}
-
-export class PromotionProgramRequest{
-    productId?: string[] = []; // Assuming GUIDs are represented as strings
-    quantity: number;
 }

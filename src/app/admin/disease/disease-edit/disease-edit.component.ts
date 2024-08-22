@@ -46,6 +46,11 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.validationMessages = this.editDiseaseRequest.validationMessages;
+    this.loadData();
+  }
+
+  loadData(){
     //Lấy disease từ id
     this.diseaseRequest.id = this.route.snapshot.paramMap.get('id');
 
@@ -68,8 +73,6 @@ export class DiseaseEditComponent implements OnDestroy, OnInit {
         }
       );
     }
-    
-    this.validationMessages = this.editDiseaseRequest.validationMessages;
   }
 
    // After Init Data

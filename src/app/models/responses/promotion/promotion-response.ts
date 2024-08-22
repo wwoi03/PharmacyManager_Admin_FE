@@ -1,3 +1,5 @@
+import { PromotionProgramRequest } from "../../requests/promotion/promotion-create-request";
+
 export class PromotionResponse {
     id: string;
     name: string;
@@ -32,4 +34,25 @@ export class PromotionProgramResponse{
     //Khuyến mãi
     productName: string;
     codeProduct: string;
+}
+
+//Class hiển thị
+export class PromotionProducts{
+    products: { id: string; productName: string; codeProduct: string }[];
+    additionalInfo: string;
+    quantity: number;
+    promotionProgramRequest?: PromotionProgramRequest[] | null;
+    // promotionProgram?: PromotionPrograms[] | null;
+}
+  
+export class allProducts{
+id: string;
+productName: string; 
+codeProduct: string;
+quantity:number;
+};
+
+export class PromotionPrograms {
+    products: { id: string; productName: string; codeProduct: string }[];
+    quantity: number
 }

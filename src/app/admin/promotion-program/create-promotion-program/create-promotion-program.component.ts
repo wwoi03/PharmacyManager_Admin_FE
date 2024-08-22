@@ -101,6 +101,7 @@ export class CreatePromotionProgramComponent implements OnInit, OnDestroy {
   create(): void {
     if (this.promotionForm.valid) {
       // Form hợp lệ, thực hiện thao tác và đóng dialog
+      console.log(this.createPromotionProgram);
       this.ref.close(this.createPromotionProgram);
     } else {
       // Form không hợp lệ, hiển thị thông báo lỗi

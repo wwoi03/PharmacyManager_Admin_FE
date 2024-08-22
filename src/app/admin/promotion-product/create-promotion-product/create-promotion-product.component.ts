@@ -10,6 +10,7 @@ import { Util } from '../../../helpers/util';
 import { ProductService } from '../../../services/product/product.service';
 import { ListProductResponse } from '../../../models/responses/product/list-product-response';
 import { ResponseApi } from '../../../models/response-apis/response-api';
+import { PromotionProducts } from '../../../models/responses/promotion/promotion-response';
 
 @Component({
   selector: 'ngx-create-promotion-product',
@@ -36,12 +37,7 @@ export class CreatePromotionProductComponent implements OnInit, OnDestroy {
   @Output() createProduct = new EventEmitter<any>(); 
 
   //Tạo biến sản phẩm giảm giá
-  createPromotionProduct: {
-    products: { id: string; productName: string; codeProduct: string }[] ,
-    additionalInfo: string;
-    quantity: number;
-    promotionProgramRequest?: PromotionProgramRequest[] | null;
-  } = {
+  createPromotionProduct: PromotionProducts = {
     products: [], 
     additionalInfo: '',
     quantity: 0,
@@ -126,17 +122,10 @@ export class CreatePromotionProductComponent implements OnInit, OnDestroy {
       this.showValidationErrors();
       return;
     }
-
-
+    console.log(this.createPromotionProduct)
     this.createProduct.emit(this.createPromotionProduct);
-    
   }
   
-
-  back(){
-    
-  }
-
   openPromotion(event: Event){
     event.preventDefault();
     this.promotionProgram= !this.promotionProgram;

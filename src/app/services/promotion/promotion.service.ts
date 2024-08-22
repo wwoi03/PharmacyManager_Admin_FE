@@ -8,6 +8,7 @@ import { ResponseApi } from '../../models/response-apis/response-api';
 import { PromotionResponse } from '../../models/responses/promotion/promotion-response';
 import { catchError, tap } from 'rxjs/operators';
 import { PromotionRequest } from '../../models/requests/promotion/promotion-create-request';
+import { EditPromotionRequest } from '../../models/requests/promotion/promotion-edit-request';
 
 @Injectable({
   providedIn: 'root'
@@ -60,19 +61,53 @@ export class PromotionService {
     const params = new HttpParams().set("id", request);
 
     return this.http.delete<ResponseApi<string>>(this.apiURL + 'DeletePromotion', {params})
-    .pipe( tap((response: ResponseApi<string>) => {
-      if (response.isSuccessed) {
-        return response;
-      } else {
-        this.errorNotify.handleStatusError(response.code);
-      }
-    }),
-    catchError((error: HttpErrorResponse) => {
-      return this.errorNotify.handleStatusError(error.status);
-    })
-  );
+      .pipe( tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
 
-  
-}
+  //Sửa khuyến mãi
+  edit(request: EditPromotionRequest): Observable<ResponseApi<string>>{
+    return this.http.put<ResponseApi<string>>(this.apiURL + 'UpdatePromotion', request)
+    .pipe(
+      tap((response: ResponseApi<string>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
+
+  //Chi tiết khuyến mãi
+  details(request: string) : Observable<ResponseApi<PromotionResponse>>{
+    const params = new HttpParams().set("id", request);
+
+    return this.http.get(this.apiURL + 'DetailsDisease', {params})
+    .pipe(
+      tap((response: ResponseApi<PromotionResponse>) => {
+        if (response.isSuccessed) {
+          return response;
+        } else {
+          this.errorNotify.handleStatusError(response.code);
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return this.errorNotify.handleStatusError(error.status);
+      })
+    );
+  }
 
 }

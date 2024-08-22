@@ -5,7 +5,7 @@ import { PromotionService } from '../../../services/promotion/promotion.service'
 import { Router } from '@angular/router';
 import { Toast } from '../../../helpers/toast';
 import { NbDialogService } from '@nebular/theme';
-import { PromotionProgramResponse } from '../../../models/responses/promotion/promotion-response';
+import {  allProducts, PromotionPrograms } from '../../../models/responses/promotion/promotion-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CreatePromotionProgramComponent } from '../create-promotion-program/create-promotion-program.component';
 import { DeletePromotionProgramComponent } from '../delete-promotion-program/delete-promotion-program.component';
@@ -64,22 +64,12 @@ export class ListPromotionProgramComponent implements OnInit{
   source: LocalDataSource;
 
   //Edit promotionProgram
-  @Input() listPromotionProgram: PromotionProgramResponse[] = [];
+  listPromotionProgram: PromotionPrograms[] = [];
 
   //Create promotionProgram
   @Output() createPrograms = new EventEmitter<PromotionProgramRequest[]>(); 
 
-  createPromotionPrograms: {
-    products: { id: string; productName: string; codeProduct: string }[],
-    quantity: number
-  }[] = [];
-
-  allProducts: {
-    id: string;
-    productName: string; 
-    codeProduct: string;
-    quantity:number;
-  }[] = [];
+  allProducts: allProducts[]= [];
 
   //checking
   isEdit: boolean = false;
@@ -97,18 +87,9 @@ export class ListPromotionProgramComponent implements OnInit{
     this.loadData();
   }
 
-  onCheck(){
-    if(this.listPromotionProgram)
-      this.isEdit = true;
-  }
 
   loadData(){
-    if(this.isEdit)
-      this.source.load(this.listPromotionProgram);
-    else
-    {
-    
-      this.allProducts = this.createPromotionPrograms.reduce((acc, program) => {
+      this.allProducts = this.listPromotionProgram.reduce((acc, program) => {
         // Tạo danh sách sản phẩm từ chương trình khuyến mãi hiện tại
         const productsWithQuantity = program.products.map(product => ({
           ...product,
@@ -119,7 +100,7 @@ export class ListPromotionProgramComponent implements OnInit{
       }, []);
 
       this.source.load(this.allProducts);
-    }
+    
   }
 
   //child PromotionProduct hehe
@@ -133,7 +114,7 @@ export class ListPromotionProgramComponent implements OnInit{
         if (isSubmit) {
         // Lọc ra các sản phẩm trùng lặp
         isSubmit.products = isSubmit.products.filter(newProduct => {
-          const existingProduct = this.createPromotionPrograms.some(program =>
+          const existingProduct = this.listPromotionProgram.some(program =>
             program.products.some(product => product.id === newProduct.id)
           );
           
@@ -147,7 +128,7 @@ export class ListPromotionProgramComponent implements OnInit{
 
         // Nếu vẫn còn sản phẩm sau khi lọc, thêm chương trình vào danh sách
         if (isSubmit.products.length > 0) {
-          this.createPromotionPrograms.push(isSubmit);
+          this.listPromotionProgram.push(isSubmit);
         } else {
           this.toast.warningToast("Thất bại", "Trong danh sách đã có sản phẩm tặng kèm" );
         }
@@ -156,7 +137,7 @@ export class ListPromotionProgramComponent implements OnInit{
           this.loadData();
 
           // Chuyển đổi `createPromotionPrograms` thành mảng `PromotionProgramRequest[]`
-          const promotionRequests: PromotionProgramRequest[] = this.createPromotionPrograms.map(program => ({
+          const promotionRequests: PromotionProgramRequest[] = this.listPromotionProgram.map(program => ({
             productId: program.products.map(product => product.id),
             quantity: program.quantity,
           }));
@@ -167,14 +148,14 @@ export class ListPromotionProgramComponent implements OnInit{
       });
   }
 
-  onEdit(event): void{
-    this.router.navigate(['/admin/promotion/promotion-edit', event.data.id]);
-  }
+  // onEdit(event): void{
+  //   this.router.navigate(['/admin/promotion/promotion-edit', event.data.id]);
+  // }
   
 
-  onViewDetails(event): void{
-    this.router.navigate(['/admin/promotion/promotion-details', event.data.id]);
-  }
+  // onViewDetails(event): void{
+  //   this.router.navigate(['/admin/promotion/promotion-details', event.data.id]);
+  // }
 
   onDelete(event): void {
     //Gán giá trị cho biểu mẫu
@@ -199,7 +180,7 @@ export class ListPromotionProgramComponent implements OnInit{
       .onClose.subscribe((isSubmit: boolean) => {
         if (isSubmit) {
           //Xử lý cập nhật, xóa sản phẩm product trong list
-          this.createPromotionPrograms.forEach(promotion => {
+          this.listPromotionProgram.forEach(promotion => {
             promotion.products = promotion.products.filter(product => product.id !== programRequest.id);
           }); 
           
