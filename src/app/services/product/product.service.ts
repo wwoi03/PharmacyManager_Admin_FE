@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.prod';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ErrorNotify } from '../../helpers/error-notify';
 import { Observable } from 'rxjs';
 import { ListProductResponse } from '../../models/responses/product/list-product-response';
@@ -71,4 +71,27 @@ export class ProductService {
         })
     );
   }
+
+  // delete
+  delete(productId: string): Observable<ResponseApi<string>> {
+    const params = new HttpParams().set("productId", productId);
+
+    return this.http
+      .delete<ResponseApi<string>>(
+        this.apiUrl + "Delete", { params }
+      )
+      .pipe(
+        tap((response: ResponseApi<string>) => {
+          if (response.isSuccessed) {
+            return response;
+          } else {
+            this.errorNotify.handleStatusError(response.code);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return this.errorNotify.handleStatusError(error.status);
+        })
+      );
+  }
+
 }

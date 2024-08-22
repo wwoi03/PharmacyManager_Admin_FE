@@ -5,6 +5,7 @@ import { ProductComponent } from './product.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { TestComponent } from './test/test.component';
+import { ProductDeleteComponent } from './product-delete/product-delete.component';
 
 const routes: Routes = [{
   path: '',
@@ -38,4 +39,5 @@ export const routedComponents = [
     ProductListComponent,
     ProductCreateComponent,
     TestComponent,
+    ProductDeleteComponent,
 ];
