@@ -75,6 +75,7 @@ export class DiseaseCreateComponent implements OnInit, OnDestroy {
       (res) => {
         if (res.code === 200) {
           this.toast.successToast("Thành công", res.message);
+          this.router.navigate(['/admin/disease/disease-list']);
           //this.ref.close(true);
          } else if (res.code >= 400 && res.code < 500) {
           this.toast.warningToast("Thất bại", res.message);

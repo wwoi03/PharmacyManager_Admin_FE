@@ -156,8 +156,8 @@ export class ListDiseaseSymptomComponent implements OnInit {
   //Điều chỉnh kích cỡ
   checkSize(){
     if(this.link == 1){
-      this.size = 'small';
-      this.pageSize = 4;
+      this.size = 'large';
+      this.pageSize = 15;
     }
     else if (this.link == 2){
       this.pageSize = 15;

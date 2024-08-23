@@ -187,8 +187,21 @@
         </nb-accordion-item-body>
       </nb-accordion-item>
 
+        <!-- Gói thanh toán -->
+        <nb-accordion-item >
+            <nb-accordion-item-header>
+            Danh sách sản phẩm
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="row">
+                    <ngx-details-order-list [listOrderDetails] = "order.orderDetails" class="col-md-12 " ></ngx-details-order-list>
+                </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+
       <!-- ************************************************************************** -->
     </nb-accordion>
   </div>
+
 </div>
 
