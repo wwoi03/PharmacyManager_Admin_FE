@@ -17,7 +17,7 @@ class PaymentMethod{
 
 export class OrderResponse{
   id: string;
-  orderDetails: OrderDetailsDTO[];
+  orderDetails: OrderDetailsDTO[] = [];
   customerId: string;
   ordererName: string;
   receiverName: string;
@@ -48,9 +48,9 @@ export class OrderResponse{
 }
 
 export class OrderDetailsDTO{
-    orderId: string;
+  orderId: string;
   shipmentDetailsId: string;
-  shipmentDetails?: ShipmentDetailsDTO;
+  shipmentDetails?: ShipmentDetailsDTO = new ShipmentDetailsDTO();
   unitId: string;
   quantity: number;
   pricePerUnit: number;
@@ -61,6 +61,6 @@ export class OrderDetailsDTO{
 export class ShipmentDetailsDTO{
     id: string;
     productId: string;
-    product?: Product;
+    product?: Product = new Product();
     unitId: string;
 }

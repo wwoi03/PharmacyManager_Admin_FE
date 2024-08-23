@@ -5,6 +5,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { EditOrderComponent } from './edit-order/edit-order.component';
 import { OrderStatus } from '../../models/requests/order/edit-order-request';
 import { OrderStatusComponent } from './order-status/order-status.component';
+import { DetailsOrderListComponent } from './details-order-list/details-order-list.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
       { path: 'order-list', component: OrderListComponent },
       // {path: 'order-create', component: OrderCreateComponent},
       {path: 'order-edit/:id', component: EditOrderComponent },
-      // {path: 'order-details/:id', component: OrderDetailsComponent},
+      {path: 'order-details-list', component: DetailsOrderListComponent},
       // {path: 'order-delete/:id', component: OrderDeleteComponent},
     ]
   }
@@ -33,6 +34,6 @@ export const routedComponents = [
   OrderStatusComponent,
   // OrderCreateComponent,
   EditOrderComponent,
-  // OrderDetailsComponent,
+  DetailsOrderListComponent,
   // OrderDeleteComponent,
 ];

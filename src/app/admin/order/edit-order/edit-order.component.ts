@@ -61,7 +61,7 @@ export class EditOrderComponent  implements OnDestroy, OnInit {
           if (response.code === 200){
             //Gán chi tiết đơn hàng
             this.order = response.obj;
-            console.log(this.order.status)
+            console.log(this.order.orderDetails);
 
             //Tên phương thức thanh toán
             this.paymentName = this.order.paymentMethod.name;

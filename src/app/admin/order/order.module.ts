@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { CommonModule } from '@angular/common';
+import { DetailsOrderListComponent } from './details-order-list/details-order-list.component';
 
 
 @NgModule({
-  declarations: [...routedComponents],
+  declarations: [...routedComponents,],
   
   imports: [
     CommonModule,

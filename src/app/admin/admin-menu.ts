@@ -29,7 +29,7 @@ export class AdminMenu {
       // Sản phẩm
       {
         title: "Sản phẩm",
-        icon: "shopping-cart-outline",
+        icon: "cube-outline",
         children: [
           {
             title: "Danh sách sản phẩm",
@@ -39,6 +39,10 @@ export class AdminMenu {
             title: "Thêm sản phẩm",
             link: "/admin/product/product-create",
           },
+          // {
+          //   title: "Danh sách hỗ trợ",
+          //   link: "/admin/support/support-list",
+          // },
         ],
         hidden: !roles.includes('PM_PRODUCT_MANAGER'),
       },
@@ -57,7 +61,7 @@ export class AdminMenu {
       // Quản lý khuyến mãi
       {
         title: "Quản lý khuyến mãi",
-        icon: "shake-outline",
+        icon: "flash-outline",
         children: [
           {
             title: "Danh sách khuyến mãi",
@@ -69,7 +73,7 @@ export class AdminMenu {
       // Quản lý đơn hàng
       {
         title: "Quản lý đơn hàng",
-        icon: "shake-outline",
+        icon: "car-outline",
         children: [
           {
             title: "Danh sách đơn hàng",
@@ -81,50 +85,19 @@ export class AdminMenu {
       // Quản lý bệnh
       {
         title: "Loại bệnh",
-        icon: "shake-outline",
+        icon: "shield-off-outline",
         children: [
           {
             title: "Danh sách bệnh",
             link: "/admin/disease/disease-list",
           },
           {
-            title: "Thêm bệnh mới",
-            link: "/admin/disease/disease-create",
-          },
-        ],
-        hidden: !roles.includes('PM_DISEASE'),
-      },
-      // Quản lý hỗ trợ
-      {
-        title: "Hỗ trợ sản phẩm",
-        icon: "heart-outline",
-        children: [
-          {
-            title: "Danh sách hỗ trợ",
-            link: "/admin/support/support-list",
-          },
-          {
-            title: "Thêm hỗ trợ mới",
-            link: "/admin/support/support-create",
-          },
-        ],
-        hidden: !roles.includes('PM_STAFF_MANAGER'),
-      },
-      // Quản lý triệu chứng
-      {
-        title: "Triệu chứng bệnh",
-        icon: "shield-off-outline",
-        children: [
-          {
             title: "Danh sách triệu chứng",
             link: "/admin/symptom/symptom-list",
           },
-          {
-            title: "Thêm triệu chứng",
-            link: "/admin/symptom/symptom-create",
-          },
+
         ],
-        hidden: !roles.includes('PM_SYMPTOMS'),
+        hidden: !roles.includes('PM_DISEASE'),
       },
       // Kho
       {
@@ -139,10 +112,10 @@ export class AdminMenu {
             title: "Nhập kho",
             link: "/admin/shipment/shipment-create",
           },
-          {
-            title: "Thống kê nhập kho",
-            link: "/admin/shipment/shipment-report",
-          },
+          // {
+          //   title: "Thống kê nhập kho",
+          //   link: "/admin/shipment/shipment-report",
+          // },
         ],
         hidden: !roles.includes('PM_WAREHOUSE_MANAGER'),
       },
@@ -161,37 +134,6 @@ export class AdminMenu {
           },
         ],
         hidden: !roles.includes('PM_STAFF_MANAGER'),
-      },
-      // Quyền hạn
-      {
-        title: "Quyền hạn",
-        icon: "eye-off-2-outline",
-        children: [
-          {
-            title: "Danh sách quyền hạn",
-            link: "/admin/permissions/permissions-list",
-          },
-          {
-            title: "Cấp quyền mới",
-            link: "/admin/permissions/permissions-create",
-          },
-        ],
-        hidden: !roles.includes('PM_ADMIN'),
-      },
-      // Tài khoản
-      {
-        title: "Tài khoản",
-        icon: "lock-outline",
-        children: [
-          {
-            title: "Thông tin tài khoản",
-            link: "/admin/account/account-info",
-          },
-          {
-            title: "Đổi mật khẩu",
-            link: "/auth/change-password",
-          },
-        ],
       },
     ];
   }
