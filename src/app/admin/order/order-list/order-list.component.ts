@@ -57,10 +57,6 @@ export class OrderListComponent implements OnInit {
         title: 'Ngày đặt',
         type:'date',
       },
-      receiptDate:{
-        title: 'Ngày giao',
-        type:'date',
-      },
       recipientPhone:{
         title: 'SDT người nhận',
         type:'string',
